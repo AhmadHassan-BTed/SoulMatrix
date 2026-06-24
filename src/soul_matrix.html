@@ -37,6 +37,7 @@
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
+  background-image: radial-gradient(ellipse at 50% 40%, rgba(60,30,120,.25) 0%, rgba(6,3,28,.0) 60%), radial-gradient(ellipse at 20% 80%, rgba(20,60,100,.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(100,40,80,.12) 0%, transparent 50%);
   color: var(--lav);
   font-family: Raleway, sans-serif;
   font-weight: 400;
@@ -212,44 +213,44 @@ header h1 {
   width: 100%;
   height: auto;
   cursor: pointer;
-  filter: drop-shadow(0 0 40px rgba(176,136,240,.1));
+  filter: drop-shadow(0 0 50px rgba(176,136,240,.18)) drop-shadow(0 0 20px rgba(212,175,110,.1));
 }
 
 /* ─── NODE INTERACTIONS ──────────────────────────────────── */
-.ng { cursor: pointer; transition: filter .15s; }
-.ng:hover { filter: brightness(1.3); }
-.ng .hl { opacity: .55; transition: opacity .15s; }
+.ng { cursor: pointer; transition: filter .2s, transform .2s; transform-origin: center; }
+.ng:hover { filter: brightness(1.4) drop-shadow(0 0 8px rgba(255,255,255,.3)); transform: scale(1.08); }
+.ng .hl { opacity: .65; transition: opacity .2s; }
 .ng:hover .hl { opacity: 1; }
-.ng .rg { stroke-opacity: .75; transition: stroke-opacity .15s, stroke .15s; }
-.ng:hover .rg { stroke-opacity: 1; }
-.ng.active .rg { stroke: var(--goldb) !important; stroke-opacity: 1; stroke-width: 3px; }
+.ng .rg { stroke-opacity: .85; transition: stroke-opacity .2s, stroke .2s, stroke-width .2s; }
+.ng:hover .rg { stroke-opacity: 1; stroke-width: 2.5px; }
+.ng.active .rg { stroke: var(--goldb) !important; stroke-opacity: 1; stroke-width: 3.5px; }
 .ng.active .hl { opacity: 1; }
 
 /* ─── ACTIVE PROGRAM GLOW & PULSE HIGHLIGHTS ─────────────── */
 @keyframes program-pulse-glow {
   0% {
-    stroke-width: 2.5px;
-    stroke-opacity: 0.8;
-    filter: drop-shadow(0 0 5px #FFD97D);
+    stroke-width: 3px;
+    stroke-opacity: 0.85;
+    filter: drop-shadow(0 0 6px #FFD700);
   }
   50% {
-    stroke-width: 5px;
+    stroke-width: 6px;
     stroke-opacity: 1;
-    filter: drop-shadow(0 0 16px #FF9F43) drop-shadow(0 0 5px #FFD97D);
+    filter: drop-shadow(0 0 20px #FF9F43) drop-shadow(0 0 8px #FFD700);
   }
   100% {
-    stroke-width: 2.5px;
-    stroke-opacity: 0.8;
-    filter: drop-shadow(0 0 5px #FFD97D);
+    stroke-width: 3px;
+    stroke-opacity: 0.85;
+    filter: drop-shadow(0 0 6px #FFD700);
   }
 }
 .ng.program-highlight .rg {
   animation: program-pulse-glow 2s infinite ease-in-out;
-  stroke: #FFD97D !important;
+  stroke: #FFD700 !important;
 }
 .ng.program-highlight .hl {
   opacity: 0.95 !important;
-  fill: rgba(255, 217, 125, 0.18) !important;
+  fill: rgba(255, 215, 0, 0.22) !important;
 }
 
 /* ─── INPUT BAR ──────────────────────────────────────────── */
@@ -711,61 +712,71 @@ footer {
 <div id="matrix-wrap">
 <svg id="msv" viewBox="0 0 860 880" xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <radialGradient id="gL" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#D4AAFF"/><stop offset="100%" stop-color="#4A1A88"/>
+  <!-- Vivid Portrait Purple -->
+  <radialGradient id="gL" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#E0BFFF"/><stop offset="45%" stop-color="#A855F7"/><stop offset="100%" stop-color="#6D28D9"/>
   </radialGradient>
-  <radialGradient id="gG" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#FFE48A"/><stop offset="100%" stop-color="#8A5010"/>
+  <!-- Rich Mission Gold -->
+  <radialGradient id="gG" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#FFF1B8"/><stop offset="45%" stop-color="#F5C842"/><stop offset="100%" stop-color="#B8860B"/>
   </radialGradient>
-  <radialGradient id="gP" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#F090CC"/><stop offset="100%" stop-color="#780848"/>
+  <!-- Vivid Crimson-Pink -->
+  <radialGradient id="gP" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#FFB0D8"/><stop offset="45%" stop-color="#E8447A"/><stop offset="100%" stop-color="#BE185D"/>
   </radialGradient>
-  <radialGradient id="gB" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#7090E8"/><stop offset="100%" stop-color="#141C50"/>
+  <!-- Royal Blue -->
+  <radialGradient id="gB" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#93B5FF"/><stop offset="45%" stop-color="#4F7BE8"/><stop offset="100%" stop-color="#1E3A8A"/>
   </radialGradient>
-  <radialGradient id="gT" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#80EED8"/><stop offset="100%" stop-color="#104840"/>
+  <!-- Bright Teal -->
+  <radialGradient id="gT" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#99FFF0"/><stop offset="45%" stop-color="#2DD4BF"/><stop offset="100%" stop-color="#0D9488"/>
   </radialGradient>
-  <radialGradient id="gS" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#A898D8"/><stop offset="100%" stop-color="#221460"/>
+  <!-- Bright Lavender (Lineage inner) -->
+  <radialGradient id="gS" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#C4B5FD"/><stop offset="45%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#4C1D95"/>
   </radialGradient>
-  <radialGradient id="gW" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#F0EEFF"/><stop offset="100%" stop-color="#7060B0"/>
+  <!-- Clean White-Lavender (Lineage outer) -->
+  <radialGradient id="gW" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#FFFFFF"/><stop offset="45%" stop-color="#E8E0FF"/><stop offset="100%" stop-color="#8B7AC0"/>
   </radialGradient>
-  <radialGradient id="gO" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#FFD080"/><stop offset="100%" stop-color="#904010"/>
+  <!-- Warm Amber-Orange -->
+  <radialGradient id="gO" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#FFE4A0"/><stop offset="45%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#B45309"/>
   </radialGradient>
-  <radialGradient id="gE" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#FFF0A0"/><stop offset="100%" stop-color="#806000"/>
+  <!-- Brilliant Gold Core -->
+  <radialGradient id="gE" cx="40%" cy="35%" r="60%">
+    <stop offset="0%" stop-color="#FFFBE0"/><stop offset="40%" stop-color="#FFD700"/><stop offset="100%" stop-color="#B8860B"/>
   </radialGradient>
-  <radialGradient id="gGr" cx="36%" cy="30%" r="70%">
-    <stop offset="0%" stop-color="#9BE89B"/><stop offset="100%" stop-color="#1C5C24"/>
+  <!-- Vivid Emerald Green -->
+  <radialGradient id="gGr" cx="36%" cy="30%" r="65%">
+    <stop offset="0%" stop-color="#A7F3D0"/><stop offset="45%" stop-color="#34D399"/><stop offset="100%" stop-color="#059669"/>
   </radialGradient>
-  <filter id="fL" x="-70%" y="-70%" width="240%" height="240%">
-    <feGaussianBlur stdDeviation="6" result="b"/>
-    <feFlood flood-color="#B088F0" flood-opacity=".5"/><feComposite in2="b" operator="in" result="s"/>
+  <filter id="fL" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="9" result="b"/>
+    <feFlood flood-color="#A855F7" flood-opacity=".7"/><feComposite in2="b" operator="in" result="s"/>
     <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
-  <filter id="fG" x="-70%" y="-70%" width="240%" height="240%">
-    <feGaussianBlur stdDeviation="8" result="b"/>
-    <feFlood flood-color="#D4AF6E" flood-opacity=".55"/><feComposite in2="b" operator="in" result="s"/>
+  <filter id="fG" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="10" result="b"/>
+    <feFlood flood-color="#F5C842" flood-opacity=".7"/><feComposite in2="b" operator="in" result="s"/>
     <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
-  <filter id="fP" x="-70%" y="-70%" width="240%" height="240%">
-    <feGaussianBlur stdDeviation="6" result="b"/>
-    <feFlood flood-color="#E060B0" flood-opacity=".45"/><feComposite in2="b" operator="in" result="s"/>
+  <filter id="fP" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="9" result="b"/>
+    <feFlood flood-color="#E8447A" flood-opacity=".65"/><feComposite in2="b" operator="in" result="s"/>
     <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
-  <filter id="fw" x="-50%" y="-50%" width="200%" height="200%">
-    <feGaussianBlur stdDeviation="3.5" result="b"/>
-    <feFlood flood-color="#FFFFFF" flood-opacity=".25"/><feComposite in2="b" operator="in" result="s"/>
-    <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-  <filter id="fb" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4.5"/></filter>
-  <filter id="fb2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
-  <filter id="feGold" x="-50%" y="-50%" width="200%" height="200%">
+  <filter id="fw" x="-60%" y="-60%" width="220%" height="220%">
     <feGaussianBlur stdDeviation="5" result="b"/>
-    <feFlood flood-color="#D4AF6E" flood-opacity=".6"/><feComposite in2="b" operator="in" result="s"/>
+    <feFlood flood-color="#FFFFFF" flood-opacity=".35"/><feComposite in2="b" operator="in" result="s"/>
+    <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fb" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="fb2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="feGold" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="7" result="b"/>
+    <feFlood flood-color="#FFD700" flood-opacity=".75"/><feComposite in2="b" operator="in" result="s"/>
     <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
   <marker id="mT" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto">
@@ -777,29 +788,38 @@ footer {
 </defs>
 
 <!-- BACKGROUND RINGS -->
-<circle cx="430" cy="450" r="315" fill="none" stroke="rgba(176,136,240,.06)" stroke-width="70" opacity=".8"/>
-<circle cx="430" cy="450" r="316" fill="none" stroke="rgba(176,136,240,.22)" stroke-width="1.2"/>
-<circle cx="430" cy="450" r="338" fill="none" stroke="rgba(212,175,110,.08)" stroke-width="1"/>
-<circle cx="430" cy="450" r="358" fill="none" stroke="rgba(212,175,110,.05)" stroke-width="1" stroke-dasharray="3 8"/>
+<circle cx="430" cy="450" r="315" fill="none" stroke="rgba(176,136,240,.08)" stroke-width="70" opacity=".9"/>
+<circle cx="430" cy="450" r="316" fill="none" stroke="rgba(176,136,240,.30)" stroke-width="1.4"/>
+<circle cx="430" cy="450" r="338" fill="none" stroke="rgba(212,175,110,.12)" stroke-width="1"/>
+<circle cx="430" cy="450" r="358" fill="none" stroke="rgba(212,175,110,.08)" stroke-width="1" stroke-dasharray="3 8"/>
 
 <!-- GEOMETRY -->
 <g fill="none">
+  <!-- Octagram glow shadow -->
   <polygon points="430,150 642,238 730,450 642,662 430,750 218,662 130,450 218,238"
-    stroke="rgba(212,175,110,.35)" stroke-width="5" filter="url(#fb2)" opacity=".5"/>
+    stroke="rgba(212,175,110,.40)" stroke-width="7" filter="url(#fb2)" opacity=".55"/>
+  <!-- Octagram crisp line -->
   <polygon points="430,150 642,238 730,450 642,662 430,750 218,662 130,450 218,238"
-    stroke="rgba(212,175,110,.6)" stroke-width="1.2"/>
+    stroke="rgba(212,175,110,.70)" stroke-width="1.5"/>
+  <!-- Inner diamond glow -->
   <polygon points="430,150 730,450 430,750 130,450"
-    stroke="rgba(212,175,110,.4)" stroke-width="4" filter="url(#fb2)" opacity=".4"/>
+    stroke="rgba(212,175,110,.45)" stroke-width="5" filter="url(#fb2)" opacity=".5"/>
+  <!-- Inner diamond crisp -->
   <polygon points="430,150 730,450 430,750 130,450"
-    stroke="rgba(212,175,110,.75)" stroke-width="1.4"/>
-  <line x1="218" y1="238" x2="642" y2="662" stroke="#6FB0FF" stroke-width="6" stroke-opacity=".22" filter="url(#fb2)"/>
-  <line x1="218" y1="238" x2="642" y2="662" stroke="#6FB0FF" stroke-width="2.2" stroke-opacity=".95"/>
-  <line x1="642" y1="238" x2="218" y2="662" stroke="#FF77C4" stroke-width="6" stroke-opacity=".22" filter="url(#fb2)"/>
-  <line x1="642" y1="238" x2="218" y2="662" stroke="#FF77C4" stroke-width="2.2" stroke-opacity=".95"/>
+    stroke="rgba(212,175,110,.85)" stroke-width="1.6"/>
+  <!-- Male / paternal diagonal glow -->
+  <line x1="218" y1="238" x2="642" y2="662" stroke="#6FB0FF" stroke-width="8" stroke-opacity=".28" filter="url(#fb2)"/>
+  <line x1="218" y1="238" x2="642" y2="662" stroke="#6FB0FF" stroke-width="2.4" stroke-opacity="1"/>
+  <!-- Female / maternal diagonal glow -->
+  <line x1="642" y1="238" x2="218" y2="662" stroke="#FF77C4" stroke-width="8" stroke-opacity=".28" filter="url(#fb2)"/>
+  <line x1="642" y1="238" x2="218" y2="662" stroke="#FF77C4" stroke-width="2.4" stroke-opacity="1"/>
+  <!-- Inner compass diamond -->
   <polygon points="430,272 608,450 430,628 252,450"
-    stroke="rgba(212,175,110,.3)" stroke-width="1"/>
-  <line x1="430" y1="168" x2="430" y2="732" stroke="rgba(212,175,110,.18)" stroke-width="1" stroke-dasharray="5 5"/>
-  <line x1="148" y1="450" x2="712" y2="450" stroke="rgba(92,222,200,.18)" stroke-width="1"/>
+    stroke="rgba(212,175,110,.40)" stroke-width="1.2"/>
+  <!-- Vertical axis -->
+  <line x1="430" y1="168" x2="430" y2="732" stroke="rgba(212,175,110,.22)" stroke-width="1" stroke-dasharray="5 5"/>
+  <!-- Horizontal axis -->
+  <line x1="148" y1="450" x2="712" y2="450" stroke="rgba(92,222,200,.22)" stroke-width="1"/>
 </g>
 
 <!-- Generation arrows -->
@@ -811,13 +831,13 @@ footer {
 <text x="527" y="305" text-anchor="middle" font-size="9" font-weight="600" fill="#FF77C4" opacity=".9" font-family="Raleway,sans-serif" transform="rotate(-45,527,305)">female / maternal line</text>
 
 <!-- Zone labels -->
-<text x="430" y="96" text-anchor="middle" font-size="8" fill="rgba(212,175,110,.45)" font-family="Raleway,sans-serif" letter-spacing=".1em">TALENTS &amp; POTENTIALS</text>
-<text x="780" y="454" text-anchor="middle" font-size="8" fill="rgba(224,96,176,.45)" font-family="Raleway,sans-serif" letter-spacing=".08em" transform="rotate(90,780,454)">MATERIAL KARMA</text>
-<text x="430" y="808" text-anchor="middle" font-size="8" fill="rgba(212,175,110,.45)" font-family="Raleway,sans-serif" letter-spacing=".08em">SPIRITUAL KARMA</text>
-<text x="78" y="454" text-anchor="middle" font-size="8" fill="rgba(176,136,240,.5)" font-family="Raleway,sans-serif" letter-spacing=".08em" transform="rotate(-90,78,454)">PORTRAIT / AVATAR</text>
+<text x="430" y="96" text-anchor="middle" font-size="9" fill="rgba(212,175,110,.60)" font-family="Raleway,sans-serif" letter-spacing=".12em" font-weight="600">TALENTS &amp; POTENTIALS</text>
+<text x="780" y="454" text-anchor="middle" font-size="9" fill="rgba(232,68,122,.55)" font-family="Raleway,sans-serif" letter-spacing=".10em" font-weight="600" transform="rotate(90,780,454)">MATERIAL KARMA</text>
+<text x="430" y="808" text-anchor="middle" font-size="9" fill="rgba(212,175,110,.60)" font-family="Raleway,sans-serif" letter-spacing=".10em" font-weight="600">SPIRITUAL KARMA</text>
+<text x="78" y="454" text-anchor="middle" font-size="9" fill="rgba(168,85,247,.60)" font-family="Raleway,sans-serif" letter-spacing=".10em" font-weight="600" transform="rotate(-90,78,454)">PORTRAIT / AVATAR</text>
 
 <!-- Outer Age Timeline Labels -->
-<g font-family="Cinzel, serif" font-size="11" font-weight="700" fill="var(--goldb)" opacity="0.85" text-anchor="middle" dominant-baseline="central">
+<g font-family="Cinzel, serif" font-size="12" font-weight="700" fill="var(--goldb)" opacity="0.95" text-anchor="middle" dominant-baseline="central">
   <text x="50" y="450">0 / 80</text>
   <text x="168" y="188">10</text>
   <text x="430" y="72">20</text>
@@ -830,163 +850,163 @@ footer {
 
 <!-- NODES -->
 <g class="ng" data-pos="F1" data-name="Paternal Upper Gift"><title>F1 · Paternal Upper Gift</title>
-  <circle cx="256" cy="276" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="256" cy="276" r="23" fill="url(#gS)"/><circle cx="256" cy="276" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="256" cy="276" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="256" cy="276" r="23" fill="url(#gS)"/><circle cx="256" cy="276" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="256" y="276" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="F1">·</text>
 </g>
 <g class="ng" data-pos="F2" data-name="Paternal Inherited Talent"><title>F2 · Paternal Inherited Talent</title>
-  <circle cx="296" cy="316" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="296" cy="316" r="23" fill="url(#gS)"/><circle cx="296" cy="316" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="296" cy="316" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="296" cy="316" r="23" fill="url(#gS)"/><circle cx="296" cy="316" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="296" y="316" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="F2">·</text>
 </g>
 <g class="ng" data-pos="G1" data-name="Maternal Upper Gift"><title>G1 · Maternal Upper Gift</title>
-  <circle cx="604" cy="276" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="604" cy="276" r="23" fill="url(#gS)"/><circle cx="604" cy="276" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="604" cy="276" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="604" cy="276" r="23" fill="url(#gS)"/><circle cx="604" cy="276" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="604" y="276" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="G1">·</text>
 </g>
 <g class="ng" data-pos="G2" data-name="Maternal Inherited Talent"><title>G2 · Maternal Inherited Talent</title>
-  <circle cx="564" cy="316" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="564" cy="316" r="23" fill="url(#gS)"/><circle cx="564" cy="316" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="564" cy="316" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="564" cy="316" r="23" fill="url(#gS)"/><circle cx="564" cy="316" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="564" y="316" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="G2">·</text>
 </g>
 <g class="ng" data-pos="H1" data-name="Child Character (Paternal)"><title>H1 · Child Character (Paternal)</title>
-  <circle cx="604" cy="624" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="604" cy="624" r="23" fill="url(#gS)"/><circle cx="604" cy="624" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="604" cy="624" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="604" cy="624" r="23" fill="url(#gS)"/><circle cx="604" cy="624" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="604" y="624" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="H1">·</text>
 </g>
 <g class="ng" data-pos="H2" data-name="Father Ancestral Karma"><title>H2 · Father Ancestral Karma</title>
-  <circle cx="564" cy="584" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="564" cy="584" r="23" fill="url(#gS)"/><circle cx="564" cy="584" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="564" cy="584" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="564" cy="584" r="23" fill="url(#gS)"/><circle cx="564" cy="584" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="564" y="584" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="H2">·</text>
 </g>
 <g class="ng" data-pos="I1" data-name="Child Character (Maternal)"><title>I1 · Child Character (Maternal)</title>
-  <circle cx="256" cy="624" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="256" cy="624" r="23" fill="url(#gS)"/><circle cx="256" cy="624" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="256" cy="624" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="256" cy="624" r="23" fill="url(#gS)"/><circle cx="256" cy="624" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="256" y="624" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="I1">·</text>
 </g>
 <g class="ng" data-pos="I2" data-name="Mother Ancestral Karma"><title>I2 · Mother Ancestral Karma</title>
-  <circle cx="296" cy="584" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="296" cy="584" r="23" fill="url(#gS)"/><circle cx="296" cy="584" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="296" cy="584" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="296" cy="584" r="23" fill="url(#gS)"/><circle cx="296" cy="584" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="296" y="584" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="I2">·</text>
 </g>
 <g class="ng" data-pos="O" data-name="Child-Parent Balance"><title>O · Child-Parent Balance</title>
-  <circle cx="197" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="197" cy="450" r="25" fill="url(#gB)"/><circle cx="197" cy="450" r="25" fill="none" stroke="#7090E8" stroke-width="1.6" class="rg"/>
+  <circle cx="197" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="197" cy="450" r="25" fill="url(#gB)"/><circle cx="197" cy="450" r="25" fill="none" stroke="#60A5FA" stroke-width="1.8" class="rg"/>
   <text x="197" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#DCE4FF" class="nv" data-pos="O">·</text>
 </g>
 <g class="ng" data-pos="P" data-name="Comfort Zone / Third Eye"><title>P · Comfort Zone / Third Eye</title>
-  <circle cx="430" cy="222" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="222" r="25" fill="url(#gB)"/><circle cx="430" cy="222" r="25" fill="none" stroke="#7090E8" stroke-width="1.6" class="rg"/>
+  <circle cx="430" cy="222" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="222" r="25" fill="url(#gB)"/><circle cx="430" cy="222" r="25" fill="none" stroke="#60A5FA" stroke-width="1.8" class="rg"/>
   <text x="430" y="222" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#DCE4FF" class="nv" data-pos="P">·</text>
 </g>
 <g class="ng" data-pos="Q" data-name="Material Talent"><title>Q · Material Talent</title>
-  <circle cx="668" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="668" cy="450" r="25" fill="url(#gW)"/><circle cx="668" cy="450" r="25" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <circle cx="668" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="668" cy="450" r="25" fill="url(#gW)"/><circle cx="668" cy="450" r="25" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
   <text x="668" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="Q">·</text>
 </g>
 <g class="ng" data-pos="N" data-name="Karmic Tail"><title>N · Karmic Tail</title>
-  <circle cx="430" cy="697" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="697" r="25" fill="url(#gO)"/><circle cx="430" cy="697" r="25" fill="none" stroke="#FFD080" stroke-width="1.6" class="rg"/>
+  <circle cx="430" cy="697" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="697" r="25" fill="url(#gO)"/><circle cx="430" cy="697" r="25" fill="none" stroke="#F59E0B" stroke-width="1.8" class="rg"/>
   <text x="430" y="697" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="N">·</text>
 </g>
 <g class="ng" data-pos="S" data-name="Relationship Block"><title>S · Relationship Block</title>
-  <circle cx="351" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="351" cy="450" r="25" fill="url(#gGr)"/><circle cx="351" cy="450" r="25" fill="none" stroke="#7FD87F" stroke-width="1.6" class="rg"/>
+  <circle cx="351" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="351" cy="450" r="25" fill="url(#gGr)"/><circle cx="351" cy="450" r="25" fill="none" stroke="#34D399" stroke-width="1.8" class="rg"/>
   <text x="351" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="S">·</text>
 </g>
 <g class="ng" data-pos="T" data-name="Heart's Desire"><title>T · Heart's Desire</title>
-  <circle cx="430" cy="366" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="366" r="25" fill="url(#gGr)"/><circle cx="430" cy="366" r="25" fill="none" stroke="#7FD87F" stroke-width="1.6" class="rg"/>
+  <circle cx="430" cy="366" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="366" r="25" fill="url(#gGr)"/><circle cx="430" cy="366" r="25" fill="none" stroke="#34D399" stroke-width="1.8" class="rg"/>
   <text x="430" y="366" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="T">·</text>
 </g>
 <g class="ng" data-pos="L1" data-name="Lineage + Core"><title>L1 · Lineage + Core</title>
-  <circle cx="536" cy="450" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="536" cy="450" r="23" fill="url(#gS)"/><circle cx="536" cy="450" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="536" cy="450" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="536" cy="450" r="23" fill="url(#gS)"/><circle cx="536" cy="450" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="536" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="L1">·</text>
 </g>
 <g class="ng" data-pos="L2" data-name="Lineage Combined"><title>L2 · Lineage Combined</title>
-  <circle cx="490" cy="450" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="490" cy="450" r="23" fill="url(#gS)"/><circle cx="490" cy="450" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <circle cx="490" cy="450" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="490" cy="450" r="23" fill="url(#gS)"/><circle cx="490" cy="450" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="490" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="L2">·</text>
 </g>
 <g class="ng" data-pos="F" data-name="Mother Line"><title>F · Mother Line</title>
-  <circle cx="218" cy="238" r="40" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="218" cy="238" r="32" fill="url(#gW)"/><circle cx="218" cy="238" r="32" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <circle cx="218" cy="238" r="40" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="218" cy="238" r="32" fill="url(#gW)"/><circle cx="218" cy="238" r="32" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
   <text x="218" y="238" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="F">·</text>
 </g>
 <g class="ng" data-pos="G" data-name="Mother Diagonal"><title>G · Mother Diagonal</title>
-  <circle cx="642" cy="238" r="40" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="642" cy="238" r="32" fill="url(#gW)"/><circle cx="642" cy="238" r="32" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <circle cx="642" cy="238" r="40" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="642" cy="238" r="32" fill="url(#gW)"/><circle cx="642" cy="238" r="32" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
   <text x="642" y="238" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="G">·</text>
 </g>
 <g class="ng" data-pos="H" data-name="Father Line"><title>H · Father Line</title>
-  <circle cx="642" cy="662" r="40" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="642" cy="662" r="32" fill="url(#gW)"/><circle cx="642" cy="662" r="32" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <circle cx="642" cy="662" r="40" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="642" cy="662" r="32" fill="url(#gW)"/><circle cx="642" cy="662" r="32" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
   <text x="642" y="662" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="H">·</text>
 </g>
 <g class="ng" data-pos="I" data-name="Father Diagonal"><title>I · Father Diagonal</title>
-  <circle cx="218" cy="662" r="40" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="218" cy="662" r="32" fill="url(#gW)"/><circle cx="218" cy="662" r="32" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <circle cx="218" cy="662" r="40" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="218" cy="662" r="32" fill="url(#gW)"/><circle cx="218" cy="662" r="32" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
   <text x="218" y="662" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="I">·</text>
 </g>
 <g class="ng" data-pos="K" data-name="Talents &amp; Potentials"><title>K · Talents &amp; Potentials</title>
-  <circle cx="430" cy="281" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="281" r="25" fill="url(#gT)"/><circle cx="430" cy="281" r="25" fill="none" stroke="#5CDEC8" stroke-width="1.6" class="rg"/>
+  <circle cx="430" cy="281" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="281" r="25" fill="url(#gT)"/><circle cx="430" cy="281" r="25" fill="none" stroke="#2DD4BF" stroke-width="1.8" class="rg"/>
   <text x="430" y="281" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#063028" class="nv" data-pos="K">·</text>
 </g>
 <g class="ng" data-pos="L" data-name="Relationship Crisis"><title>L · Relationship Crisis</title>
-  <circle cx="617" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="617" cy="450" r="25" fill="url(#gO)"/><circle cx="617" cy="450" r="25" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <circle cx="617" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="617" cy="450" r="25" fill="url(#gO)"/><circle cx="617" cy="450" r="25" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
   <text x="617" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="L">·</text>
 </g>
 <g class="ng" data-pos="M" data-name="Ideal Partner"><title>M · Ideal Partner</title>
-  <circle cx="430" cy="645" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="645" r="25" fill="url(#gO)"/><circle cx="430" cy="645" r="25" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <circle cx="430" cy="645" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="645" r="25" fill="url(#gO)"/><circle cx="430" cy="645" r="25" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
   <text x="430" y="645" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="M">·</text>
 </g>
 <g class="ng" data-pos="J" data-name="Throat / Physical Chakra"><title>J · Throat / Physical Chakra</title>
-  <circle cx="247" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="247" cy="450" r="25" fill="url(#gT)"/><circle cx="247" cy="450" r="25" fill="none" stroke="#5CDEC8" stroke-width="1.6" class="rg"/>
+  <circle cx="247" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="247" cy="450" r="25" fill="url(#gT)"/><circle cx="247" cy="450" r="25" fill="none" stroke="#2DD4BF" stroke-width="1.8" class="rg"/>
   <text x="247" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#063028" class="nv" data-pos="J">·</text>
 </g>
 <g class="ng" data-pos="R2" data-name="Profession / Success"><title>R2 · Profession / Success</title>
-  <circle cx="578" cy="502" r="26" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="578" cy="502" r="21" fill="url(#gGr)"/><circle cx="578" cy="502" r="21" fill="none" stroke="#7FD87F" stroke-width="1.6" class="rg"/>
+  <circle cx="578" cy="502" r="26" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="578" cy="502" r="21" fill="url(#gGr)"/><circle cx="578" cy="502" r="21" fill="none" stroke="#34D399" stroke-width="1.8" class="rg"/>
   <text x="578" y="502" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="R2">·</text>
 </g>
 <g class="ng" data-pos="R" data-name="Money &amp; Relationships"><title>R · Money &amp; Relationships</title>
-  <circle cx="531" cy="552" r="26" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="531" cy="552" r="21" fill="url(#gP)"/><circle cx="531" cy="552" r="21" fill="none" stroke="#E060B0" stroke-width="1.6" class="rg"/>
+  <circle cx="531" cy="552" r="26" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="531" cy="552" r="21" fill="url(#gP)"/><circle cx="531" cy="552" r="21" fill="none" stroke="#E8447A" stroke-width="1.8" class="rg"/>
   <text x="531" y="552" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#FFF0F8" class="nv" data-pos="R">·</text>
 </g>
 <g class="ng" data-pos="R1" data-name="Relationship Dynamics"><title>R1 · Relationship Dynamics</title>
-  <circle cx="480" cy="608" r="26" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="480" cy="608" r="21" fill="url(#gO)"/><circle cx="480" cy="608" r="21" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <circle cx="480" cy="608" r="26" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="480" cy="608" r="21" fill="url(#gO)"/><circle cx="480" cy="608" r="21" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
   <text x="480" y="608" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="R1">·</text>
 </g>
 <g class="ng" data-pos="A" data-name="Portrait / Avatar"><title>A · Portrait / Avatar</title>
-  <circle cx="130" cy="450" r="50" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="130" cy="450" r="40" fill="url(#gL)"/><circle cx="130" cy="450" r="40" fill="none" stroke="#B088F0" stroke-width="1.6" class="rg"/>
+  <circle cx="130" cy="450" r="50" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="130" cy="450" r="40" fill="url(#gL)"/><circle cx="130" cy="450" r="40" fill="none" stroke="#A855F7" stroke-width="1.8" class="rg"/>
   <text x="130" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="25" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#F0EEFF" class="nv" data-pos="A">·</text>
 </g>
 <g class="ng" data-pos="B" data-name="Spiritual Essence"><title>B · Spiritual Essence</title>
-  <circle cx="430" cy="150" r="50" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="150" r="40" fill="url(#gG)"/><circle cx="430" cy="150" r="40" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <circle cx="430" cy="150" r="50" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="150" r="40" fill="url(#gG)"/><circle cx="430" cy="150" r="40" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
   <text x="430" y="150" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="25" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06031C" class="nv" data-pos="B">·</text>
 </g>
 <g class="ng" data-pos="C" data-name="Material Karma"><title>C · Material Karma</title>
-  <circle cx="730" cy="450" r="50" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="730" cy="450" r="40" fill="url(#gP)"/><circle cx="730" cy="450" r="40" fill="none" stroke="#E060B0" stroke-width="1.6" class="rg"/>
+  <circle cx="730" cy="450" r="50" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="730" cy="450" r="40" fill="url(#gP)"/><circle cx="730" cy="450" r="40" fill="none" stroke="#E8447A" stroke-width="1.8" class="rg"/>
   <text x="730" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="25" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#FFF0F8" class="nv" data-pos="C">·</text>
 </g>
 <g class="ng" data-pos="D" data-name="Spiritual Karma"><title>D · Spiritual Karma</title>
-  <circle cx="430" cy="750" r="50" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="750" r="40" fill="url(#gG)"/><circle cx="430" cy="750" r="40" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <circle cx="430" cy="750" r="50" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="750" r="40" fill="url(#gG)"/><circle cx="430" cy="750" r="40" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
   <text x="430" y="750" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="25" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06031C" class="nv" data-pos="D">·</text>
 </g>
 <g class="ng" data-pos="E" data-name="Core Energy"><title>E · Core Energy</title>
-  <circle cx="430" cy="450" r="60" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="450" r="46" fill="url(#gE)"/><circle cx="430" cy="450" r="46" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <circle cx="430" cy="450" r="60" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="450" r="46" fill="url(#gE)"/><circle cx="430" cy="450" r="46" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
   <text x="430" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="29" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06031C" class="nv" data-pos="E">·</text>
 </g>
 <text x="450" y="556" text-anchor="middle" font-size="21" font-weight="700" fill="#FF4D6D" filter="url(#fP)">♥</text>
