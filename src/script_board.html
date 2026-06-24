@@ -640,7 +640,6 @@ function getModules() {
     }
   });
 
-  // Filter modules based on readingMode
   const activeModules = result.filter(m => {
     if (readingMode === 'compat') {
       return m.id.startsWith('compat_') || m.id === 'compatibility';
@@ -652,7 +651,6 @@ function getModules() {
   return activeModules;
 }
 
-// Active Programs Detection
 function getActivePrograms() {
   const active = [];
   if (!database) return active;

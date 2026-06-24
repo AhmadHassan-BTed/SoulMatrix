@@ -1,18 +1,7 @@
 #!/usr/bin/env python3
 """
 Excel-to-CSV Database Synchronizer for Soul Blueprint Matrix.
-Author: Antigravity
-
-This script automates the process of converting the customer-edited Excel spreadsheet
-(.xlsx) into the exact CSV structure (position,module,section,number,text) required
-by the Soul Blueprint Matrix HTML chart.
-
-Resilience features included:
-- Automatic backup of any existing interpretations.csv into a backups/ folder.
-- Search fallbacks for multiple Excel filenames/locations.
-- Dynamic case-insensitive header column mapping.
-- Clean parsing and fallback rules for custom or default sections.
-- Graceful error handling for file locks (e.g. if Excel is open), missing dependencies, or bad formats.
+Author: Ahmad Hassan (B-Ted)
 """
 
 import os
@@ -21,7 +10,6 @@ import csv
 import shutil
 from datetime import datetime
 
-# Required third-party libraries check
 try:
     import openpyxl
 except ImportError:
@@ -33,7 +21,6 @@ except ImportError:
     input("\nPress Enter to exit...")
     sys.exit(1)
 
-# Base directories resolution relative to this script (located in tools/)
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
@@ -41,7 +28,6 @@ BACKUP_DIR = os.path.join(SCRIPT_DIR, "backups")
 
 
 def get_excel_file(data_dir):
-    """Locate the Excel file to read, checking fallback options in order."""
     search_paths = [
         os.path.join(data_dir, "interpretations.xlsx"),
         os.path.join(data_dir, "Interpretations.xlsx"),
@@ -49,16 +35,13 @@ def get_excel_file(data_dir):
         os.path.join(data_dir, "customer_s-editited", "Interpretations backup.xlsx"),
     ]
     
-    # Try preferred paths
     for path in search_paths:
         if os.path.isfile(path):
             return path
             
-    # Fallback: scan data directory for any .xlsx file
     if os.path.isdir(data_dir):
         xlsx_files = [os.path.join(data_dir, f) for f in os.listdir(data_dir) if f.endswith(".xlsx")]
         if xlsx_files:
-            # Sort to find the most recently modified one if there are multiple
             xlsx_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
             return xlsx_files[0]
         
@@ -66,15 +49,12 @@ def get_excel_file(data_dir):
 
 
 def create_backup(csv_path, backup_dir):
-    """Back up existing CSV file if it exists."""
     if not os.path.isfile(csv_path):
         return None
         
     os.makedirs(backup_dir, exist_ok=True)
-    
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_name = f"interpretations_backup_{timestamp}.csv"
-    backup_path = os.path.join(backup_dir, backup_name)
+    backup_path = os.path.join(backup_dir, f"interpretations_backup_{timestamp}.csv")
     
     try:
         shutil.copy2(csv_path, backup_path)
@@ -85,10 +65,6 @@ def create_backup(csv_path, backup_dir):
 
 
 def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
-    """
-    Map the human-friendly Excel Position, Position Meaning, and Section columns
-    to the specific lowercase module and section names required by the HTML page.
-    """
     pos = str(pos).strip()
     excel_section = str(excel_section).strip()
     
@@ -103,7 +79,6 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         
     pos = pos_upper
     
-    # 1. Handle "Interpretation" default mapping for general positions
     if excel_section.lower() == 'interpretation':
         default_map = {
             'B': ('core', 'meaning'),
@@ -139,12 +114,10 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
             module = f"compat_{module}"
         return pos, module, section
             
-    # 2. Parse custom section strings like "Core Meaning", "Core Positive", etc.
     sec_lower = excel_section.lower()
     module = 'core'
     section_part = sec_lower
     
-    # Detect the module component of the section header
     if 'core' in sec_lower:
         module = 'core'
         section_part = sec_lower.replace('core', '')
@@ -169,7 +142,6 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         
     section_part = section_part.strip()
     
-    # Exact mappings for known section words
     section_map = {
         'meaning': 'meaning',
         'positive': 'positive',
@@ -203,13 +175,11 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
     if section_part in section_map:
         section = section_map[section_part]
     else:
-        # Fallback to cleaning section names dynamically (spaces to underscores)
         section = section_part.replace(' ', '_').strip('_')
         if not section:
             section = 'meaning'
             
     if is_compat:
-        # Make sure compatibility module is prefixed with compat_
         if not module.startswith('compat_') and module != 'compatibility':
             module = f"compat_{module}"
             
@@ -230,7 +200,6 @@ def main():
         
     print(f"[INFO] Found Excel database: {excel_file}")
     
-    # Check if we can open the Excel file (prevents crashes from Excel file locks)
     try:
         wb = openpyxl.load_workbook(excel_file, read_only=True, data_only=True)
     except PermissionError:
@@ -244,19 +213,14 @@ def main():
         input("\nPress Enter to exit...")
         sys.exit(1)
         
-    # Determine worksheets to process
     sheets_to_process = []
-    
-    # 1. Master_Database or first sheet
     single_sheet = "Master_Database" if "Master_Database" in wb.sheetnames else wb.sheetnames[0]
-    sheets_to_process.append((single_sheet, False))  # (sheet_name, is_compat)
+    sheets_to_process.append((single_sheet, False))
     
-    # 2. Compatibility sheet (if exists)
     compat_sheet = None
     if "Compatibility" in wb.sheetnames:
         compat_sheet = "Compatibility"
     else:
-        # scan for any sheet name containing compat case-insensitively
         for s in wb.sheetnames:
             if s.lower() != single_sheet.lower() and "compat" in s.lower():
                 compat_sheet = s
@@ -276,24 +240,19 @@ def main():
         'interpretation text': ['interpretation text', 'text', 'content', 'interpretation']
     }
     
-    # 2. Back up the old CSV before editing
     csv_filename = os.path.join(DATA_DIR, "interpretations.csv")
     backup_path = create_backup(csv_filename, BACKUP_DIR)
     if backup_path:
         print(f"[OK] Pre-existing CSV backed up to: {backup_path}")
         
-    # 3. Export to CSV
     mapped_count = 0
     empty_count = 0
     invalid_rows = []
-    
-    # Track positions and sections for output summary
     active_positions = set()
     
     try:
         with open(csv_filename, 'w', encoding='utf-8', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            # Write standardized headers
             writer.writerow(['position', 'module', 'section', 'number', 'text'])
             
             for sheet_name, is_compat in sheets_to_process:
@@ -310,7 +269,6 @@ def main():
                     print(f"[WARNING] Sheet '{sheet_name}' is empty.")
                     continue
                     
-                # Parse headers dynamically
                 headers = [str(h).strip().lower() if h else '' for h in rows[0]]
                 
                 col_indices = {}
@@ -321,7 +279,6 @@ def main():
                             found_idx = headers.index(alias)
                             break
                     if found_idx is None:
-                        # Try partial matching if exact matches failed
                         for i, h in enumerate(headers):
                             if any(alias in h for alias in aliases):
                                 found_idx = i
@@ -348,15 +305,12 @@ def main():
                     num_val = row[num_idx] if num_idx < len(row) else None
                     text_val = row[text_idx] if text_idx < len(row) else None
                     
-                    # Skip rows that have completely empty position
                     if p_val is None or str(p_val).strip() == "":
                         continue
-                    # If text is empty, count it as skipped empty row
                     if text_val is None or str(text_val).strip() == "":
                         empty_count += 1
                         continue
                         
-                    # Safe conversions (bypass integer conversion for 3-number programs)
                     p_val_str = str(p_val).strip() if p_val is not None else ""
                     is_program = '-' in p_val_str or ',' in p_val_str or p_val_str.upper() == 'PROGRAM'
                     
@@ -369,7 +323,6 @@ def main():
                             invalid_rows.append((sheet_name, row_num, num_val, p_val))
                             continue
                         
-                    # Map columns
                     pos, module, section = map_excel_to_csv_columns(p_val, p_mean, sec_val, is_compat=is_compat)
                     text_clean = str(text_val).strip()
                     
@@ -409,7 +362,6 @@ def main():
     print("\nWorkflow ready. You can now reload your Soul Blueprint Matrix in Chrome.")
     print("=" * 60)
     
-    # We add a pause when running in batch mode, but don't hold the shell if run directly
     if len(sys.argv) > 1 and sys.argv[1] == '--batch':
         input("\nPress Enter to exit...")
 

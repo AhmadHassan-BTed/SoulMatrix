@@ -1622,10 +1622,8 @@ function openPanel(pos, syncToBoard = true) {
   badge.textContent = meta.zone.toUpperCase();
   badge.style.color = col;
 
-  // Build tabs from dynamic module list
   const modules = getModules();
 
-  // Filter modules based on readingMode
   const activeModules = modules.filter(m => {
     if (readingMode === 'compat') {
       return m.id.startsWith('compat_') || m.id === 'compatibility';
@@ -1637,7 +1635,6 @@ function openPanel(pos, syncToBoard = true) {
   const tabsEl = document.getElementById('mod-tabs');
   tabsEl.innerHTML = '';
 
-  // If activeModId not in active modules, reset to first active module
   if (!activeModules.find(m => m.id === activeModId)) {
     activeModId = activeModules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
   }

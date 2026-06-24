@@ -1,14 +1,30 @@
 # ✦ SoulMatrix ✦
 
-> A premium, dynamic live-reading dashboard and pop-out Script Board for Destiny Matrix (Soul Blueprint) analysis, featuring real-time multi-screen synchronization and couples compatibility engines.
+![Project Status](https://img.shields.io/badge/Project_Status-Production-success?style=flat-square&logo=github)
+![Language](https://img.shields.io/badge/Language-HTML%20%7C%20CSS%20%7C%20JavaScript-blue?style=flat-square)
+![Database](https://img.shields.io/badge/Database-Excel%20%2F%20CSV-green?style=flat-square&logo=microsoft-excel)
+![OS Compatibility](https://img.shields.io/badge/OS-Windows-blue?style=flat-square&logo=windows)
+![Author](https://img.shields.io/badge/Author-Ahmad%20Hassan%20(B--Ted)-orange?style=flat-square)
+
+> A premium, dynamic live-reading dashboard and pop-out Script Board for Destiny Matrix (Soul Blueprint) analysis, featuring real-time multi-screen synchronization and couples compatibility engines. Engineered by **Ahmad Hasaan (B-Ted)**.
 
 ---
 
 ## 📺 Overview
 
-**SoulMatrix** is a specialized tool designed for numerologists, spiritual consultants, and content creators (specifically optimized for OBS/TikTok Live streaming). It calculates a client's Destiny Matrix octagram using their birth date, plots it onto an interactive SVG chart, and dynamically renders detailed script interpretations from a customizable Excel/CSV database.
+**SoulMatrix** is a professional-grade tool designed for numerologists, spiritual consultants, and content creators (specifically optimized for OBS/TikTok Live streaming). It calculates a client's Destiny Matrix octagram using their birth date, plots it onto an interactive SVG chart, and dynamically renders detailed script interpretations from a customizable Excel/CSV database.
 
-Additionally, it provides a secondary **Script Board** window that communicates offline and in real-time, allowing you to run readings on a double-monitor setup without lag or external server dependency.
+Additionally, a secondary **Script Board** window communicates offline in real-time, allowing readings to run on a double-monitor setup without lag or external server dependencies.
+
+---
+
+## 📸 Interface Modernization (Before vs After)
+
+Here is a side-by-side comparison of the visual modernization of the matrix chart:
+
+| Before Visual Refresh | After Visual Refresh |
+| :---: | :---: |
+| ![Before Visual Refresh](./docs/images/before_ui_change.png) | ![After Visual Refresh](./docs/images/after_ui_change.png) |
 
 ---
 
@@ -19,6 +35,53 @@ Additionally, it provides a secondary **Script Board** window that communicates 
 * **📺 Pop-out Script Board**: A second screen layout for streamers that runs real-time, bidirectional sync (clicking nodes on either screen highlights and highlights the other screen instantly).
 * **🔍 Dynamic Excel Sync Tool**: Edit and maintain your entire database of interpretations (including custom categories or 3-number combination programs) in a standard Excel sheet. Run `run_update.bat` to sync it to the application.
 * **🔎 Text Sizing Zoom**: Instant zoom options (**Small**, **Medium**, **Large**, **Extra Large**) on the Script Board to adjust text readability on streams. Choice is persisted in browser local storage.
+
+---
+
+## 🏗 System Architecture
+
+The following diagram illustrates the offline data pipeline and synchronization flow between the Excel sheets, sync tool, local CSV, main dashboard, and the streamer pop-out screen:
+
+```mermaid
+graph TD
+    A[interpretations.xlsx] -- Edit in Excel --> B(run_update.bat)
+    B -- Run Synchronizer --> C[update_interpretations.py]
+    C -- Read sheets & Map --> D[interpretations.csv]
+    D -- File Loader / CORS Fallback --> E[soul_matrix.html Dashboard]
+    E -- BroadcastChannel Sync --> F[script_board.html Pop-out Script Board]
+    F -- Real-time Selection Sync --> E
+```
+
+---
+
+## 📈 Data Flow & Calculation Pipeline
+
+The calculation engine maps raw dates of birth (DOBs) to the matrix structure and reduces them using Arcana-22 math:
+
+```mermaid
+graph LR
+    subgraph Inputs
+        P1[Person 1 DOB]
+        P2[Person 2 DOB]
+    end
+    subgraph Engine
+        Calc[calc Engine]
+        Reduce[Arcana-22 Reduction]
+        Compat[calcCompatibility combined sum]
+    end
+    subgraph UI
+        Chart[SVG Chart Node Plotting]
+        Chakras[Derived Chakra Tables]
+        Programs[3-Number Active Programs]
+    end
+    P1 --> Calc
+    P2 --> Calc
+    Calc --> Reduce
+    Reduce --> Compat
+    Compat --> Chart
+    Compat --> Chakras
+    Compat --> Programs
+```
 
 ---
 
@@ -33,12 +96,28 @@ Additionally, it provides a secondary **Script Board** window that communicates 
 
 ## 📂 Repository Structure
 
-The project has been organized into a structured directory layout:
-* **`data/`**: Holds the Excel master database (`interpretations.xlsx`) and compiled data (`interpretations.csv`).
-* **`src/`**: Core application files including HTML pages and server scripts (`soul_matrix.html`, `script_board.html`, `server.py`, `server.ps1`).
-* **`tools/`**: Python Excel-to-CSV database synchronizer engine (`update_interpretations.py`) and CSV backups directory (`backups/`).
-* **`run_locally.bat`**: Direct workspace root launcher to start the web server.
-* **`run_update.bat`**: Direct workspace root compile script to sync Excel edits.
+The project directory is structured as follows:
+
+```text
+SoulMatrix/
+├── data/
+│   ├── interpretations.xlsx      ← Excel Master Database (edit this!)
+│   └── interpretations.csv       ← Compiled CSV database
+├── src/
+│   ├── soul_matrix.html          ← Interactive chart dashboard
+│   ├── script_board.html         ← Pop-out streamer Script Board
+│   ├── server.py                 ← Python web server
+│   └── server.ps1                ← PowerShell web server (fallback)
+├── tools/
+│   ├── update_interpretations.py ← Excel-to-CSV database sync tool
+│   └── backups/                  ← Automatically generated CSV backups
+├── run_locally.bat               ← Launcher to start the web server
+├── run_update.bat                ← Sync Excel edits to CSV
+├── README.md                     ← Project documentation
+├── CHANGELOG.md                  ← Release version history
+├── HOW-TO-UPDATE.md              ← Excel update instructions
+└── .gitignore                    ← Git file exclusions
+```
 
 ---
 
@@ -69,3 +148,13 @@ If the intermediate sum is still greater than 22, it is recursively reduced.
 Compatibility charts sum the individual partner matrix points for each position and apply the reduction:
 $$\text{Node}_{\text{compatibility}} = \text{reduced}(\text{Node}_{\text{PartnerA}} + \text{Node}_{\text{PartnerB}})$$
 Derived purposes (Earth/Sky, Personal, Social, Paternal, Maternal, and Spiritual) and the Chakra Map are computed dynamically from these combined nodes.
+
+---
+
+## 🤝 Contribution Guidelines
+
+New contributions are welcomed to make the tool more versatile:
+1. Fork the repository.
+2. Create a new branch for the feature or layout refresh.
+3. Keep code comments minimal and document technical logic inside the files or `docs/`.
+4. Submit a Pull Request.
