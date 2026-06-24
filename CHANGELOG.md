@@ -1,5 +1,30 @@
 # Changelog - Soul Blueprint Matrix (New Features Sync)
 
+## [June 2026] - Modern Chart Visual Refresh (on branch `feature/modern-chart-visuals`)
+
+This update delivers a visual modernization of the interactive chart dashboard with vibrant gradients, bolder outlines, glowing node effects, improved labels contrast, and micro-interactions.
+
+### 📸 Visual Comparison (Before vs After)
+
+#### Before Visual Refresh
+![Before Visual Refresh - Muted gradients and low contrast labels](./docs/images/before_ui_change.png)
+
+#### After Visual Refresh
+![After Visual Refresh - Vibrant gradients, modern glow effects, high contrast labels](./docs/images/after_ui_change.png)
+
+### Key Enhancements
+
+| Element / Area | Before the UI Change | After the UI Change |
+| :--- | :--- | :--- |
+| **Zone Colors** | Mostly purple-lilac scheme across all nodes, making the different areas blend together. | **Vibrant Theme Gradients**; each area has a distinct identity (e.g. Portrait = Deep Purple, Karma = Gold/Amber, Material Karma = Crimson-Pink, Money/Relations = Emerald Green). |
+| **Node Outlines** | Thinner borders (`1.6px`) with muted color values. | **Bolder Outlines (`1.8px`)** in matching vivid colors, providing a crisp, high-definition look. |
+| **Node Glow Effects** | Standard low opacity (`.10`) fills with minor blur. | **Premium Neon Glow (`.18` opacity)** with increased blur deviation, giving selected/hovered nodes a high-end glowing look. |
+| **Zone Label Visibility** | Lower contrast (`opacity: .4`), smaller fonts. | **High Contrast (`opacity: .60` or higher)** and slightly larger font sizes, making zone titles like `TALENTS & POTENTIALS` easy to read. |
+| **Age Timeline** | Default font values, lower contrast. | **Prominent Timeline Labels** with high-contrast text (`opacity: 0.95`), framing the chart geometry perfectly. |
+| **Hover Transitions** | Basic brightness boost. | **Micro-interactions** including scale zoom (`transform: scale(1.08)`) and bright neon outlines. |
+
+---
+
 ## [June 2026] - Usability & Sync Adjustments
 
 This update refines the live reading experience with enhanced text controls, active program overlays, and interactive cross-window navigation.
