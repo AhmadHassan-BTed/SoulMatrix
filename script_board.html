@@ -469,9 +469,10 @@ const POSITIONS = {
 function updateHeader() {
   const infoEl = document.getElementById('client-info');
   if (client) {
-    infoEl.textContent = `Client: ${client.name}  ·  Birth Date: ${client.day}/${client.month}/${client.year}`;
+    const dobStr = client.month ? `${client.day}/${client.month}/${client.year}` : client.day;
+    infoEl.textContent = `Client: ${client.name}  ·  Birth Date: ${dobStr}`;
   } else {
-    infoEl.textContent = 'Waiting for client calculations...';
+    infoEl.textContent = 'Waiting for client data...';
   }
 }
 
@@ -607,6 +608,12 @@ function getModules() {
       {key:'current_cycle',title:'Current Cycle'},
       {key:'next_phase',title:'Next Phase'},
       {key:'yearly',title:'Yearly Theme'},
+    ]},
+    {id:'compatibility', label:'👥 Compatibility', sections:[
+      {key:'general',title:'General Compatibility'},
+      {key:'friction',title:'Friction Points'},
+      {key:'finances',title:'Financial Union'},
+      {key:'intimacy',title:'Intimacy & Love'},
     ]},
   ];
 

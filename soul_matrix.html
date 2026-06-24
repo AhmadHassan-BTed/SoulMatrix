@@ -253,7 +253,7 @@ header h1 {
 }
 
 /* ─── INPUT BAR ──────────────────────────────────────────── */
-#input-bar {
+.input-bar-container {
   position: relative;
   z-index: 10;
   width: 100%;
@@ -267,7 +267,7 @@ header h1 {
   border: 1px solid rgba(212,175,110,.15);
   border-radius: 12px;
 }
-@media (max-width: 600px) { #input-bar { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .input-bar-container { grid-template-columns: 1fr 1fr; } }
 .fi { display: flex; flex-direction: column; gap: 5px; }
 .fi label {
   font-size: 9px;
@@ -816,6 +816,18 @@ footer {
 <text x="430" y="808" text-anchor="middle" font-size="8" fill="rgba(212,175,110,.45)" font-family="Raleway,sans-serif" letter-spacing=".08em">SPIRITUAL KARMA</text>
 <text x="78" y="454" text-anchor="middle" font-size="8" fill="rgba(176,136,240,.5)" font-family="Raleway,sans-serif" letter-spacing=".08em" transform="rotate(-90,78,454)">PORTRAIT / AVATAR</text>
 
+<!-- Outer Age Timeline Labels -->
+<g font-family="Cinzel, serif" font-size="11" font-weight="700" fill="var(--goldb)" opacity="0.85" text-anchor="middle" dominant-baseline="central">
+  <text x="50" y="450">0 / 80</text>
+  <text x="168" y="188">10</text>
+  <text x="430" y="72">20</text>
+  <text x="692" y="188">30</text>
+  <text x="810" y="450">40</text>
+  <text x="692" y="712">50</text>
+  <text x="430" y="828">60</text>
+  <text x="168" y="712">70</text>
+</g>
+
 <!-- NODES -->
 <g class="ng" data-pos="F1" data-name="Paternal Upper Gift"><title>F1 · Paternal Upper Gift</title>
   <circle cx="256" cy="276" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
@@ -982,13 +994,38 @@ footer {
 </svg>
 </div>
 
-<!-- Input bar -->
-<div id="input-bar">
+<!-- Reading Mode Select -->
+<div id="mode-select" style="display: flex; justify-content: flex-start; gap: 8px; margin-bottom: 12px; z-index: 10; position: relative; max-width: 820px; width: 100%;">
+  <button id="btn-mode-single" class="mnav-btn active" onclick="setReadingMode('single')">👤 Single Reading</button>
+  <button id="btn-mode-compat" class="mnav-btn" onclick="setReadingMode('compat')">👥 Compatibility Reading</button>
+</div>
+
+<!-- Input bar (Single) -->
+<div id="input-bar-single" class="input-bar-container">
   <div class="fi"><label>Client Name</label><input id="i-name" type="text" value="Tracey" placeholder="Full name"/></div>
   <div class="fi"><label>Day</label><input id="i-day" type="number" min="1" max="31" value="16" placeholder="DD"/></div>
   <div class="fi"><label>Month</label><input id="i-mon" type="number" min="1" max="12" value="12" placeholder="MM"/></div>
   <div class="fi"><label>Year</label><input id="i-yr" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
   <button id="go-btn">CALCULATE ✦</button>
+</div>
+
+<!-- Input bar (Compatibility) -->
+<div id="input-bar-compat" class="input-bar-container" style="display: none; grid-template-columns: 1fr; gap: 12px; height: auto; align-items: stretch;">
+  <!-- Partner 1 Row -->
+  <div style="display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 10px; align-items: end; width: 100%;">
+    <div class="fi"><label>Partner 1 Name</label><input id="i-name1" type="text" value="Tracey" placeholder="First Partner's Name"/></div>
+    <div class="fi"><label>Day</label><input id="i-day1" type="number" min="1" max="31" value="16" placeholder="DD"/></div>
+    <div class="fi"><label>Month</label><input id="i-mon1" type="number" min="1" max="12" value="12" placeholder="MM"/></div>
+    <div class="fi"><label>Year</label><input id="i-yr1" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
+  </div>
+  <!-- Partner 2 Row -->
+  <div style="display: grid; grid-template-columns: 2fr repeat(3, 1fr) auto; gap: 10px; align-items: end; width: 100%;">
+    <div class="fi"><label>Partner 2 Name</label><input id="i-name2" type="text" value="John" placeholder="Second Partner's Name"/></div>
+    <div class="fi"><label>Day</label><input id="i-day2" type="number" min="1" max="31" value="1" placeholder="DD"/></div>
+    <div class="fi"><label>Month</label><input id="i-mon2" type="number" min="1" max="12" value="1" placeholder="MM"/></div>
+    <div class="fi"><label>Year</label><input id="i-yr2" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
+    <button id="go-compat-btn" style="background: linear-gradient(135deg, #B07828, #D4AF6E); border: none; border-radius: 8px; color: #06031C; font-family: Cinzel, serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; padding: 9px 20px; cursor: pointer; white-space: nowrap; transition: opacity .2s; height: 38px; align-self: end;">CALCULATE ✦</button>
+  </div>
 </div>
 
 <!-- Legend -->
@@ -1074,6 +1111,7 @@ const MODULE_LABELS = {
   money:         '$ Money',
   purpose:       '★ Purpose',
   forecast:      '◎ Forecast',
+  compatibility: '👥 Compatibility',
 };
 
 // Fallback section titles for known section keys
@@ -1366,6 +1404,72 @@ let currentVals = {};
 let activePos = null;
 let activeModId = 'core';
 let editMode = false;
+let readingMode = 'single';
+
+function setReadingMode(mode) {
+  readingMode = mode;
+  const singleBar = document.getElementById('input-bar-single');
+  const compatBar = document.getElementById('input-bar-compat');
+  const btnSingle = document.getElementById('btn-mode-single');
+  const btnCompat = document.getElementById('btn-mode-compat');
+  
+  if (mode === 'single') {
+    singleBar.style.display = 'grid';
+    compatBar.style.display = 'none';
+    btnSingle.classList.add('active');
+    btnCompat.classList.remove('active');
+  } else {
+    singleBar.style.display = 'none';
+    compatBar.style.display = 'grid';
+    btnSingle.classList.remove('active');
+    btnCompat.classList.add('active');
+  }
+  
+  // Re-run the active calculation
+  if (mode === 'single') {
+    document.getElementById('go-btn').click();
+  } else {
+    document.getElementById('go-compat-btn').click();
+  }
+}
+
+function calcCompatibility(d1, m1, y1, d2, m2, y2) {
+  const v1 = calc(d1, m1, y1);
+  const v2 = calc(d2, m2, y2);
+  
+  const v_comb = {};
+  
+  Object.keys(v1).forEach(key => {
+    if (key !== 'derived') {
+      v_comb[key] = red(v1[key] + v2[key]);
+    }
+  });
+  
+  const A = v_comb.A, B = v_comb.B, C = v_comb.C, D = v_comb.D, E = v_comb.E;
+  const F = v_comb.F, G = v_comb.G, H = v_comb.H, I = v_comb.I;
+  const J = v_comb.J, K = v_comb.K, L = v_comb.L, M = v_comb.M;
+  const O = v_comb.O, P = v_comb.P;
+  const S = v_comb.S, T = v_comb.T;
+  
+  const earth = red(A+C), sky = red(B+D);
+  const personalPurpose = red(earth+sky);
+  const paternalP = red(F+H), maternalP = red(G+I);
+  const socialPurpose = red(paternalP+maternalP);
+  const spiritualPurpose = red(personalPurpose+socialPurpose);
+  
+  const ckDef = [
+    ['Sahasrara','Crown',A,B],['Ajna','Third Eye',O,P],['Vishuddha','Throat',J,K],
+    ['Anahata','Heart',S,T],['Manipura','Solar Plexus',E,E],
+    ['Svadhisthana','Sacral',L,M],['Muladhara','Root',C,D]
+  ];
+  const chakras = ckDef.map(([name,zone,ph,en]) => ({name,zone,physical:ph,energy:en,emotional:red(ph+en)}));
+  const sum = k => chakras.reduce((a,c) => a + c[k], 0);
+  const chakraTotals = {physical:red(sum('physical')), energy:red(sum('energy')), emotional:red(sum('emotional'))};
+  
+  v_comb.derived = {earth, sky, personalPurpose, paternalP, maternalP, socialPurpose, spiritualPurpose, chakras, chakraTotals};
+  
+  return v_comb;
+}
 
 function updateMatrix(v) {
   currentVals = v;
@@ -1667,6 +1771,27 @@ document.getElementById('go-btn').addEventListener('click', () => {
   if (activePos) openPanel(activePos);
 });
 
+document.getElementById('go-compat-btn').addEventListener('click', () => {
+  const name1 = document.getElementById('i-name1').value.trim() || 'Partner 1';
+  const day1  = parseInt(document.getElementById('i-day1').value)  || 1;
+  const mon1  = parseInt(document.getElementById('i-mon1').value)  || 1;
+  const yr1   = parseInt(document.getElementById('i-yr1').value)   || 2000;
+  
+  const name2 = document.getElementById('i-name2').value.trim() || 'Partner 2';
+  const day2  = parseInt(document.getElementById('i-day2').value)  || 1;
+  const mon2  = parseInt(document.getElementById('i-mon2').value)  || 1;
+  const yr2   = parseInt(document.getElementById('i-yr2').value)   || 2000;
+  
+  const nameDisplay = `${name1} & ${name2}`;
+  const dobDisplay = `${String(day1).padStart(2,'0')}/${String(mon1).padStart(2,'0')}/${yr1} & ${String(day2).padStart(2,'0')}/${String(mon2).padStart(2,'0')}/${yr2}`;
+  
+  document.getElementById('client-display').textContent = `${nameDisplay}  ·  ${dobDisplay}`;
+  
+  const v_comb = calcCompatibility(day1, mon1, yr1, day2, mon2, yr2);
+  updateMatrix(v_comb);
+  if (activePos) openPanel(activePos);
+});
+
 // ═══════════════════════════════════════════════════════════════════
 // MANUAL CSV IMPORT
 // ═══════════════════════════════════════════════════════════════════
@@ -1840,10 +1965,29 @@ function highlightActiveProgramNodes() {
 }
 
 function broadcastSyncData() {
-  const name = document.getElementById('i-name').value.trim() || 'Client';
-  const day  = parseInt(document.getElementById('i-day').value)  || 1;
-  const mon  = parseInt(document.getElementById('i-mon').value)  || 1;
-  const yr   = parseInt(document.getElementById('i-yr').value)   || 2000;
+  let name, day, mon, yr;
+  
+  if (readingMode === 'single') {
+    name = document.getElementById('i-name').value.trim() || 'Client';
+    day  = parseInt(document.getElementById('i-day').value)  || 1;
+    mon  = parseInt(document.getElementById('i-mon').value)  || 1;
+    yr   = parseInt(document.getElementById('i-yr').value)   || 2000;
+  } else {
+    const name1 = document.getElementById('i-name1').value.trim() || 'Partner 1';
+    const day1  = parseInt(document.getElementById('i-day1').value)  || 1;
+    const mon1  = parseInt(document.getElementById('i-mon1').value)  || 1;
+    const yr1   = parseInt(document.getElementById('i-yr1').value)   || 2000;
+    
+    const name2 = document.getElementById('i-name2').value.trim() || 'Partner 2';
+    const day2  = parseInt(document.getElementById('i-day2').value)  || 1;
+    const mon2  = parseInt(document.getElementById('i-mon2').value)  || 1;
+    const yr2   = parseInt(document.getElementById('i-yr2').value)   || 2000;
+    
+    name = `${name1} & ${name2}`;
+    day  = `${String(day1).padStart(2,'0')}/${String(mon1).padStart(2,'0')}/${yr1} & ${String(day2).padStart(2,'0')}/${String(mon2).padStart(2,'0')}/${yr2}`;
+    mon  = '';
+    yr   = '';
+  }
   
   bc.postMessage({
     type: 'sync_data',

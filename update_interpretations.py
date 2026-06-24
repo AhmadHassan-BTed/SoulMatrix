@@ -139,6 +139,9 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section):
     if 'core' in sec_lower:
         module = 'core'
         section_part = sec_lower.replace('core', '')
+    elif 'compatibility' in sec_lower or 'couples' in sec_lower or 'couple' in sec_lower:
+        module = 'compatibility'
+        section_part = sec_lower.replace('compatibility', '').replace('couples', '').replace('couple', '')
     elif 'relationship' in sec_lower or 'love' in sec_lower:
         module = 'relationships'
         section_part = sec_lower.replace('relationships', '').replace('relationship', '').replace('love', '')
