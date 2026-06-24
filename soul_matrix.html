@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Soul Blueprint Matrix</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   ROOT TOKENS  (from your true theme)
+═══════════════════════════════════════════════════════════ */
+:root {
+  --bg:      #06031C;
+  --bg2:     #0D082E;
+  --bg3:     #140C3A;
+  --surface: rgba(255,255,255,.04);
+  --border:  rgba(212,175,110,.2);
+  --gold:    #D4AF6E;
+  --goldb:   #FFD97D;
+  --goldd:   #A07830;
+  --purple:  #B088F0;
+  --lilac:   #B088F0;
+  --lilacb:  #D4AAFF;
+  --lav:     #C9B8F0;
+  --pink:    #E060B0;
+  --teal:    #5CDEC8;
+  --text:    #C9B8F0;
+  --muted:   rgba(201,184,240,.5);
+  --panel-bg: rgba(10,6,35,0.97);
+  --panel-w:  420px;
+  --radius:   10px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--lav);
+  font-family: Raleway, sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 18px 20px 10px;
+  border-bottom: 1px solid rgba(212,175,110,.2);
+  background: linear-gradient(180deg, #08042A 0%, transparent 100%);
+}
+header h1 {
+  font-family: Cinzel, serif;
+  font-size: clamp(15px, 2.2vw, 24px);
+  font-weight: 700;
+  letter-spacing: .2em;
+  color: var(--goldb);
+  text-shadow: 0 0 28px rgba(255,217,125,.35);
+}
+#client-display {
+  margin-top: 5px;
+  font-size: clamp(11px, 1.4vw, 14px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: .07em;
+  color: var(--lav);
+  min-height: 20px;
+}
+
+/* ─── DATA STATUS BANNER ─────────────────────────────────── */
+#data-status {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  text-align: center;
+  padding: 6px 20px;
+  font-size: 11px;
+  letter-spacing: .06em;
+  transition: opacity 0.4s, max-height 0.4s, padding 0.4s;
+  overflow: hidden;
+  max-height: 40px;
+  box-sizing: border-box;
+}
+#data-status.hidden {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  pointer-events: none;
+}
+#data-status.ok      { color: var(--teal); }
+#data-status.error   { color: #FF7070; }
+#data-status.loading { color: var(--goldb); }
+
+/* ─── STATUS INFO BUTTON ─────────────────────────────────── */
+#status-info-btn {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--lav);
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s, color 0.2s, transform 0.2s, background-color 0.2s;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+#status-info-btn:hover {
+  opacity: 1;
+  color: var(--goldb);
+  transform: translateY(-50%) scale(1.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+@media (max-width: 480px) {
+  #status-info-btn {
+    right: 10px;
+    font-size: 16px;
+  }
+}
+
+/* ─── MODULE NAV ─────────────────────────────────────────── */
+#module-nav {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px 16px;
+}
+.mnav-btn {
+  background: rgba(176,136,240,.07);
+  border: 1px solid rgba(176,136,240,.18);
+  border-radius: 8px;
+  color: var(--lav);
+  font-family: Raleway, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.mnav-btn:hover { background: rgba(176,136,240,.18); border-color: var(--lilac); color: var(--lilacb); }
+.mnav-btn.active { background: rgba(176,136,240,.18); border-color: var(--lilac); color: var(--lilacb); }
+.mnav-btn.soon { opacity: .4; cursor: not-allowed; }
+#import-csv-btn {
+  margin-left: auto;
+  background: rgba(176,136,240,.08);
+  border: 1px solid rgba(176,136,240,.2);
+  border-radius: 8px;
+  color: var(--lilacb);
+  font-family: Raleway, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all .15s;
+}
+#import-csv-btn:hover { background: rgba(176,136,240,.15); }
+#export-btn {
+  background: rgba(212,175,110,.08);
+  border: 1px solid rgba(212,175,110,.2);
+  border-radius: 8px;
+  color: var(--gold);
+  font-family: Raleway, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all .15s;
+}
+#export-btn:hover { background: rgba(212,175,110,.15); }
+
+/* ─── MATRIX ─────────────────────────────────────────────── */
+#matrix-wrap {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 820px;
+  padding: 0 10px;
+}
+#msv {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  filter: drop-shadow(0 0 40px rgba(176,136,240,.1));
+}
+
+/* ─── NODE INTERACTIONS ──────────────────────────────────── */
+.ng { cursor: pointer; transition: filter .15s; }
+.ng:hover { filter: brightness(1.3); }
+.ng .hl { opacity: .55; transition: opacity .15s; }
+.ng:hover .hl { opacity: 1; }
+.ng .rg { stroke-opacity: .75; transition: stroke-opacity .15s, stroke .15s; }
+.ng:hover .rg { stroke-opacity: 1; }
+.ng.active .rg { stroke: var(--goldb) !important; stroke-opacity: 1; stroke-width: 3px; }
+.ng.active .hl { opacity: 1; }
+
+/* ─── ACTIVE PROGRAM GLOW & PULSE HIGHLIGHTS ─────────────── */
+@keyframes program-pulse-glow {
+  0% {
+    stroke-width: 2.5px;
+    stroke-opacity: 0.8;
+    filter: drop-shadow(0 0 5px #FFD97D);
+  }
+  50% {
+    stroke-width: 5px;
+    stroke-opacity: 1;
+    filter: drop-shadow(0 0 16px #FF9F43) drop-shadow(0 0 5px #FFD97D);
+  }
+  100% {
+    stroke-width: 2.5px;
+    stroke-opacity: 0.8;
+    filter: drop-shadow(0 0 5px #FFD97D);
+  }
+}
+.ng.program-highlight .rg {
+  animation: program-pulse-glow 2s infinite ease-in-out;
+  stroke: #FFD97D !important;
+}
+.ng.program-highlight .hl {
+  opacity: 0.95 !important;
+  fill: rgba(255, 217, 125, 0.18) !important;
+}
+
+/* ─── INPUT BAR ──────────────────────────────────────────── */
+#input-bar {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 820px;
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(12,7,40,.92), rgba(20,12,56,.92));
+  border: 1px solid rgba(212,175,110,.15);
+  border-radius: 12px;
+}
+@media (max-width: 600px) { #input-bar { grid-template-columns: 1fr 1fr; } }
+.fi { display: flex; flex-direction: column; gap: 5px; }
+.fi label {
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.fi input {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(212,175,110,.2);
+  border-radius: 7px;
+  color: var(--goldb);
+  font-family: Cinzel, serif;
+  font-size: 13px;
+  padding: 8px 11px;
+  width: 100%;
+  outline: none;
+  transition: border-color .2s;
+}
+.fi input:focus { border-color: var(--gold); }
+#go-btn {
+  background: linear-gradient(135deg, #B07828, #D4AF6E);
+  border: none;
+  border-radius: 8px;
+  color: #06031C;
+  font-family: Cinzel, serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  padding: 9px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity .2s;
+  height: 38px;
+  align-self: end;
+}
+#go-btn:hover { opacity: .88; }
+
+/* ─── LEGEND ─────────────────────────────────────────────── */
+#legend {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 0;
+  font-size: 9px;
+  letter-spacing: .06em;
+  color: rgba(201,184,240,.6);
+  align-items: center;
+}
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all .15s;
+}
+.leg-item:hover { border-color: rgba(201,184,240,.2); background: rgba(201,184,240,.05); }
+.leg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── DERIVED TABLE ──────────────────────────────────────── */
+#derived {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 22px 16px 0;
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.dv-col {
+  flex: 1;
+  min-width: 240px;
+  background: rgba(20,12,48,.55);
+  border: 1px solid rgba(176,136,240,.18);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+.dv-wide { flex: 1.6; min-width: 300px; }
+.dv-col h4 {
+  font-family: Cinzel, serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: #E0D8FF;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.dv-note {
+  font-family: Raleway, sans-serif;
+  font-size: 8.5px;
+  letter-spacing: .04em;
+  color: rgba(201,184,240,.4);
+  font-weight: 400;
+  text-align: right;
+}
+.dv-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 2px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(176,136,240,.08);
+  color: rgba(224,216,255,.78);
+}
+.dv-row em { color: rgba(201,184,240,.4); font-style: normal; font-size: 10px; margin-left: 5px; }
+.dv-row b { font-family: Cinzel, serif; color: #FFD080; font-size: 14px; min-width: 26px; text-align: right; }
+.dv-row.hl b { color: var(--teal); }
+.dv-row.hl2 b { color: #FF77C4; font-size: 16px; }
+.dv-row.hl2 { border-bottom: none; }
+#dv-chakra-tbl { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+#dv-chakra-tbl th {
+  text-align: right;
+  color: rgba(201,184,240,.5);
+  font-weight: 500;
+  font-size: 9.5px;
+  letter-spacing: .05em;
+  padding: 3px 6px;
+  border-bottom: 1px solid rgba(176,136,240,.2);
+}
+#dv-chakra-tbl th:first-child { text-align: left; }
+#dv-chakra-tbl td {
+  padding: 4px 6px;
+  text-align: right;
+  color: #FFD080;
+  font-family: Cinzel, serif;
+  border-bottom: 1px solid rgba(176,136,240,.07);
+}
+.ck-name { text-align: left !important; color: rgba(224,216,255,.82) !important; font-family: Raleway, sans-serif !important; font-size: 11px; }
+.ck-name span { display: block; font-size: 8.5px; color: rgba(201,184,240,.38); letter-spacing: .03em; }
+#dv-chakra-tbl tfoot td {
+  color: var(--teal);
+  border-top: 1px solid rgba(176,136,240,.25);
+  border-bottom: none;
+  font-size: 12px;
+  padding-top: 8px;
+}
+#dv-chakra-tbl tfoot td:first-child { color: rgba(92,222,200,.7); font-family: Raleway, sans-serif; font-size: 10px; }
+
+/* ─── SIDE PANEL ─────────────────────────────────────────── */
+#panel {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(var(--panel-w), 95vw);
+  background: var(--panel-bg);
+  border-left: 1px solid rgba(212,175,110,.3);
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: -8px 0 60px rgba(0,0,0,.7);
+}
+#panel.open { display: flex; }
+#panel-close {
+  position: sticky;
+  top: 0;
+  background: var(--panel-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(212,175,110,.15);
+  z-index: 10;
+  flex-shrink: 0;
+}
+#panel-pos-label {
+  font-family: Cinzel, serif;
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: .15em;
+}
+#panel-close button {
+  background: none;
+  border: 1px solid rgba(212,175,110,.3);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  line-height: 1;
+  transition: background .15s;
+}
+#panel-close button:hover { background: rgba(212,175,110,.1); }
+#panel-edit-toggle {
+  background: none;
+  border: 1px solid rgba(212,175,110,.3);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 14px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  line-height: 1;
+  transition: background .15s, border-color .15s, color .15s;
+}
+#panel-edit-toggle:hover { background: rgba(212,175,110,.1); }
+#panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 20px 30px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,175,110,.2) transparent;
+}
+
+.panel-number {
+  text-align: center;
+  padding: 20px 0 16px;
+  border-bottom: 1px solid rgba(212,175,110,.15);
+  margin-bottom: 18px;
+}
+.big-num {
+  font-family: Cinzel, serif;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--goldb);
+  text-shadow: 0 0 30px rgba(255,217,125,.4);
+}
+.pos-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--lilacb);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.pos-formula {
+  font-size: 10px;
+  color: rgba(201,184,240,.5);
+  letter-spacing: .06em;
+  margin-top: 4px;
+}
+.pos-zone-badge {
+  display: inline-block;
+  font-family: Cinzel, serif;
+  font-size: 9px;
+  letter-spacing: .1em;
+  font-weight: 600;
+  border: 1px solid currentColor;
+  border-radius: 12px;
+  padding: 3px 10px;
+  margin-top: 8px;
+  opacity: .75;
+}
+.mod-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.mod-tab {
+  background: rgba(176,136,240,.08);
+  border: 1px solid rgba(176,136,240,.2);
+  border-radius: 20px;
+  color: var(--lav);
+  font-family: Raleway, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  white-space: nowrap;
+}
+.mod-tab:hover, .mod-tab.active {
+  background: rgba(176,136,240,.2);
+  border-color: var(--lilac);
+  color: var(--lilacb);
+}
+.section-label {
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: rgba(212,175,110,.5);
+  margin: 16px 0 8px;
+  text-transform: uppercase;
+}
+.interp-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(176,136,240,.15);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.interp-card:hover .edit-btn { opacity: 1; }
+.interp-card h3 {
+  font-family: Cinzel, serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.interp-card p {
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--lav);
+  white-space: pre-wrap;
+}
+.interp-card p.empty {
+  color: rgba(201,184,240,.35);
+  font-style: italic;
+}
+.edit-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(176,136,240,.1);
+  border: 1px solid rgba(176,136,240,.2);
+  border-radius: 4px;
+  color: var(--lav);
+  font-size: 9px;
+  letter-spacing: .08em;
+  padding: 2px 7px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .15s, background .15s;
+}
+.edit-btn:hover { background: rgba(176,136,240,.25); }
+body.edit-mode .edit-btn { opacity: 1; }
+.edit-area {
+  width: 100%;
+  min-height: 80px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(212,175,110,.3);
+  border-radius: 6px;
+  color: var(--goldb);
+  font-family: Raleway, sans-serif;
+  font-size: 12px;
+  line-height: 1.55;
+  padding: 8px;
+  margin-top: 6px;
+  resize: vertical;
+  outline: none;
+}
+.edit-actions { display: flex; gap: 6px; margin-top: 6px; }
+.edit-save {
+  flex: 1;
+  background: linear-gradient(135deg, #B07828, #D4AF6E);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 14px;
+  color: #06031C;
+  font-family: Raleway, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+.edit-cancel {
+  flex: 1;
+  background: none;
+  border: 1px solid rgba(212,175,110,.25);
+  border-radius: 5px;
+  padding: 5px 12px;
+  color: var(--gold);
+  font-family: Raleway, sans-serif;
+  font-size: 10px;
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+.export-note {
+  font-size: 10px;
+  color: rgba(212,175,110,.4);
+  text-align: center;
+  padding: 8px 0;
+  border-top: 1px solid rgba(212,175,110,.1);
+  margin-top: 4px;
+}
+.panel-loader {
+  text-align: center;
+  padding: 30px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .08em;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+footer {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  text-align: center;
+  padding: 16px;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: rgba(212,175,110,.3);
+  border-top: 1px solid rgba(212,175,110,.15);
+  margin-top: 20px;
+}
+
+/* ─── PRINT ──────────────────────────────────────────────── */
+@media print {
+  #stars, #module-nav, #input-bar, #panel, footer { display: none; }
+  body { background: white; color: black; }
+  #matrix-wrap { max-width: 100%; }
+}
+</style>
+
+</head>
+
+<body>
+<canvas id="stars"></canvas>
+
+<header>
+  <h1><span style="opacity:.5">✦</span> SOUL BLUEPRINT MATRIX <span style="opacity:.5">✦</span></h1>
+  <div id="client-display">Enter client details below to generate the matrix</div>
+  <button id="status-info-btn" title="View database connection status">ⓘ</button>
+</header>
+
+<!-- Data status indicator -->
+<div id="data-status" class="loading">⟳ Loading interpretation data from CSV...</div>
+
+<!-- Module navigation -->
+<div id="module-nav">
+  <button class="mnav-btn active" data-mod="core">✦ Core Blueprint</button>
+  <button class="mnav-btn soon" title="Coming soon">♥ Relationship Reading</button>
+  <button class="mnav-btn soon" title="Coming soon">⊕ Compatibility</button>
+  <button class="mnav-btn soon" title="Coming soon">☽ Karmic Patterns</button>
+  <button class="mnav-btn soon" title="Coming soon">◎ Yearly Forecast</button>
+  <button id="script-board-btn" style="background: rgba(212,175,110,.08); border-color: rgba(212,175,110,.2); color: var(--goldb);">📺 Script Board</button>
+  <button id="import-csv-btn">📁 Load CSV</button>
+  <input type="file" id="csv-file-picker" accept=".csv" style="display: none;" />
+  <button id="export-btn">⬇ Export PDF</button>
+</div>
+
+<!-- Matrix SVG -->
+<div id="matrix-wrap">
+<svg id="msv" viewBox="0 0 860 880" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="gL" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#D4AAFF"/><stop offset="100%" stop-color="#4A1A88"/>
+  </radialGradient>
+  <radialGradient id="gG" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#FFE48A"/><stop offset="100%" stop-color="#8A5010"/>
+  </radialGradient>
+  <radialGradient id="gP" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#F090CC"/><stop offset="100%" stop-color="#780848"/>
+  </radialGradient>
+  <radialGradient id="gB" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#7090E8"/><stop offset="100%" stop-color="#141C50"/>
+  </radialGradient>
+  <radialGradient id="gT" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#80EED8"/><stop offset="100%" stop-color="#104840"/>
+  </radialGradient>
+  <radialGradient id="gS" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#A898D8"/><stop offset="100%" stop-color="#221460"/>
+  </radialGradient>
+  <radialGradient id="gW" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#F0EEFF"/><stop offset="100%" stop-color="#7060B0"/>
+  </radialGradient>
+  <radialGradient id="gO" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#FFD080"/><stop offset="100%" stop-color="#904010"/>
+  </radialGradient>
+  <radialGradient id="gE" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#FFF0A0"/><stop offset="100%" stop-color="#806000"/>
+  </radialGradient>
+  <radialGradient id="gGr" cx="36%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#9BE89B"/><stop offset="100%" stop-color="#1C5C24"/>
+  </radialGradient>
+  <filter id="fL" x="-70%" y="-70%" width="240%" height="240%">
+    <feGaussianBlur stdDeviation="6" result="b"/>
+    <feFlood flood-color="#B088F0" flood-opacity=".5"/><feComposite in2="b" operator="in" result="s"/>
+    <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fG" x="-70%" y="-70%" width="240%" height="240%">
+    <feGaussianBlur stdDeviation="8" result="b"/>
+    <feFlood flood-color="#D4AF6E" flood-opacity=".55"/><feComposite in2="b" operator="in" result="s"/>
+    <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fP" x="-70%" y="-70%" width="240%" height="240%">
+    <feGaussianBlur stdDeviation="6" result="b"/>
+    <feFlood flood-color="#E060B0" flood-opacity=".45"/><feComposite in2="b" operator="in" result="s"/>
+    <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fw" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="3.5" result="b"/>
+    <feFlood flood-color="#FFFFFF" flood-opacity=".25"/><feComposite in2="b" operator="in" result="s"/>
+    <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fb" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4.5"/></filter>
+  <filter id="fb2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="feGold" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="5" result="b"/>
+    <feFlood flood-color="#D4AF6E" flood-opacity=".6"/><feComposite in2="b" operator="in" result="s"/>
+    <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <marker id="mT" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto">
+    <path d="M0,0L0,5L7,2.5z" fill="#5CDEC8" opacity=".75"/>
+  </marker>
+  <marker id="mG" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto">
+    <path d="M0,0L0,5L7,2.5z" fill="#D4AF6E" opacity=".7"/>
+  </marker>
+</defs>
+
+<!-- BACKGROUND RINGS -->
+<circle cx="430" cy="450" r="315" fill="none" stroke="rgba(176,136,240,.06)" stroke-width="70" opacity=".8"/>
+<circle cx="430" cy="450" r="316" fill="none" stroke="rgba(176,136,240,.22)" stroke-width="1.2"/>
+<circle cx="430" cy="450" r="338" fill="none" stroke="rgba(212,175,110,.08)" stroke-width="1"/>
+<circle cx="430" cy="450" r="358" fill="none" stroke="rgba(212,175,110,.05)" stroke-width="1" stroke-dasharray="3 8"/>
+
+<!-- GEOMETRY -->
+<g fill="none">
+  <polygon points="430,150 642,238 730,450 642,662 430,750 218,662 130,450 218,238"
+    stroke="rgba(212,175,110,.35)" stroke-width="5" filter="url(#fb2)" opacity=".5"/>
+  <polygon points="430,150 642,238 730,450 642,662 430,750 218,662 130,450 218,238"
+    stroke="rgba(212,175,110,.6)" stroke-width="1.2"/>
+  <polygon points="430,150 730,450 430,750 130,450"
+    stroke="rgba(212,175,110,.4)" stroke-width="4" filter="url(#fb2)" opacity=".4"/>
+  <polygon points="430,150 730,450 430,750 130,450"
+    stroke="rgba(212,175,110,.75)" stroke-width="1.4"/>
+  <line x1="218" y1="238" x2="642" y2="662" stroke="#6FB0FF" stroke-width="6" stroke-opacity=".22" filter="url(#fb2)"/>
+  <line x1="218" y1="238" x2="642" y2="662" stroke="#6FB0FF" stroke-width="2.2" stroke-opacity=".95"/>
+  <line x1="642" y1="238" x2="218" y2="662" stroke="#FF77C4" stroke-width="6" stroke-opacity=".22" filter="url(#fb2)"/>
+  <line x1="642" y1="238" x2="218" y2="662" stroke="#FF77C4" stroke-width="2.2" stroke-opacity=".95"/>
+  <polygon points="430,272 608,450 430,628 252,450"
+    stroke="rgba(212,175,110,.3)" stroke-width="1"/>
+  <line x1="430" y1="168" x2="430" y2="732" stroke="rgba(212,175,110,.18)" stroke-width="1" stroke-dasharray="5 5"/>
+  <line x1="148" y1="450" x2="712" y2="450" stroke="rgba(92,222,200,.18)" stroke-width="1"/>
+</g>
+
+<!-- Generation arrows -->
+<line x1="158" y1="450" x2="705" y2="450" stroke="#5CDEC8" stroke-width="1.1" stroke-opacity=".65" marker-end="url(#mT)"/>
+<line x1="430" y1="174" x2="430" y2="726" stroke="#D4AF6E" stroke-width="1.1" stroke-opacity=".6" stroke-dasharray="6 4" marker-end="url(#mG)"/>
+
+<!-- Gen line labels -->
+<text x="333" y="305" text-anchor="middle" font-size="9" font-weight="600" fill="#6FB0FF" opacity=".9" font-family="Raleway,sans-serif" transform="rotate(45,333,305)">male / paternal line</text>
+<text x="527" y="305" text-anchor="middle" font-size="9" font-weight="600" fill="#FF77C4" opacity=".9" font-family="Raleway,sans-serif" transform="rotate(-45,527,305)">female / maternal line</text>
+
+<!-- Zone labels -->
+<text x="430" y="96" text-anchor="middle" font-size="8" fill="rgba(212,175,110,.45)" font-family="Raleway,sans-serif" letter-spacing=".1em">TALENTS &amp; POTENTIALS</text>
+<text x="780" y="454" text-anchor="middle" font-size="8" fill="rgba(224,96,176,.45)" font-family="Raleway,sans-serif" letter-spacing=".08em" transform="rotate(90,780,454)">MATERIAL KARMA</text>
+<text x="430" y="808" text-anchor="middle" font-size="8" fill="rgba(212,175,110,.45)" font-family="Raleway,sans-serif" letter-spacing=".08em">SPIRITUAL KARMA</text>
+<text x="78" y="454" text-anchor="middle" font-size="8" fill="rgba(176,136,240,.5)" font-family="Raleway,sans-serif" letter-spacing=".08em" transform="rotate(-90,78,454)">PORTRAIT / AVATAR</text>
+
+<!-- NODES -->
+<g class="ng" data-pos="F1" data-name="Paternal Upper Gift"><title>F1 · Paternal Upper Gift</title>
+  <circle cx="256" cy="276" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="256" cy="276" r="23" fill="url(#gS)"/><circle cx="256" cy="276" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="256" y="276" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="F1">·</text>
+</g>
+<g class="ng" data-pos="F2" data-name="Paternal Inherited Talent"><title>F2 · Paternal Inherited Talent</title>
+  <circle cx="296" cy="316" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="296" cy="316" r="23" fill="url(#gS)"/><circle cx="296" cy="316" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="296" y="316" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="F2">·</text>
+</g>
+<g class="ng" data-pos="G1" data-name="Maternal Upper Gift"><title>G1 · Maternal Upper Gift</title>
+  <circle cx="604" cy="276" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="604" cy="276" r="23" fill="url(#gS)"/><circle cx="604" cy="276" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="604" y="276" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="G1">·</text>
+</g>
+<g class="ng" data-pos="G2" data-name="Maternal Inherited Talent"><title>G2 · Maternal Inherited Talent</title>
+  <circle cx="564" cy="316" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="564" cy="316" r="23" fill="url(#gS)"/><circle cx="564" cy="316" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="564" y="316" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="G2">·</text>
+</g>
+<g class="ng" data-pos="H1" data-name="Child Character (Paternal)"><title>H1 · Child Character (Paternal)</title>
+  <circle cx="604" cy="624" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="604" cy="624" r="23" fill="url(#gS)"/><circle cx="604" cy="624" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="604" y="624" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="H1">·</text>
+</g>
+<g class="ng" data-pos="H2" data-name="Father Ancestral Karma"><title>H2 · Father Ancestral Karma</title>
+  <circle cx="564" cy="584" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="564" cy="584" r="23" fill="url(#gS)"/><circle cx="564" cy="584" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="564" y="584" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="H2">·</text>
+</g>
+<g class="ng" data-pos="I1" data-name="Child Character (Maternal)"><title>I1 · Child Character (Maternal)</title>
+  <circle cx="256" cy="624" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="256" cy="624" r="23" fill="url(#gS)"/><circle cx="256" cy="624" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="256" y="624" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="I1">·</text>
+</g>
+<g class="ng" data-pos="I2" data-name="Mother Ancestral Karma"><title>I2 · Mother Ancestral Karma</title>
+  <circle cx="296" cy="584" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="296" cy="584" r="23" fill="url(#gS)"/><circle cx="296" cy="584" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="296" y="584" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="I2">·</text>
+</g>
+<g class="ng" data-pos="O" data-name="Child-Parent Balance"><title>O · Child-Parent Balance</title>
+  <circle cx="197" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="197" cy="450" r="25" fill="url(#gB)"/><circle cx="197" cy="450" r="25" fill="none" stroke="#7090E8" stroke-width="1.6" class="rg"/>
+  <text x="197" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#DCE4FF" class="nv" data-pos="O">·</text>
+</g>
+<g class="ng" data-pos="P" data-name="Comfort Zone / Third Eye"><title>P · Comfort Zone / Third Eye</title>
+  <circle cx="430" cy="222" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="222" r="25" fill="url(#gB)"/><circle cx="430" cy="222" r="25" fill="none" stroke="#7090E8" stroke-width="1.6" class="rg"/>
+  <text x="430" y="222" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#DCE4FF" class="nv" data-pos="P">·</text>
+</g>
+<g class="ng" data-pos="Q" data-name="Material Talent"><title>Q · Material Talent</title>
+  <circle cx="668" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="668" cy="450" r="25" fill="url(#gW)"/><circle cx="668" cy="450" r="25" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <text x="668" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="Q">·</text>
+</g>
+<g class="ng" data-pos="N" data-name="Karmic Tail"><title>N · Karmic Tail</title>
+  <circle cx="430" cy="697" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="697" r="25" fill="url(#gO)"/><circle cx="430" cy="697" r="25" fill="none" stroke="#FFD080" stroke-width="1.6" class="rg"/>
+  <text x="430" y="697" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="N">·</text>
+</g>
+<g class="ng" data-pos="S" data-name="Relationship Block"><title>S · Relationship Block</title>
+  <circle cx="351" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="351" cy="450" r="25" fill="url(#gGr)"/><circle cx="351" cy="450" r="25" fill="none" stroke="#7FD87F" stroke-width="1.6" class="rg"/>
+  <text x="351" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="S">·</text>
+</g>
+<g class="ng" data-pos="T" data-name="Heart's Desire"><title>T · Heart's Desire</title>
+  <circle cx="430" cy="366" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="366" r="25" fill="url(#gGr)"/><circle cx="430" cy="366" r="25" fill="none" stroke="#7FD87F" stroke-width="1.6" class="rg"/>
+  <text x="430" y="366" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="T">·</text>
+</g>
+<g class="ng" data-pos="L1" data-name="Lineage + Core"><title>L1 · Lineage + Core</title>
+  <circle cx="536" cy="450" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="536" cy="450" r="23" fill="url(#gS)"/><circle cx="536" cy="450" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="536" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="L1">·</text>
+</g>
+<g class="ng" data-pos="L2" data-name="Lineage Combined"><title>L2 · Lineage Combined</title>
+  <circle cx="490" cy="450" r="28" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="490" cy="450" r="23" fill="url(#gS)"/><circle cx="490" cy="450" r="23" fill="none" stroke="#AA88EE" stroke-width="1.6" class="rg"/>
+  <text x="490" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="L2">·</text>
+</g>
+<g class="ng" data-pos="F" data-name="Mother Line"><title>F · Mother Line</title>
+  <circle cx="218" cy="238" r="40" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="218" cy="238" r="32" fill="url(#gW)"/><circle cx="218" cy="238" r="32" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <text x="218" y="238" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="F">·</text>
+</g>
+<g class="ng" data-pos="G" data-name="Mother Diagonal"><title>G · Mother Diagonal</title>
+  <circle cx="642" cy="238" r="40" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="642" cy="238" r="32" fill="url(#gW)"/><circle cx="642" cy="238" r="32" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <text x="642" y="238" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="G">·</text>
+</g>
+<g class="ng" data-pos="H" data-name="Father Line"><title>H · Father Line</title>
+  <circle cx="642" cy="662" r="40" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="642" cy="662" r="32" fill="url(#gW)"/><circle cx="642" cy="662" r="32" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <text x="642" y="662" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="H">·</text>
+</g>
+<g class="ng" data-pos="I" data-name="Father Diagonal"><title>I · Father Diagonal</title>
+  <circle cx="218" cy="662" r="40" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="218" cy="662" r="32" fill="url(#gW)"/><circle cx="218" cy="662" r="32" fill="none" stroke="#C9C0F0" stroke-width="1.6" class="rg"/>
+  <text x="218" y="662" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="I">·</text>
+</g>
+<g class="ng" data-pos="K" data-name="Talents &amp; Potentials"><title>K · Talents &amp; Potentials</title>
+  <circle cx="430" cy="281" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="281" r="25" fill="url(#gT)"/><circle cx="430" cy="281" r="25" fill="none" stroke="#5CDEC8" stroke-width="1.6" class="rg"/>
+  <text x="430" y="281" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#063028" class="nv" data-pos="K">·</text>
+</g>
+<g class="ng" data-pos="L" data-name="Relationship Crisis"><title>L · Relationship Crisis</title>
+  <circle cx="617" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="617" cy="450" r="25" fill="url(#gO)"/><circle cx="617" cy="450" r="25" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <text x="617" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="L">·</text>
+</g>
+<g class="ng" data-pos="M" data-name="Ideal Partner"><title>M · Ideal Partner</title>
+  <circle cx="430" cy="645" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="645" r="25" fill="url(#gO)"/><circle cx="430" cy="645" r="25" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <text x="430" y="645" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="M">·</text>
+</g>
+<g class="ng" data-pos="J" data-name="Throat / Physical Chakra"><title>J · Throat / Physical Chakra</title>
+  <circle cx="247" cy="450" r="30" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="247" cy="450" r="25" fill="url(#gT)"/><circle cx="247" cy="450" r="25" fill="none" stroke="#5CDEC8" stroke-width="1.6" class="rg"/>
+  <text x="247" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#063028" class="nv" data-pos="J">·</text>
+</g>
+<g class="ng" data-pos="R2" data-name="Profession / Success"><title>R2 · Profession / Success</title>
+  <circle cx="578" cy="502" r="26" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="578" cy="502" r="21" fill="url(#gGr)"/><circle cx="578" cy="502" r="21" fill="none" stroke="#7FD87F" stroke-width="1.6" class="rg"/>
+  <text x="578" y="502" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="R2">·</text>
+</g>
+<g class="ng" data-pos="R" data-name="Money &amp; Relationships"><title>R · Money &amp; Relationships</title>
+  <circle cx="531" cy="552" r="26" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="531" cy="552" r="21" fill="url(#gP)"/><circle cx="531" cy="552" r="21" fill="none" stroke="#E060B0" stroke-width="1.6" class="rg"/>
+  <text x="531" y="552" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#FFF0F8" class="nv" data-pos="R">·</text>
+</g>
+<g class="ng" data-pos="R1" data-name="Relationship Dynamics"><title>R1 · Relationship Dynamics</title>
+  <circle cx="480" cy="608" r="26" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="480" cy="608" r="21" fill="url(#gO)"/><circle cx="480" cy="608" r="21" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <text x="480" y="608" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="R1">·</text>
+</g>
+<g class="ng" data-pos="A" data-name="Portrait / Avatar"><title>A · Portrait / Avatar</title>
+  <circle cx="130" cy="450" r="50" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="130" cy="450" r="40" fill="url(#gL)"/><circle cx="130" cy="450" r="40" fill="none" stroke="#B088F0" stroke-width="1.6" class="rg"/>
+  <text x="130" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="25" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#F0EEFF" class="nv" data-pos="A">·</text>
+</g>
+<g class="ng" data-pos="B" data-name="Spiritual Essence"><title>B · Spiritual Essence</title>
+  <circle cx="430" cy="150" r="50" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="150" r="40" fill="url(#gG)"/><circle cx="430" cy="150" r="40" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <text x="430" y="150" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="25" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06031C" class="nv" data-pos="B">·</text>
+</g>
+<g class="ng" data-pos="C" data-name="Material Karma"><title>C · Material Karma</title>
+  <circle cx="730" cy="450" r="50" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="730" cy="450" r="40" fill="url(#gP)"/><circle cx="730" cy="450" r="40" fill="none" stroke="#E060B0" stroke-width="1.6" class="rg"/>
+  <text x="730" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="25" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#FFF0F8" class="nv" data-pos="C">·</text>
+</g>
+<g class="ng" data-pos="D" data-name="Spiritual Karma"><title>D · Spiritual Karma</title>
+  <circle cx="430" cy="750" r="50" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="750" r="40" fill="url(#gG)"/><circle cx="430" cy="750" r="40" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <text x="430" y="750" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="25" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06031C" class="nv" data-pos="D">·</text>
+</g>
+<g class="ng" data-pos="E" data-name="Core Energy"><title>E · Core Energy</title>
+  <circle cx="430" cy="450" r="60" fill="rgba(176,136,240,.10)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="450" r="46" fill="url(#gE)"/><circle cx="430" cy="450" r="46" fill="none" stroke="#D4AF6E" stroke-width="1.6" class="rg"/>
+  <text x="430" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="29" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06031C" class="nv" data-pos="E">·</text>
+</g>
+<text x="450" y="556" text-anchor="middle" font-size="21" font-weight="700" fill="#FF4D6D" filter="url(#fP)">♥</text>
+<text x="528" y="500" text-anchor="middle" font-size="21" font-weight="700" fill="#E8B84B" filter="url(#fP)">$</text>
+</svg>
+</div>
+
+<!-- Input bar -->
+<div id="input-bar">
+  <div class="fi"><label>Client Name</label><input id="i-name" type="text" value="Tracey" placeholder="Full name"/></div>
+  <div class="fi"><label>Day</label><input id="i-day" type="number" min="1" max="31" value="16" placeholder="DD"/></div>
+  <div class="fi"><label>Month</label><input id="i-mon" type="number" min="1" max="12" value="12" placeholder="MM"/></div>
+  <div class="fi"><label>Year</label><input id="i-yr" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
+  <button id="go-btn">CALCULATE ✦</button>
+</div>
+
+<!-- Legend -->
+<div id="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:#B088F0"></div>Portrait Zone</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#D4AF6E"></div>Mission / Karma</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#E060B0"></div>Material Karma</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#7090E8"></div>Inner Compass</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#5CDEC8"></div>Heart / Talents</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#F0EEFF"></div>Lineage</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#FFD080"></div>Karmic Tail</div>
+  <div class="leg-item" style="margin-left:auto;cursor:default;color:rgba(212,175,110,.4);font-size:9px;letter-spacing:.06em">Click any node to open interpretation ✦</div>
+</div>
+
+<!-- Derived calculations -->
+<div id="derived">
+  <div class="dv-col">
+    <h4>Purpose <span class="dv-note">Formula</span></h4>
+    <div class="dv-row"><span>Earth line <em>A+C</em></span><b id="dv-earth">–</b></div>
+    <div class="dv-row"><span>Sky line <em>B+D</em></span><b id="dv-sky">–</b></div>
+    <div class="dv-row hl"><span>Personal Purpose</span><b id="dv-personal">–</b></div>
+    <div class="dv-row"><span>Paternal <em>F+H</em></span><b id="dv-pat">–</b></div>
+    <div class="dv-row"><span>Maternal <em>G+I</em></span><b id="dv-mat">–</b></div>
+    <div class="dv-row hl"><span>Social Purpose</span><b id="dv-social">–</b></div>
+    <div class="dv-row hl2"><span>Spiritual Purpose</span><b id="dv-spirit">–</b></div>
+  </div>
+  <div class="dv-col dv-wide">
+    <h4>Chakra Map <span class="dv-note">Physical = horizontal · Energy = vertical · Emotional = sum</span></h4>
+    <table id="dv-chakra-tbl">
+      <thead><tr><th>Chakra</th><th>Physical</th><th>Energy</th><th>Emotional</th></tr></thead>
+      <tbody></tbody>
+      <tfoot><tr><td>Common Energy Zone</td><td id="ck-tp">–</td><td id="ck-te">–</td><td id="ck-tm">–</td></tr></tfoot>
+    </table>
+  </div>
+  <div class="dv-col dv-wide" id="dv-programs-col" style="display: none;">
+    <h4>Active Programs <span class="dv-note">Combined 3-Number Codes</span></h4>
+    <div id="dv-programs-list"></div>
+  </div>
+</div>
+
+<!-- Side panel -->
+<div id="panel">
+  <div id="panel-close">
+    <div id="panel-pos-label">POSITION</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button id="panel-edit-toggle" onclick="toggleEditMode()" title="Toggle edit mode">✏ Edit Mode</button>
+      <button onclick="closePanel()" title="Close">✕</button>
+    </div>
+  </div>
+  <div id="panel-body">
+    <div class="panel-number">
+      <div class="big-num" id="p-num">–</div>
+      <div class="pos-name" id="p-name"></div>
+      <div class="pos-formula" id="p-formula"></div>
+      <div class="pos-zone-badge" id="p-zone-badge">ZONE</div>
+    </div>
+    <div class="mod-tabs" id="mod-tabs"></div>
+    <div id="mod-content"></div>
+  </div>
+</div>
+
+<footer>✦ &nbsp;Soul Blueprint Matrix &nbsp;·&nbsp; Live Reading Tool &nbsp;·&nbsp; All interpretations are your intellectual property &nbsp;✦</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// CSV DATA LOADER
+// Reads interpretations.csv from the same folder as this HTML file.
+// CSV format: position,module,section,number,text
+// This is the single source of truth for all interpretation text.
+// ═══════════════════════════════════════════════════════════════════
+
+// Global interpretation store: INTERP[position][module][section][number] = "text"
+const INTERP = {};
+
+// Track which modules & sections exist (dynamically discovered from CSV)
+const DISCOVERED_MODULES = {}; // { moduleId: { label, sections: [{key, title}] } }
+
+// Fallback module metadata (labels for known module IDs)
+const MODULE_LABELS = {
+  core:          '✦ Core',
+  relationships: '♥ Love',
+  karma:         '☽ Karma',
+  money:         '$ Money',
+  purpose:       '★ Purpose',
+  forecast:      '◎ Forecast',
+};
+
+// Fallback section titles for known section keys
+const SECTION_TITLES = {
+  meaning:       'What This Position Means',
+  positive:      'Positive Expression',
+  shadow:        'Shadow Expression',
+  healing:       'Healing Path',
+  attraction:    'Attraction Pattern',
+  lesson:        'Relationship Lesson',
+  wound:         'Core Wound',
+  partner:       'What They Attract',
+  karmic:        'Karmic Pattern',
+  past_life:     'Past Life Theme',
+  resolution:    'Resolution Path',
+  money_flow:    'Money Flow',
+  block:         'Financial Block',
+  activation:    'Activation',
+  life_purpose:  'Life Purpose',
+  gifts:         'Natural Gifts',
+  mission:       'Soul Mission',
+  current_cycle: 'Current Cycle',
+  next_phase:    'Next Phase',
+  yearly:        'Yearly Theme',
+};
+
+/**
+ * Parse a CSV file that may contain quoted fields with commas and newlines inside them.
+ * Returns array of objects using first row as header keys.
+ */
+function parseCSV(text) {
+  const rows = [];
+  let cur = '';
+  let inQuotes = false;
+  let lineFields = [];
+  
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    const nextCh = text[i + 1];
+    
+    if (ch === '"') {
+      if (inQuotes && nextCh === '"') {
+        cur += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === ',' && !inQuotes) {
+      lineFields.push(cur);
+      cur = '';
+    } else if ((ch === '\r' || ch === '\n') && !inQuotes) {
+      if (ch === '\r' && nextCh === '\n') {
+        i++;
+      }
+      lineFields.push(cur);
+      cur = '';
+      if (lineFields.length > 0 && (lineFields.length > 1 || lineFields[0] !== '')) {
+        rows.push(lineFields);
+      }
+      lineFields = [];
+    } else {
+      cur += ch;
+    }
+  }
+  
+  if (cur !== '' || lineFields.length > 0) {
+    lineFields.push(cur);
+    rows.push(lineFields);
+  }
+  
+  if (rows.length === 0) return [];
+  
+  const headers = rows[0].map(h => h.trim());
+  const result = [];
+  
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (row.length === 1 && row[0] === '') continue;
+    const obj = {};
+    headers.forEach((h, idx) => {
+      obj[h] = row[idx] !== undefined ? row[idx] : '';
+    });
+    result.push(obj);
+  }
+  return result;
+}
+
+/**
+ * Load and parse interpretations.csv, populate INTERP and DISCOVERED_MODULES.
+ */
+function processCSVText(text) {
+  const rows = parseCSV(text);
+  
+  // Clear previous INTERP store to prevent mixing when reloading
+  for (const key in INTERP) delete INTERP[key];
+  for (const key in DISCOVERED_MODULES) delete DISCOVERED_MODULES[key];
+
+  let count = 0;
+  rows.forEach(row => {
+    const pos    = (row.position || '').trim();
+    const module = (row.module   || '').trim();
+    const section= (row.section  || '').trim();
+    const numStr = (row.number   || '').trim();
+    const number = numStr.includes('-') ? numStr : parseInt(numStr, 10);
+    const textVal= (row.text     || '').trim();
+
+    if (!pos || !module || !section || (typeof number === 'number' && isNaN(number))) return;
+
+    // Populate INTERP store
+    if (!INTERP[pos])                INTERP[pos] = {};
+    if (!INTERP[pos][module])        INTERP[pos][module] = {};
+    if (!INTERP[pos][module][section]) INTERP[pos][module][section] = {};
+    INTERP[pos][module][section][number] = textVal;
+
+    // Track discovered modules/sections
+    if (!DISCOVERED_MODULES[module]) {
+      DISCOVERED_MODULES[module] = {
+        id: module,
+        label: MODULE_LABELS[module] || ('◆ ' + module.charAt(0).toUpperCase() + module.slice(1)),
+        sections: []
+      };
+    }
+    const mod = DISCOVERED_MODULES[module];
+    if (!mod.sections.find(s => s.key === section)) {
+      mod.sections.push({
+        key: section,
+        title: SECTION_TITLES[section] || section.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      });
+    }
+    count++;
+  });
+  
+  return count;
+}
+
+let statusHideTimeout = null;
+
+function updateStatus(text, type, autoHide = true) {
+  const statusEl = document.getElementById('data-status');
+  const statusBtn = document.getElementById('status-info-btn');
+  if (!statusEl) return;
+
+  statusEl.textContent = text;
+  // Reset classes to just the type ('ok', 'error', 'loading')
+  statusEl.className = type;
+  statusEl.classList.remove('hidden');
+
+  if (statusBtn) {
+    statusBtn.title = `Database Status: ${text}`;
+  }
+
+  if (statusHideTimeout) {
+    clearTimeout(statusHideTimeout);
+    statusHideTimeout = null;
+  }
+
+  if (autoHide) {
+    statusHideTimeout = setTimeout(() => {
+      statusEl.classList.add('hidden');
+    }, 5000);
+  }
+}
+
+// Click listener to toggle status banner
+document.getElementById('status-info-btn').addEventListener('click', () => {
+  const statusEl = document.getElementById('data-status');
+  if (!statusEl) return;
+  if (statusEl.classList.contains('hidden')) {
+    const currentType = statusEl.classList.contains('ok') ? 'ok' : (statusEl.classList.contains('error') ? 'error' : 'loading');
+    updateStatus(statusEl.textContent, currentType, true);
+  } else {
+    statusEl.classList.add('hidden');
+  }
+});
+
+async function loadCSV() {
+  updateStatus('⟳ Loading interpretation data from CSV...', 'loading', false);
+
+  try {
+    const response = await fetch('interpretations.csv');
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const text = await response.text();
+    const count = processCSVText(text);
+    
+    // Save to local storage for future offline access
+    localStorage.setItem('soul_matrix_csv_content', text);
+
+    updateStatus(`✓ Loaded ${count} interpretations from CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
+
+  } catch (err) {
+    console.warn('Failed to fetch interpretations.csv automatically:', err);
+    
+    // Try to load from local storage fallback
+    const cachedText = localStorage.getItem('soul_matrix_csv_content');
+    if (cachedText) {
+      try {
+        const count = processCSVText(cachedText);
+        updateStatus(`✓ Loaded ${count} interpretations from local browser cache (CORS blocked automatic load). Click "Load CSV" to update.`, 'ok', true);
+      } catch (cacheErr) {
+        updateStatus(`⚠ CORS Blocked automatic load & cache is corrupt. Please click "Load CSV" to select interpretations.csv manually.`, 'error', false);
+      }
+    } else {
+      updateStatus(`⚠ Browser security blocked loading interpretations.csv automatically. Please click "Load CSV" to select it manually.`, 'error', false);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// POSITION METADATA
+// ═══════════════════════════════════════════════════════════════════
+const POSITIONS = {
+  A:  {name:'Portrait / Avatar',          formula:'Day of Birth',            zone:'Portrait',      color:'#B088F0'},
+  B:  {name:'Spiritual Essence',          formula:'Month of Birth',          zone:'Mission',       color:'#D4AF6E'},
+  C:  {name:'Material Karma',             formula:'Year Digit Sum',          zone:'Karma',         color:'#E060B0'},
+  D:  {name:'Spiritual Karma',            formula:'A + B + C',               zone:'Karma',         color:'#D4AF6E'},
+  E:  {name:'Core Energy / Soul Mission', formula:'A + B + C + D',           zone:'Core',          color:'#FFD97D'},
+  F:  {name:'Mother Line',                formula:'A + B',                   zone:'Lineage',       color:'#D4CCFF'},
+  G:  {name:'Mother Diagonal',            formula:'B + C',                   zone:'Lineage',       color:'#D4CCFF'},
+  H:  {name:'Father Line',                formula:'C + D',                   zone:'Lineage',       color:'#D4CCFF'},
+  I:  {name:'Father Diagonal',            formula:'D + A',                   zone:'Lineage',       color:'#D4CCFF'},
+  J:  {name:'Throat / Physical Chakra',   formula:'A + E',                   zone:'Chakra',        color:'#5CDEC8'},
+  K:  {name:'Talents & Potentials',       formula:'B + E',                   zone:'Talents',       color:'#C0D4FF'},
+  L:  {name:'Relationship Crisis',        formula:'C + E',                   zone:'Relationships', color:'#C0D4FF'},
+  M:  {name:'Ideal Partner',              formula:'D + E',                   zone:'Relationships', color:'#C0D4FF'},
+  O:  {name:'Child–Parent Balance',       formula:'A + J',                   zone:'Family',        color:'#D4CCFF'},
+  P:  {name:'Comfort Zone / Third Eye',   formula:'B + K',                   zone:'Spiritual',     color:'#D4CCFF'},
+  Q:  {name:'Material Talent',            formula:'L + C',                   zone:'Talents',       color:'#D4CCFF'},
+  N:  {name:'Karmic Tail',                formula:'M + D',                   zone:'Karma',         color:'#FFD080'},
+  S:  {name:'Relationship Block',         formula:'J + E',                   zone:'Relationships', color:'#D4CCFF'},
+  T:  {name:"Heart's Desire",             formula:'K + E',                   zone:'Heart',         color:'#5CDEC8'},
+  L1: {name:'Lineage + Core',             formula:'E + L2',                  zone:'Lineage',       color:'#5CDEC8'},
+  L2: {name:'Lineage Combined',           formula:'F + G + H + I',           zone:'Lineage',       color:'#D4CCFF'},
+  F2: {name:'Paternal Inherited Talent',  formula:'F + L2',                  zone:'Lineage',       color:'#D4CCFF'},
+  G2: {name:'Maternal Inherited Talent',  formula:'G + L2',                  zone:'Lineage',       color:'#D4CCFF'},
+  H2: {name:'Father Ancestral Karma',     formula:'H + L2',                  zone:'Karma',         color:'#D4CCFF'},
+  I2: {name:'Mother Ancestral Karma',     formula:'I + L2',                  zone:'Karma',         color:'#D4CCFF'},
+  F1: {name:'Paternal Upper Gift',        formula:'F + F2',                  zone:'Lineage',       color:'#D4CCFF'},
+  G1: {name:'Maternal Upper Gift',        formula:'G + G2',                  zone:'Lineage',       color:'#D4CCFF'},
+  H1: {name:'Child Character (Paternal)', formula:'H + H2',                  zone:'Family',        color:'#D4CCFF'},
+  I1: {name:'Child Character (Maternal)', formula:'I + I2',                  zone:'Family',        color:'#D4CCFF'},
+  R:  {name:'Money & Relationships',      formula:'M + L',                   zone:'Money',         color:'#D4AF6E'},
+  R1: {name:'Relationship Dynamics',      formula:'R + M',                   zone:'Relationships', color:'#D4AF6E'},
+  R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money',         color:'#5CDEC8'},
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// CALCULATION ENGINE
+// ═══════════════════════════════════════════════════════════════════
+function red(n) {
+  while (n > 22) n = [...String(n)].reduce((a, d) => a + parseInt(d), 0);
+  return n;
+}
+
+function calc(day, mon, yr) {
+  const A = red(day), B = red(mon);
+  const C = red([...String(yr)].reduce((a, d) => a + parseInt(d), 0));
+  const D = red(A+B+C), E = red(A+B+C+D);
+  const F = red(A+B), G = red(B+C), H = red(C+D), I = red(D+A);
+  const J = red(A+E), K = red(B+E), L = red(C+E), M = red(D+E);
+  const O = red(A+J), P = red(B+K), Q = red(L+C), N = red(M+D);
+  const S = red(J+E), T = red(K+E);
+  const L2 = red(F+G+H+I), L1 = red(E+L2);
+  const F2 = red(F+L2), G2 = red(G+L2), H2 = red(H+L2), I2 = red(I+L2);
+  const F1 = red(F+F2), G1 = red(G+G2), H1 = red(H+H2), I1 = red(I+I2);
+  const R = red(M+L), R1 = red(R+M), R2 = red(R+L);
+
+  const earth = red(A+C), sky = red(B+D);
+  const personalPurpose = red(earth+sky);
+  const paternalP = red(F+H), maternalP = red(G+I);
+  const socialPurpose = red(paternalP+maternalP);
+  const spiritualPurpose = red(personalPurpose+socialPurpose);
+
+  const ckDef = [
+    ['Sahasrara','Crown',A,B],['Ajna','Third Eye',O,P],['Vishuddha','Throat',J,K],
+    ['Anahata','Heart',S,T],['Manipura','Solar Plexus',E,E],
+    ['Svadhisthana','Sacral',L,M],['Muladhara','Root',C,D]
+  ];
+  const chakras = ckDef.map(([name,zone,ph,en]) => ({name,zone,physical:ph,energy:en,emotional:red(ph+en)}));
+  const sum = k => chakras.reduce((a,c) => a + c[k], 0);
+  const chakraTotals = {physical:red(sum('physical')), energy:red(sum('energy')), emotional:red(sum('emotional'))};
+
+  return {A,B,C,D,E,F,G,H,I,J,K,L,M,O,P,Q,N,S,T,L2,L1,F2,G2,H2,I2,F1,G1,H1,I1,R,R1,R2,
+    derived:{earth,sky,personalPurpose,paternalP,maternalP,socialPurpose,spiritualPurpose,chakras,chakraTotals}};
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+let currentVals = {};
+let activePos = null;
+let activeModId = 'core';
+let editMode = false;
+
+function updateMatrix(v) {
+  currentVals = v;
+  document.querySelectorAll('.nv').forEach(el => {
+    const p = el.dataset.pos;
+    if (p && v[p] !== undefined) el.textContent = v[p];
+  });
+  renderDerived(v.derived);
+  renderActiveProgramsDashboard();
+  highlightActiveProgramNodes();
+  broadcastSyncData();
+}
+
+function renderDerived(d) {
+  if (!d) return;
+  const set = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+  set('dv-earth', d.earth); set('dv-sky', d.sky); set('dv-personal', d.personalPurpose);
+  set('dv-pat', d.paternalP); set('dv-mat', d.maternalP); set('dv-social', d.socialPurpose);
+  set('dv-spirit', d.spiritualPurpose);
+  const tb = document.querySelector('#dv-chakra-tbl tbody');
+  if (tb) {
+    tb.innerHTML = d.chakras.map(c =>
+      `<tr><td class="ck-name">${c.name}<span>${c.zone}</span></td><td>${c.physical}</td><td>${c.energy}</td><td>${c.emotional}</td></tr>`
+    ).join('');
+  }
+  set('ck-tp', d.chakraTotals.physical); set('ck-te', d.chakraTotals.energy); set('ck-tm', d.chakraTotals.emotional);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BUILD DYNAMIC MODULE LIST
+// Merges discovered-from-CSV modules with any defaults,
+// preserving natural CSV order. New columns = new tabs automatically.
+// ═══════════════════════════════════════════════════════════════════
+function getModules() {
+  // Default structure so tabs show even if CSV has no entries yet
+  const defaults = [
+    {id:'core',          label:'✦ Core',    sections:[
+      {key:'meaning',title:'What This Position Means'},
+      {key:'positive',title:'Positive Expression'},
+      {key:'shadow',title:'Shadow Expression'},
+      {key:'healing',title:'Healing Path'},
+    ]},
+    {id:'relationships', label:'♥ Love',    sections:[
+      {key:'attraction',title:'Attraction Pattern'},
+      {key:'lesson',title:'Relationship Lesson'},
+      {key:'wound',title:'Core Wound'},
+      {key:'partner',title:'What They Attract'},
+    ]},
+    {id:'karma',         label:'☽ Karma',   sections:[
+      {key:'karmic',title:'Karmic Pattern'},
+      {key:'past_life',title:'Past Life Theme'},
+      {key:'resolution',title:'Resolution Path'},
+    ]},
+    {id:'money',         label:'$ Money',   sections:[
+      {key:'money_flow',title:'Money Flow'},
+      {key:'block',title:'Financial Block'},
+      {key:'activation',title:'Activation'},
+    ]},
+    {id:'purpose',       label:'★ Purpose', sections:[
+      {key:'life_purpose',title:'Life Purpose'},
+      {key:'gifts',title:'Natural Gifts'},
+      {key:'mission',title:'Soul Mission'},
+    ]},
+    {id:'forecast',      label:'◎ Forecast',sections:[
+      {key:'current_cycle',title:'Current Cycle'},
+      {key:'next_phase',title:'Next Phase'},
+      {key:'yearly',title:'Yearly Theme'},
+    ]},
+  ];
+
+  // Start with defaults, then merge any NEW modules/sections from CSV
+  const result = defaults.map(d => ({...d, sections: [...d.sections]}));
+  const resultIds = result.map(m => m.id);
+
+  Object.values(DISCOVERED_MODULES).forEach(discovered => {
+    const existing = result.find(m => m.id === discovered.id);
+    if (!existing) {
+      // Completely new module from CSV — add it
+      result.push({...discovered});
+    } else {
+      // Merge in any new sections found in CSV
+      discovered.sections.forEach(sec => {
+        if (!existing.sections.find(s => s.key === sec.key)) {
+          existing.sections.push(sec);
+        }
+      });
+    }
+  });
+
+  return result;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PANEL
+// ═══════════════════════════════════════════════════════════════════
+function openPanel(pos, syncToBoard = true) {
+  activePos = pos;
+  if (syncToBoard) {
+    bc.postMessage({ type: 'select_position', pos: pos });
+  }
+  const meta = POSITIONS[pos] || {name: pos, formula: '', zone: '', color: '#B088F0'};
+  const val  = currentVals[pos] ?? '–';
+  const col  = meta.color || '#B088F0';
+
+  document.getElementById('panel-pos-label').textContent = `${pos}  ·  ${meta.zone.toUpperCase()}`;
+  document.getElementById('panel-pos-label').style.color = col;
+  document.getElementById('p-num').textContent = val;
+  document.getElementById('p-num').style.color = col;
+  document.getElementById('p-num').style.textShadow = `0 0 24px ${col}66`;
+  document.getElementById('p-name').textContent = meta.name;
+  document.getElementById('p-formula').textContent = `Formula: ${meta.formula}`;
+
+  const badge = document.getElementById('p-zone-badge');
+  badge.textContent = meta.zone.toUpperCase();
+  badge.style.color = col;
+
+  // Build tabs from dynamic module list
+  const modules = getModules();
+  const tabsEl = document.getElementById('mod-tabs');
+  tabsEl.innerHTML = '';
+
+  // If activeModId not in current modules, reset to first
+  if (!modules.find(m => m.id === activeModId)) activeModId = modules[0]?.id || 'core';
+
+  modules.forEach(mod => {
+    const btn = document.createElement('button');
+    btn.className = 'mod-tab' + (mod.id === activeModId ? ' active' : '');
+    btn.textContent = mod.label;
+    btn.onclick = () => { activeModId = mod.id; openPanel(pos); };
+    tabsEl.appendChild(btn);
+  });
+
+  renderModContent(pos, val, activeModId, modules);
+
+  document.querySelectorAll('.ng').forEach(g => g.classList.remove('active'));
+  const activeNode = document.querySelector(`.ng[data-pos="${pos}"]`);
+  if (activeNode) activeNode.classList.add('active');
+
+  document.getElementById('panel').classList.add('open');
+}
+
+function renderModContent(pos, val, modId, modules) {
+  const mods = modules || getModules();
+  const mod = mods.find(m => m.id === modId);
+  if (!mod) return;
+
+  const meta = POSITIONS[pos] || {name: pos, formula: '', zone: '', color: '#B088F0'};
+
+  const el = document.getElementById('mod-content');
+  el.innerHTML = '';
+
+  // Render active programs that involve this node at the top
+  const activeProgs = getActivePrograms();
+  const nodeProgs = activeProgs.filter(p => p.positions.split('-').includes(pos));
+  nodeProgs.forEach(prog => {
+    const card = document.createElement('div');
+    card.className = 'interp-card';
+    card.style.borderColor = 'var(--gold)';
+    card.style.background = 'rgba(212,175,110,0.05)';
+
+    const h = document.createElement('h3');
+    h.textContent = `Active Program: ${prog.name} (${prog.positions} · ${prog.code})`;
+    h.style.color = 'var(--goldb)';
+    card.appendChild(h);
+
+    const p = document.createElement('p');
+    p.textContent = prog.text;
+    card.appendChild(p);
+    el.appendChild(card);
+  });
+
+  const ctx = document.createElement('div');
+  ctx.className = 'section-label';
+  ctx.textContent = `Number ${val} in position ${pos}`;
+  el.appendChild(ctx);
+
+  mod.sections.forEach(sec => {
+    const card = document.createElement('div');
+    card.className = 'interp-card';
+
+    const h = document.createElement('h3');
+    h.textContent = sec.title;
+    card.appendChild(h);
+
+    const numVal = parseInt(val);
+    const text = INTERP[pos]?.[modId]?.[sec.key]?.[numVal] || null;
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'edit-btn';
+    editBtn.textContent = 'Edit';
+    editBtn.onclick = () => startEdit(card, pos, modId, sec.key, numVal, text || '');
+    card.appendChild(editBtn);
+
+    const p = document.createElement('p');
+    if (text) {
+      p.textContent = text;
+    } else {
+      p.className = 'empty';
+      p.textContent = `No interpretation yet for ${meta.name || pos} · ${sec.title} · ${val}. Click Edit to add, or add a row to interpretations.csv.`;
+    }
+    card.appendChild(p);
+    el.appendChild(card);
+  });
+
+  // Export hint
+  const note = document.createElement('div');
+  note.className = 'export-note';
+  note.textContent = '✦ Add interpretations by editing interpretations.csv in Excel';
+  el.appendChild(note);
+}
+
+// ── In-app quick edits (session only — save to CSV for permanent) ──
+function startEdit(card, pos, modId, secKey, numVal, currentText) {
+  const p = card.querySelector('p');
+  const editBtn = card.querySelector('.edit-btn');
+  if (!p) return;
+  p.style.display = 'none';
+  editBtn.style.display = 'none';
+
+  const ta = document.createElement('textarea');
+  ta.className = 'edit-area';
+  ta.value = currentText;
+  ta.placeholder = `Enter your interpretation for number ${numVal} here…`;
+
+  const hint = document.createElement('div');
+  hint.style.cssText = 'font-size:10px;color:rgba(212,175,110,.4);margin:4px 0 2px;';
+  hint.textContent = 'Session edit only. To save permanently, copy this text into your interpretations.csv file.';
+
+  const actions = document.createElement('div');
+  actions.className = 'edit-actions';
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'edit-save';
+  saveBtn.textContent = 'Apply';
+  saveBtn.onclick = () => {
+    const newText = ta.value.trim();
+    if (!INTERP[pos])                INTERP[pos] = {};
+    if (!INTERP[pos][modId])         INTERP[pos][modId] = {};
+    if (!INTERP[pos][modId][secKey]) INTERP[pos][modId][secKey] = {};
+    INTERP[pos][modId][secKey][numVal] = newText;
+    renderModContent(pos, String(numVal), modId);
+  };
+
+  const cancelBtn = document.createElement('button');
+  cancelBtn.className = 'edit-cancel';
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.onclick = () => {
+    ta.remove(); hint.remove(); actions.remove();
+    p.style.display = '';
+    editBtn.style.display = '';
+  };
+
+  actions.appendChild(saveBtn);
+  actions.appendChild(cancelBtn);
+  card.appendChild(hint);
+  card.appendChild(ta);
+  card.appendChild(actions);
+  ta.focus();
+}
+
+function toggleEditMode() {
+  editMode = !editMode;
+  document.body.classList.toggle('edit-mode', editMode);
+  const btn = document.getElementById('panel-edit-toggle');
+  btn.style.background    = editMode ? 'rgba(92,222,200,.18)' : '';
+  btn.style.borderColor   = editMode ? 'var(--teal)' : '';
+  btn.style.color         = editMode ? 'var(--teal)' : '';
+  btn.textContent         = editMode ? '✏ Exit Edit' : '✏ Edit Mode';
+}
+
+function closePanel() {
+  document.getElementById('panel').classList.remove('open');
+  document.querySelectorAll('.ng').forEach(g => g.classList.remove('active'));
+  activePos = null;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// NODE INTERACTION
+// ═══════════════════════════════════════════════════════════════════
+document.querySelectorAll('.ng').forEach(g => {
+  g.addEventListener('click', () => openPanel(g.dataset.pos));
+});
+document.getElementById('msv').addEventListener('click', e => {
+  if (!e.target.closest('.ng')) closePanel();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+// ═══════════════════════════════════════════════════════════════════
+// CALCULATE BUTTON
+// ═══════════════════════════════════════════════════════════════════
+document.getElementById('go-btn').addEventListener('click', () => {
+  const name = document.getElementById('i-name').value.trim() || 'Client';
+  const day  = parseInt(document.getElementById('i-day').value)  || 1;
+  const mon  = parseInt(document.getElementById('i-mon').value)  || 1;
+  const yr   = parseInt(document.getElementById('i-yr').value)   || 2000;
+  document.getElementById('client-display').textContent =
+    `${name}  ·  ${String(day).padStart(2,'0')} / ${String(mon).padStart(2,'0')} / ${yr}`;
+  updateMatrix(calc(day, mon, yr));
+  if (activePos) openPanel(activePos);
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// MANUAL CSV IMPORT
+// ═══════════════════════════════════════════════════════════════════
+document.getElementById('import-csv-btn').addEventListener('click', () => {
+  document.getElementById('csv-file-picker').click();
+});
+
+document.getElementById('csv-file-picker').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const text = evt.target.result;
+    try {
+      const count = processCSVText(text);
+      localStorage.setItem('soul_matrix_csv_content', text);
+      updateStatus(`✓ Loaded ${count} interpretations from uploaded CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
+      
+      // Force calculation update
+      document.getElementById('go-btn').click();
+    } catch (err) {
+      alert('Error parsing CSV: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════════════════
+document.getElementById('export-btn').addEventListener('click', () => window.print());
+
+// ═══════════════════════════════════════════════════════════════════
+// MODULE NAV (top bar)
+// ═══════════════════════════════════════════════════════════════════
+document.querySelectorAll('.mnav-btn:not(.soon)').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mnav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// STARS BACKGROUND
+// ═══════════════════════════════════════════════════════════════════
+(() => {
+  const c = document.getElementById('stars');
+  const ctx = c.getContext('2d');
+  const rng = (s => () => {
+    s |= 0; s = s + 0x6D2B79F5 | 0;
+    let t = Math.imul(s ^ s >>> 15, 1 | s);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  })(42);
+  function draw() {
+    c.width = innerWidth; c.height = innerHeight;
+    ctx.clearRect(0, 0, c.width, c.height);
+    for (let i = 0; i < 320; i++) {
+      const x = rng() * c.width, y = rng() * c.height, r = rng() * 1.5 + .2, a = rng() * .5 + .08;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${a})`; ctx.fill();
+    }
+    for (let i = 0; i < 14; i++) {
+      const x = rng() * c.width, y = rng() * c.height, s = rng() * 9 + 4, a = rng() * .22 + .12;
+      ctx.strokeStyle = `rgba(255,255,255,${a})`; ctx.lineWidth = .5;
+      [[x-s,y,x+s,y],[x,y-s,x,y+s]].forEach(([x1,y1,x2,y2]) => {
+        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      });
+    }
+  }
+  draw(); window.addEventListener('resize', draw);
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// ACTIVE PROGRAMS & SCRIPT BOARD SYNC
+// ═══════════════════════════════════════════════════════════════════
+const bc = new BroadcastChannel('soul_matrix_sync');
+
+function getActivePrograms() {
+  const active = [];
+  for (const posKey in INTERP) {
+    if (posKey.includes('-')) {
+      const positions = posKey.split('-');
+      if (positions.length === 3) {
+        const val1 = currentVals[positions[0]];
+        const val2 = currentVals[positions[1]];
+        const val3 = currentVals[positions[2]];
+        if (val1 !== undefined && val2 !== undefined && val3 !== undefined) {
+          const currentCode = `${val1}-${val2}-${val3}`;
+          const progMod = INTERP[posKey]['programs'];
+          if (progMod) {
+            for (const secKey in progMod) {
+              const text = progMod[secKey][currentCode];
+              if (text) {
+                active.push({
+                  positions: posKey,
+                  code: currentCode,
+                  name: secKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+                  text: text
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return active;
+}
+
+function renderActiveProgramsDashboard() {
+  const col = document.getElementById('dv-programs-col');
+  const list = document.getElementById('dv-programs-list');
+  if (!col || !list) return;
+
+  const active = getActivePrograms();
+  if (active.length === 0) {
+    col.style.display = 'none';
+    list.innerHTML = '';
+    return;
+  }
+
+  col.style.display = 'block';
+  list.innerHTML = active.map(prog => `
+    <div class="interp-card active-program-card" data-positions="${prog.positions}" style="border-color: var(--gold); background: rgba(212,175,110,0.05); margin-bottom: 12px; padding: 12px 16px; cursor: pointer; transition: transform 0.15s, border-color 0.15s;">
+      <h4 style="font-family: Cinzel, serif; font-size: 13px; color: var(--goldb); margin: 0 0 6px; display: flex; justify-content: space-between;">
+        <span>✦ ${prog.name}</span>
+        <span style="font-size: 10px; color: var(--muted); font-family: Raleway, sans-serif;">${prog.positions} (${prog.code})</span>
+      </h4>
+      <p style="font-size: 12px; line-height: 1.5; color: var(--lav); margin: 0; white-space: pre-wrap;">${prog.text}</p>
+    </div>
+  `).join('');
+
+  // Add click listeners to active program cards
+  list.querySelectorAll('.active-program-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const positionsKey = card.dataset.positions;
+      // Broadcast to Script Board
+      bc.postMessage({ type: 'select_program', positions: positionsKey });
+      // Open / focus Script Board window
+      window.open('script_board.html', 'SoulMatrixScriptBoard', 'width=650,height=850,menubar=no,toolbar=no,location=no,status=no');
+    });
+    // Add hover transitions
+    card.addEventListener('mouseenter', () => {
+      card.style.borderColor = 'var(--goldb)';
+      card.style.transform = 'translateY(-1px)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.borderColor = 'var(--gold)';
+      card.style.transform = 'translateY(0)';
+    });
+  });
+}
+
+function highlightActiveProgramNodes() {
+  // Clear previous active program highlights
+  document.querySelectorAll('.ng').forEach(g => {
+    g.classList.remove('program-highlight');
+  });
+
+  const active = getActivePrograms();
+  active.forEach(prog => {
+    const positions = prog.positions.split('-');
+    positions.forEach(pos => {
+      const node = document.querySelector(`.ng[data-pos="${pos}"]`);
+      if (node) {
+        node.classList.add('program-highlight');
+      }
+    });
+  });
+}
+
+function broadcastSyncData() {
+  const name = document.getElementById('i-name').value.trim() || 'Client';
+  const day  = parseInt(document.getElementById('i-day').value)  || 1;
+  const mon  = parseInt(document.getElementById('i-mon').value)  || 1;
+  const yr   = parseInt(document.getElementById('i-yr').value)   || 2000;
+  
+  bc.postMessage({
+    type: 'sync_data',
+    client: { name, day, month: mon, year: yr },
+    calculatedValues: currentVals,
+    database: INTERP,
+    discoveredModules: DISCOVERED_MODULES
+  });
+}
+
+bc.onmessage = function(e) {
+  const msg = e.data;
+  if (msg.type === 'request_sync') {
+    broadcastSyncData();
+    if (activePos) {
+      bc.postMessage({ type: 'select_position', pos: activePos });
+    }
+  } else if (msg.type === 'select_position') {
+    if (msg.pos && POSITIONS[msg.pos]) {
+      openPanel(msg.pos, false);
+    }
+  }
+};
+
+document.getElementById('script-board-btn').addEventListener('click', () => {
+  window.open('script_board.html', 'SoulMatrixScriptBoard', 'width=650,height=850,menubar=no,toolbar=no,location=no,status=no');
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT — load CSV first, then calculate
+// ═══════════════════════════════════════════════════════════════════
+loadCSV().then(() => {
+  document.getElementById('go-btn').click();
+});
+</script>
+</body>
+</html>

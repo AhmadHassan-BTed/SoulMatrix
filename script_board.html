@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Soul Matrix Script Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #06031C;
+  --bg2:     #0D082E;
+  --bg3:     #140C3A;
+  --surface: rgba(255,255,255,.04);
+  --border:  rgba(212,175,110,.2);
+  --gold:    #D4AF6E;
+  --goldb:   #FFD97D;
+  --goldd:   #A07830;
+  --purple:  #B088F0;
+  --lilac:   #B088F0;
+  --lilacb:  #D4AAFF;
+  --lav:     #C9B8F0;
+  --muted:   rgba(201,184,240,.5);
+  --radius:  10px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--lav);
+  font-family: Raleway, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+header h1 {
+  font-family: Cinzel, serif;
+  font-size: 18px;
+  color: var(--goldb);
+  margin: 0;
+  letter-spacing: 0.1em;
+}
+
+#client-info {
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn {
+  background: rgba(176,136,240,.08);
+  border: 1px solid rgba(176,136,240,.2);
+  border-radius: 6px;
+  color: var(--lav);
+  font-family: Raleway, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn:hover {
+  background: rgba(176,136,240,.18);
+  border-color: var(--lilac);
+  color: var(--lilacb);
+}
+
+.main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar Nodes List */
+.sidebar {
+  width: 260px;
+  border-right: 1px solid var(--border);
+  background: rgba(13,8,46,0.5);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  padding: 12px 15px;
+  font-family: Cinzel, serif;
+  font-size: 12px;
+  color: var(--gold);
+  border-bottom: 1px solid rgba(212,175,110,0.1);
+  letter-spacing: 0.05em;
+}
+
+.nodes-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.node-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.15s;
+}
+.node-item:hover {
+  background: rgba(255,255,255,0.04);
+}
+.node-item.active {
+  background: rgba(176,136,240,0.15);
+  border: 1px solid rgba(176,136,240,0.3);
+}
+
+.node-code {
+  font-weight: 600;
+  color: var(--lilacb);
+}
+.node-name {
+  color: var(--lav);
+  margin-left: 8px;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.node-num {
+  font-family: Cinzel, serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--goldb);
+  width: 25px;
+  text-align: right;
+}
+
+/* Reading Pane */
+.reading-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.active-node-header {
+  padding: 20px;
+  background: rgba(13,8,46,0.3);
+  border-bottom: 1px solid rgba(212,175,110,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.active-node-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.active-node-name {
+  font-family: Cinzel, serif;
+  font-size: 18px;
+  color: var(--lilacb);
+}
+
+.active-node-formula {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.active-node-num-badge {
+  font-family: Cinzel, serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--goldb);
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(255,217,125,0.3);
+}
+
+.reading-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 20px;
+  background: rgba(13,8,46,0.2);
+  border-bottom: 1px solid rgba(212,175,110,0.05);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(176,136,240,0.15);
+  border-radius: 15px;
+  color: var(--lav);
+  font-family: Raleway, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab-btn:hover, .tab-btn.active {
+  background: rgba(176,136,240,0.18);
+  border-color: var(--lilac);
+  color: var(--lilacb);
+}
+
+.tab-btn.special-tab {
+  border-color: var(--gold);
+  color: var(--goldb);
+}
+.tab-btn.special-tab:hover, .tab-btn.special-tab.active {
+  background: rgba(212,175,110,0.15);
+  color: #FFF;
+}
+
+.reading-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Font Size Modifiers */
+.zoom-small p { font-size: 14px; line-height: 1.6; }
+.zoom-medium p { font-size: 17px; line-height: 1.65; }
+.zoom-large p { font-size: 21px; line-height: 1.7; }
+.zoom-xlarge p { font-size: 25px; line-height: 1.75; }
+
+.zoom-small h3 { font-size: 12px; }
+.zoom-medium h3 { font-size: 15px; }
+.zoom-large h3 { font-size: 18px; }
+.zoom-xlarge h3 { font-size: 21px; }
+
+.interp-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(176,136,240,.15);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.interp-card h3 {
+  font-family: Cinzel, serif;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(212,175,110,0.1);
+  padding-bottom: 5px;
+}
+
+.interp-card p {
+  margin: 0;
+  white-space: pre-wrap;
+  color: var(--lav);
+}
+
+.interp-card.program-card {
+  border-color: var(--gold);
+  background: rgba(212,175,110,0.04);
+}
+
+.interp-card.program-card h3 {
+  color: var(--goldb);
+  border-bottom-color: rgba(255,217,125,0.2);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 14px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF7070;
+}
+.status-dot.connected {
+  background: var(--teal, #5CDEC8);
+}
+</style>
+</head>
+
+<body class="zoom-large">
+
+<header>
+  <div>
+    <h1>✦ SOUL BLUEPRINT SCRIPT BOARD ✦</h1>
+    <div id="client-info">Waiting for client data...</div>
+  </div>
+  <div class="controls">
+    <div class="status-indicator">
+      <div id="status-dot" class="status-dot"></div>
+      <span id="status-text">Disconnected</span>
+    </div>
+    <span style="color:var(--muted); font-size:11px; margin-left:10px;">Text size:</span>
+    <button id="btn-zoom-small" class="btn" onclick="setFontSize('small')">Small</button>
+    <button id="btn-zoom-medium" class="btn" onclick="setFontSize('medium')">Medium</button>
+    <button id="btn-zoom-large" class="btn" onclick="setFontSize('large')">Large</button>
+    <button id="btn-zoom-xlarge" class="btn" onclick="setFontSize('xlarge')">Extra Large</button>
+  </div>
+</header>
+
+<div class="main-layout">
+  <!-- Left list of nodes -->
+  <div class="sidebar">
+    <div class="sidebar-title">Nodes List</div>
+    <div class="nodes-list" id="nodes-list">
+      <div class="empty-state">No calculated nodes yet</div>
+    </div>
+  </div>
+
+  <!-- Right text interpretations -->
+  <div class="reading-pane">
+    <div class="active-node-header" id="active-node-header" style="display: none;">
+      <div class="active-node-title">
+        <div class="active-node-name" id="active-node-name">-</div>
+        <div class="active-node-formula" id="active-node-formula">-</div>
+      </div>
+      <div class="active-node-num-badge" id="active-node-num">-</div>
+    </div>
+
+    <div class="reading-tabs" id="reading-tabs" style="display: none;">
+      <!-- Tabs generated dynamically -->
+    </div>
+
+    <div class="reading-content" id="reading-content">
+      <div class="empty-state">Open the Soul Matrix main page and select a node to view detailed script interpretations.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// State
+let client = null;
+let calculatedValues = {};
+let database = {};
+let discoveredModules = {};
+let activePos = 'A';
+let activeModId = 'core';
+
+// BroadcastChannel Setup
+const bc = new BroadcastChannel('soul_matrix_sync');
+
+// Update connection status
+function setConnected(connected) {
+  const dot = document.getElementById('status-dot');
+  const text = document.getElementById('status-text');
+  if (connected) {
+    dot.className = 'status-dot connected';
+    text.textContent = 'Synced';
+  } else {
+    dot.className = 'status-dot';
+    text.textContent = 'Disconnected';
+  }
+}
+
+// Request sync on load
+bc.postMessage({ type: 'request_sync' });
+setConnected(false);
+
+// Listen for sync messages
+bc.onmessage = function(e) {
+  const msg = e.data;
+  if (msg.type === 'sync_data') {
+    setConnected(true);
+    client = msg.client;
+    calculatedValues = msg.calculatedValues;
+    database = msg.database;
+    discoveredModules = msg.discoveredModules;
+    
+    updateHeader();
+    renderNodesList();
+    
+    // Set active pos if not set
+    if (!activePos && Object.keys(calculatedValues).length > 0) {
+      // Do not automatically default to 'A' so that the programs overview can show initially
+    }
+    
+    renderActiveNode();
+  } else if (msg.type === 'select_position') {
+    setConnected(true);
+    activePos = msg.pos;
+    highlightActiveNode();
+    renderActiveNode();
+  } else if (msg.type === 'select_program') {
+    setConnected(true);
+    selectProgram(msg.positions);
+  }
+};
+
+// Request data interval (retry connection if needed)
+setInterval(() => {
+  if (document.getElementById('status-text').textContent === 'Disconnected') {
+    bc.postMessage({ type: 'request_sync' });
+  }
+}, 3000);
+
+// Node Metadata
+const POSITIONS = {
+  A:  {name:'Portrait / Avatar',          formula:'Day of Birth',            zone:'Portrait'},
+  B:  {name:'Spiritual Essence',          formula:'Month of Birth',          zone:'Mission'},
+  C:  {name:'Material Karma',             formula:'Year Digit Sum',          zone:'Karma'},
+  D:  {name:'Spiritual Karma',            formula:'A + B + C',               zone:'Karma'},
+  E:  {name:'Core Energy / Soul Mission', formula:'A + B + C + D',           zone:'Core'},
+  F:  {name:'Mother Line',                formula:'A + B',                   zone:'Lineage'},
+  G:  {name:'Mother Diagonal',            formula:'B + C',                   zone:'Lineage'},
+  H:  {name:'Father Line',                formula:'C + D',                   zone:'Lineage'},
+  I:  {name:'Father Diagonal',            formula:'D + A',                   zone:'Lineage'},
+  J:  {name:'Throat / Physical Chakra',   formula:'A + E',                   zone:'Chakra'},
+  K:  {name:'Talents & Potentials',       formula:'B + E',                   zone:'Talents'},
+  L:  {name:'Relationship Crisis',        formula:'C + E',                   zone:'Relationships'},
+  M:  {name:'Ideal Partner',              formula:'D + E',                   zone:'Relationships'},
+  O:  {name:'Child–Parent Balance',       formula:'A + J',                   zone:'Family'},
+  P:  {name:'Comfort Zone / Third Eye',   formula:'B + K',                   zone:'Spiritual'},
+  Q:  {name:'Material Talent',            formula:'L + C',                   zone:'Talents'},
+  N:  {name:'Karmic Tail',                formula:'M + D',                   zone:'Karma'},
+  S:  {name:'Relationship Block',         formula:'J + E',                   zone:'Relationships'},
+  T:  {name:"Heart's Desire",             formula:'K + E',                   zone:'Heart'},
+  L1: {name:'Lineage + Core',             formula:'E + L2',                  zone:'Lineage'},
+  L2: {name:'Lineage Combined',           formula:'F + G + H + I',           zone:'Lineage'},
+  F2: {name:'Paternal Inherited Talent',  formula:'F + L2',                  zone:'Lineage'},
+  G2: {name:'Maternal Inherited Talent',  formula:'G + L2',                  zone:'Lineage'},
+  H2: {name:'Father Ancestral Karma',     formula:'H + L2',                  zone:'Karma'},
+  I2: {name:'Mother Ancestral Karma',     formula:'I + L2',                  zone:'Karma'},
+  F1: {name:'Paternal Upper Gift',        formula:'F + F2',                  zone:'Lineage'},
+  G1: {name:'Maternal Upper Gift',        formula:'G + G2',                  zone:'Lineage'},
+  H1: {name:'Child Character (Paternal)', formula:'H + H2',                  zone:'Family'},
+  I1: {name:'Child Character (Maternal)', formula:'I + I2',                  zone:'Family'},
+  R:  {name:'Money & Relationships',      formula:'M + L',                   zone:'Money'},
+  R1: {name:'Relationship Dynamics',      formula:'R + M',                   zone:'Relationships'},
+  R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money'},
+};
+
+// UI Rendering
+function updateHeader() {
+  const infoEl = document.getElementById('client-info');
+  if (client) {
+    infoEl.textContent = `Client: ${client.name}  ·  Birth Date: ${client.day}/${client.month}/${client.year}`;
+  } else {
+    infoEl.textContent = 'Waiting for client calculations...';
+  }
+}
+
+function selectProgram(positionsKey) {
+  activeModId = 'programs_all';
+  const posArr = positionsKey.split('-');
+  activePos = posArr[0];
+  highlightActiveNode();
+  renderActiveNode();
+  
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.program-card');
+    for (let card of cards) {
+      if (card.textContent.includes(positionsKey)) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.style.transition = 'outline 0.3s ease';
+        card.style.outline = '2.5px solid var(--goldb)';
+        setTimeout(() => { card.style.outline = 'none'; }, 2000);
+        break;
+      }
+    }
+  }, 100);
+}
+
+function renderNodesList() {
+  const listEl = document.getElementById('nodes-list');
+  listEl.innerHTML = '';
+  
+  if (Object.keys(calculatedValues).length === 0) {
+    listEl.innerHTML = '<div class="empty-state">No calculated nodes yet</div>';
+    return;
+  }
+
+  // Render Active Programs section in the sidebar if they exist
+  const allProgs = getActivePrograms();
+  if (allProgs.length > 0) {
+    const progSec = document.createElement('div');
+    progSec.style.cssText = 'margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(212,175,110,0.15);';
+    
+    const title = document.createElement('div');
+    title.className = 'sidebar-title';
+    title.style.cssText = 'padding: 0 5px 8px 5px; color: var(--goldb); border-bottom: none; font-size: 11px;';
+    title.textContent = 'Active Programs';
+    progSec.appendChild(title);
+    
+    allProgs.forEach(prog => {
+      const item = document.createElement('div');
+      item.className = 'node-item program-item';
+      item.style.cssText = 'border: 1px solid rgba(212,175,110,0.15); background: rgba(212,175,110,0.03); margin-bottom: 6px; padding: 6px 10px; cursor: pointer;';
+      item.onclick = () => selectProgram(prog.positions);
+      
+      item.innerHTML = `
+        <span class="node-code" style="color: var(--gold); font-size: 10px; display: block; line-height: 1.2;">${prog.code}</span>
+        <span class="node-name" style="font-weight: 500; font-size: 11px; color: var(--lav); margin-left: 0; white-space: normal; line-height: 1.2;">${prog.name}</span>
+      `;
+      progSec.appendChild(item);
+    });
+    listEl.appendChild(progSec);
+    
+    const nodesTitle = document.createElement('div');
+    nodesTitle.className = 'sidebar-title';
+    nodesTitle.style.cssText = 'padding: 5px 5px 8px 5px; border-bottom: none;';
+    nodesTitle.textContent = 'Nodes List';
+    listEl.appendChild(nodesTitle);
+  }
+  
+  Object.keys(POSITIONS).forEach(pos => {
+    const meta = POSITIONS[pos];
+    const val = calculatedValues[pos] ?? '–';
+    
+    const item = document.createElement('div');
+    item.className = 'node-item' + (pos === activePos ? ' active' : '');
+    item.dataset.pos = pos;
+    item.onclick = () => selectNode(pos);
+    
+    item.innerHTML = `
+      <span class="node-code">${pos}</span>
+      <span class="node-name">${meta.name}</span>
+      <span class="node-num">${val}</span>
+    `;
+    listEl.appendChild(item);
+  });
+}
+
+function highlightActiveNode() {
+  document.querySelectorAll('.node-item').forEach(item => {
+    if (item.dataset.pos === activePos) {
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  });
+}
+
+function selectNode(pos) {
+  activePos = pos;
+  highlightActiveNode();
+  renderActiveNode();
+  bc.postMessage({ type: 'select_position', pos: pos });
+}
+
+function getModules() {
+  const defaults = [
+    {id:'core',          label:'✦ Core',    sections:[
+      {key:'meaning',title:'What This Position Means'},
+      {key:'positive',title:'Positive Expression'},
+      {key:'shadow',title:'Shadow Expression'},
+      {key:'healing',title:'Healing Path'},
+      {key:'shadow_lessons',title:'Shadow Lessons'},
+    ]},
+    {id:'relationships', label:'♥ Love',    sections:[
+      {key:'attraction',title:'Attraction Pattern'},
+      {key:'lesson',title:'Relationship Lesson'},
+      {key:'wound',title:'Core Wound'},
+      {key:'partner',title:'What They Attract'},
+    ]},
+    {id:'karma',         label:'☽ Karma',   sections:[
+      {key:'karmic',title:'Karmic Pattern'},
+      {key:'past_life',title:'Past Life Theme'},
+      {key:'resolution',title:'Resolution Path'},
+    ]},
+    {id:'money',         label:'$ Money',   sections:[
+      {key:'money_flow',title:'Money Flow'},
+      {key:'block',title:'Financial Block'},
+      {key:'activation',title:'Activation'},
+    ]},
+    {id:'purpose',       label:'★ Purpose', sections:[
+      {key:'life_purpose',title:'Life Purpose'},
+      {key:'gifts',title:'Natural Gifts'},
+      {key:'mission',title:'Soul Mission'},
+    ]},
+    {id:'forecast',      label:'◎ Forecast',sections:[
+      {key:'current_cycle',title:'Current Cycle'},
+      {key:'next_phase',title:'Next Phase'},
+      {key:'yearly',title:'Yearly Theme'},
+    ]},
+  ];
+
+  const result = defaults.map(d => ({...d, sections: [...d.sections]}));
+
+  Object.values(discoveredModules).forEach(discovered => {
+    const existing = result.find(m => m.id === discovered.id);
+    if (!existing) {
+      result.push({...discovered});
+    } else {
+      discovered.sections.forEach(sec => {
+        if (!existing.sections.find(s => s.key === sec.key)) {
+          existing.sections.push(sec);
+        }
+      });
+    }
+  });
+
+  return result;
+}
+
+// Active Programs Detection
+function getActivePrograms() {
+  const active = [];
+  if (!database) return active;
+  
+  for (const posKey in database) {
+    if (posKey.includes('-')) {
+      const positions = posKey.split('-');
+      if (positions.length === 3) {
+        const val1 = calculatedValues[positions[0]];
+        const val2 = calculatedValues[positions[1]];
+        const val3 = calculatedValues[positions[2]];
+        if (val1 !== undefined && val2 !== undefined && val3 !== undefined) {
+          const currentCode = `${val1}-${val2}-${val3}`;
+          const progMod = database[posKey]['programs'];
+          if (progMod) {
+            for (const secKey in progMod) {
+              const text = progMod[secKey][currentCode];
+              if (text) {
+                active.push({
+                  positions: posKey,
+                  code: currentCode,
+                  name: secKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+                  text: text
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return active;
+}
+
+function renderActiveNode() {
+  const headerEl = document.getElementById('active-node-header');
+  const tabsEl = document.getElementById('reading-tabs');
+  const contentEl = document.getElementById('reading-content');
+  
+  if (Object.keys(calculatedValues).length === 0) {
+    headerEl.style.display = 'none';
+    tabsEl.style.display = 'none';
+    contentEl.innerHTML = '<div class="empty-state">No client data loaded. Run calculations on the main screen first.</div>';
+    return;
+  }
+  
+  if (!activePos) {
+    headerEl.style.display = 'none';
+    tabsEl.style.display = 'none';
+    
+    const allProgs = getActivePrograms();
+    if (allProgs.length > 0) {
+      let html = '<div class="sidebar-title" style="padding-left:0; font-size:14px; margin-bottom:15px; border-bottom:1px solid var(--border)">✦ Detected Active Programs ✦</div>';
+      allProgs.forEach(prog => {
+        html += `
+          <div class="interp-card program-card" style="cursor: pointer; border-color: var(--gold); background: rgba(212,175,110,0.04);" onclick="selectProgram('${prog.positions}')">
+            <h3 style="color: var(--goldb); border-bottom-color: rgba(255,217,125,0.2); margin-bottom: 8px;">Program: ${prog.name} (${prog.positions} · ${prog.code})</h3>
+            <p style="color: var(--lav); margin: 0; white-space: pre-wrap;">${prog.text}</p>
+          </div>
+        `;
+      });
+      contentEl.innerHTML = html;
+    } else {
+      contentEl.innerHTML = '<div class="empty-state">Select a node from the left sidebar to view detailed script interpretations.</div>';
+    }
+    return;
+  }
+  
+  const meta = POSITIONS[activePos] || {name: activePos, formula: 'Custom'};
+  const val = calculatedValues[activePos] ?? '–';
+  
+  document.getElementById('active-node-name').textContent = `${activePos}  ·  ${meta.name}`;
+  document.getElementById('active-node-formula').textContent = `Formula: ${meta.formula}`;
+  document.getElementById('active-node-num').textContent = val;
+  headerEl.style.display = 'flex';
+  
+  // Render tabs
+  tabsEl.innerHTML = '';
+  tabsEl.style.display = 'flex';
+  
+  const modules = getModules();
+  
+  // If activeModId not valid, set to first
+  if (activeModId !== 'programs_all' && !modules.find(m => m.id === activeModId)) {
+    activeModId = modules[0]?.id || 'core';
+  }
+  
+  // Normal modules
+  modules.forEach(mod => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (mod.id === activeModId ? ' active' : '');
+    btn.textContent = mod.label;
+    btn.onclick = () => { activeModId = mod.id; renderActiveNode(); };
+    tabsEl.appendChild(btn);
+  });
+  
+  // Special tab for ALL Programs
+  const allProgs = getActivePrograms();
+  const progBtn = document.createElement('button');
+  progBtn.className = 'tab-btn special-tab' + (activeModId === 'programs_all' ? ' active' : '');
+  progBtn.textContent = `✦ Programs (${allProgs.length})`;
+  progBtn.onclick = () => { activeModId = 'programs_all'; renderActiveNode(); };
+  tabsEl.appendChild(progBtn);
+  
+  contentEl.innerHTML = '';
+  
+  // Special view for all active programs
+  if (activeModId === 'programs_all') {
+    if (allProgs.length === 0) {
+      contentEl.innerHTML = '<div class="empty-state">No active 3-number programs detected for this client matrix.</div>';
+      return;
+    }
+    
+    allProgs.forEach(prog => {
+      const card = document.createElement('div');
+      card.className = 'interp-card program-card';
+      
+      const title = document.createElement('h3');
+      title.textContent = `Program: ${prog.name} (${prog.positions} · ${prog.code})`;
+      card.appendChild(title);
+      
+      const p = document.createElement('p');
+      p.textContent = prog.text;
+      card.appendChild(p);
+      
+      contentEl.appendChild(card);
+    });
+    return;
+  }
+  
+  // Normal positions & sections content
+  // First, check if there are active programs containing the selected position!
+  const nodeProgs = allProgs.filter(p => p.positions.split('-').includes(activePos));
+  nodeProgs.forEach(prog => {
+    const card = document.createElement('div');
+    card.className = 'interp-card program-card';
+    
+    const title = document.createElement('h3');
+    title.textContent = `Active Program: ${prog.name} (${prog.positions} · ${prog.code})`;
+    card.appendChild(title);
+    
+    const p = document.createElement('p');
+    p.textContent = prog.text;
+    card.appendChild(p);
+    
+    contentEl.appendChild(card);
+  });
+  
+  // Normal interpretations sections
+  const mod = modules.find(m => m.id === activeModId);
+  if (mod) {
+    let hasContent = false;
+    mod.sections.forEach(sec => {
+      const text = database[activePos]?.[activeModId]?.[sec.key]?.[val] || null;
+      
+      const card = document.createElement('div');
+      card.className = 'interp-card';
+      
+      const title = document.createElement('h3');
+      title.textContent = sec.title;
+      card.appendChild(title);
+      
+      const p = document.createElement('p');
+      if (text) {
+        p.textContent = text;
+        hasContent = true;
+      } else {
+        p.className = 'empty-state';
+        p.style.padding = '10px 0';
+        p.textContent = `No interpretation yet for ${meta.name} · ${sec.title} · ${val}`;
+      }
+      card.appendChild(p);
+      contentEl.appendChild(card);
+    });
+  }
+}
+
+// Font Size Config
+function setFontSize(size) {
+  document.body.className = `zoom-${size}`;
+  localStorage.setItem('soul_matrix_font_size', size);
+  updateFontSizeButtons();
+}
+
+function updateFontSizeButtons() {
+  const current = document.body.className.replace('zoom-', '');
+  ['small', 'medium', 'large', 'xlarge'].forEach(s => {
+    const btn = document.getElementById(`btn-zoom-${s}`);
+    if (btn) {
+      if (s === current) {
+        btn.classList.add('active');
+        btn.style.background = 'rgba(176,136,240,0.2)';
+        btn.style.borderColor = 'var(--lilac)';
+        btn.style.color = 'var(--lilacb)';
+      } else {
+        btn.classList.remove('active');
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }
+    }
+  });
+}
+
+// Initialize font size from storage or default to large
+const savedSize = localStorage.getItem('soul_matrix_font_size') || 'large';
+setFontSize(savedSize);
+</script>
+</body>
+</html>

@@ -1,0 +1,1430 @@
+position,module,section,number,text
+A,core,meaning,1,"The Magician
+
+You rarely come across as someone who waits for permission. Whether you're discussing an idea, solving a problem or stepping into a new situation, people tend to sense movement around you. There is often an assumption that you know what you're doing, even during moments when you're still figuring things out yourself.
+
+Others frequently see capability before they see vulnerability. They notice your resourcefulness, your ability to adapt and your tendency to make things happen rather than talk about them endlessly. Some find this inspiring. Others feel challenged by it because your presence naturally highlights where they have been hesitating.
+
+People often walk away feeling that progress is possible."
+A,core,meaning,2,"The High Priestess
+
+Not everyone can explain why they trust you, but many do. There is often a calm, observant quality about you that encourages people to lower their guard. While others rush to fill silence, you seem comfortable allowing space for people to reveal who they really are.
+
+You don't always say the most in a conversation, yet people often remember how understood they felt afterwards. Many find themselves sharing thoughts, feelings and concerns they hadn't planned to discuss. There is a sense that you notice things others miss.
+
+Your presence often creates safety before words ever do."
+A,core,meaning,3,"The Empress
+
+People tend to relax around you without realising it. There is often a feeling of warmth, acceptance and emotional generosity that surrounds your interactions. You have a way of making others feel welcomed rather than evaluated.
+
+Many experience you as someone who brings life to situations, relationships and ideas. Whether through encouragement, humour, creativity or simple kindness, you often leave people feeling better than you found them.
+
+The strongest impression you leave is rarely power.
+
+It is usually comfort."
+A,core,meaning,4,"The Emperor
+
+Responsibility seems to find you whether you ask for it or not. People often look towards you when decisions need making, problems need solving or situations become uncertain. There is something about your energy that suggests stability.
+
+Others frequently assume you are stronger than you feel. They see someone capable of carrying weight, maintaining order and staying focused under pressure. While some find this reassuring, others can feel slightly intimidated because you appear difficult to shake.
+
+You give people the impression that things will be handled."
+A,core,meaning,5,"The Teacher - Hierophant
+
+You often come across as someone who has learned important lessons through experience. People naturally seek your perspective because they sense that you look beyond surface-level explanations.
+
+There is usually a feeling that you understand how things connect together. Whether discussing relationships, work, personal growth or life itself, you often help people make sense of situations that previously felt confusing.
+
+The influence you have isn't usually loud.
+
+It comes from the feeling that your words carry weight because you've lived what you're talking about."
+A,core,meaning,6,"The Lovers
+
+People rarely feel like a stranger for long around you. There is a natural ability to connect that makes others feel included rather than tolerated. Conversations tend to flow easily because you have a genuine interest in understanding people rather than simply waiting for your turn to speak.
+
+Many experience you as approachable, warm and emotionally available. You often become the person who brings people together, smooths tensions or helps others feel comfortable in unfamiliar situations.
+
+The impression you leave is not that of someone trying to impress people.
+
+It is the feeling of being accepted."
+A,core,meaning,7,"The Chariot
+
+There is often a sense that you're going somewhere, even when you're standing still. People quickly notice your drive, your focus and your unwillingness to sit around waiting for life to change by itself.
+
+Others frequently see determination before they see vulnerability. They notice your ability to push through obstacles, stay committed to goals and keep moving when many people would have given up.
+
+Some find this inspiring.
+
+Others feel exhausted just watching you.
+
+Your presence tends to remind people that progress requires action."
+A,core,meaning,8,"Justice
+
+Very few people remain superficial around you for long. There is something about your presence that encourages honesty and quietly exposes pretence. Whether intentionally or not, you often bring conversations back to what is fair, what is true and what actually matters.
+
+People tend to trust your judgement because they sense that you value integrity over popularity. They may not always like what you have to say, but they usually believe it comes from a genuine place.
+
+The impression you leave is one of fairness, clarity and personal responsibility."
+A,core,meaning,9,"The Hermit
+
+You rarely compete for attention, yet people often remember you long after louder personalities have faded into the background. There is a thoughtful quality about you that suggests you spend more time observing life than performing for it.
+
+Others often sense depth beneath the surface. Even when you say very little, people frequently assume there is far more going on internally than you are revealing.
+
+Your influence tends to come through insight rather than volume.
+
+The impression you leave is that of someone who values understanding over approval."
+A,core,meaning,10,"Wheel of Fortune
+
+Life rarely appears static around you. People often get the sense that you've lived several different lives within a single lifetime. There is usually a flexibility in the way you approach challenges that allows you to adapt where others become stuck.
+
+Others frequently see you as someone who can recover, reinvent and find opportunity where most people only see disruption. You often carry an energy that feels open to possibility rather than attached to certainty.
+
+The impression you leave is one of movement.
+
+People tend to feel that change becomes easier when you're around."
+A,core,meaning,11,"Strength
+
+Your strength is usually noticed long before you speak about it. People often recognise a quiet resilience in you that doesn't need announcing. There is a sense that you've weathered storms, carried burdens and kept going when life would have given many others a perfectly reasonable excuse to quit.
+
+Others often feel reassured by your presence because you project steadiness during uncertainty. You may not always realise it, but people frequently borrow confidence from you when their own is running low.
+
+The impression you leave is not power.
+
+It is courage."
+A,core,meaning,12,"The Servant - Hanged Man
+
+You often see things differently from the people around you. While others rush towards obvious answers, you tend to pause, reflect and explore possibilities that most people completely overlook.
+
+This can make you difficult to understand at first. Some people mistake your patience for hesitation or your thoughtfulness for passivity. Those who get to know you more deeply often discover someone capable of seeing meaning, opportunity and perspective where others see frustration.
+
+The impression you leave is that of someone who understands that not every problem is solved through action.
+
+Sometimes wisdom comes through seeing differently."
+A,core,meaning,13,"The Transformer - Death
+
+People often sense that you are not the same person you used to be. Even without knowing your history, there is usually an awareness that you've been through periods of significant change and emerged stronger because of them.
+
+You rarely give the impression of being attached to the past. Others may admire your willingness to let go of situations, identities or beliefs that no longer fit who you are becoming.
+
+Some find this inspiring.
+
+Others find it unsettling because your presence naturally highlights where they are resisting change.
+
+The impression you leave is that growth is possible, no matter how difficult the ending."
+A,core,meaning,14,"The Co-Creator - Temperance
+
+People often feel calmer after spending time with you. There is usually a balanced quality to your energy that helps others settle, reflect and regain perspective.
+
+You tend to bring harmony without forcing it. Whether dealing with different personalities, conflicting opinions or difficult circumstances, you often find a way to create cooperation where others expect division.
+
+The impression you leave is one of balance.
+
+People frequently feel that things make more sense after talking with you."
+A,core,meaning,15,"The Divine Perfectionist - Devil
+
+There is often something magnetic about you that people notice immediately. You tend to project intensity, determination and a refusal to settle for average. Others frequently sense ambition before you ever mention your goals.
+
+People may admire your discipline, your standards and your ability to pursue what you want with focus and commitment. At the same time, your presence can sometimes make others aware of their own compromises, excuses or unrealised potential.
+
+The impression you leave is powerful.
+
+People rarely feel indifferent about you."
+A,core,meaning,16,"The Spiritual Rebuilder - Tower
+
+You have a habit of changing things simply by being present. People often arrive with one understanding of a situation and leave with another. This isn't because you're trying to shock anyone. It's because you naturally notice what isn't working, what isn't true or what can no longer be avoided.
+
+Some people find your honesty refreshing.
+
+Others find it uncomfortable.
+
+You tend to expose cracks that were already there rather than create new ones. While not everyone appreciates this immediately, many eventually recognise that your influence helped them face something they needed to see.
+
+The impression you leave is one of truth.
+
+Even when that truth is inconvenient."
+A,core,meaning,17,"The Star
+
+People often feel better about their future after spending time with you. There is usually a sense of hope, possibility and encouragement in the way you approach life that helps others believe things can improve.
+
+You have a tendency to see potential where others only see problems. Even during difficult periods, you often notice opportunities, lessons or possibilities that many people overlook.
+
+Your optimism doesn't usually feel forced.
+
+Instead, it feels earned.
+
+The impression you leave is that tomorrow may hold more than today."
+A,core,meaning,18,"The Moon
+
+Not everyone understands you immediately, and that's part of your nature. People often sense depth, emotion and complexity beneath the surface long before they truly know you.
+
+There is usually an intuitive quality about you that makes others feel that you understand things which cannot always be explained logically. Some people are fascinated by this. Others find it difficult because they prefer certainty and clear answers.
+
+You tend to leave people thinking.
+
+The impression you leave is one of mystery, imagination and emotional depth."
+A,core,meaning,19,"The Sun
+
+People often notice your energy before they notice anything else. There is usually a warmth, openness and authenticity about you that makes others feel comfortable quickly.
+
+You tend to bring lightness into situations without trying too hard. Others frequently experience you as genuine, encouraging and easy to be around because you don't spend much time pretending to be someone you're not.
+
+Many people leave interactions with you feeling uplifted.
+
+The impression you leave is simple.
+
+Life feels brighter around you."
+A,core,meaning,20,"Judgement
+
+People often find themselves reflecting on their lives after speaking with you. There is something about your presence that encourages awareness, honesty and self-examination.
+
+You naturally draw attention to crossroads, decisions and turning points. Others may feel motivated to make changes, address unfinished business or reconsider choices they have been avoiding.
+
+Your influence tends to wake people up rather than comfort them.
+
+The impression you leave is that growth requires action."
+A,core,meaning,21,"The World
+
+You often give the impression of someone who understands the bigger picture. While many people become trapped in individual problems, you tend to see how different experiences, lessons and relationships connect together.
+
+Others frequently experience you as mature, balanced and well-rounded. There is often a feeling that you have learned how to navigate different situations without becoming trapped by any single one of them.
+
+People tend to trust your perspective because it feels broad rather than narrow.
+
+The impression you leave is one of completion, wisdom and perspective."
+A,core,meaning,22,"Freedom - Fool
+
+There is often something refreshing about your energy. People tend to experience you as open-minded, curious and willing to explore possibilities that others dismiss through fear or habit.
+
+You rarely appear overly restricted by rules, expectations or conventional thinking. This can make you exciting, unpredictable and sometimes difficult for more cautious personalities to understand.
+
+Others often admire your willingness to begin again, take chances and follow a path that feels right rather than one that simply feels safe.
+
+The impression you leave is possibility.
+
+You remind people that life is often much bigger than the limits they place upon themselves."
+A,core,positive,1,"You are naturally proactive. When something needs doing, your instinct is usually to engage with it rather than avoid it. You prefer movement over stagnation and solutions over excuses.
+
+One of your strongest qualities is resourcefulness. Even when circumstances are less than ideal, you tend to find opportunities, alternatives or approaches that other people overlook. Obstacles rarely stop you for long because your attention automatically shifts towards what can be done.
+
+You are adaptable, capable and often surprisingly resilient under pressure. While others can become trapped in overthinking, you usually learn through action."
+A,core,positive,2,"You possess a level of awareness that many people never fully develop. You notice details, emotional undercurrents and unspoken dynamics that often pass unnoticed by others.
+
+One of your greatest strengths is your ability to remain observant without needing to dominate a situation. You rarely need constant attention because your confidence comes from understanding rather than performance.
+
+You trust your instincts and often recognise the truth of a situation long before there is enough evidence to explain it logically."
+A,core,positive,3,"You naturally create growth.
+
+Whether applied to relationships, projects, ideas or opportunities, you have a talent for recognising potential and nurturing it until it becomes something meaningful.
+
+You are generous with your energy, encouraging by nature and often able to see strengths in yourself and others that have not yet fully emerged. There is usually a strong creative streak within you, even if it is not expressed through traditional artistic outlets.
+
+Your ability to bring life, warmth and development into situations is one of your defining strengths."
+A,core,positive,4,"You are naturally dependable.
+
+When you commit to something, people generally know where they stand with you. You value responsibility, structure and follow-through more than empty promises or good intentions.
+
+One of your greatest strengths is your ability to remain steady when circumstances become difficult. While others may panic or become overwhelmed, you often focus on what needs to be done next.
+
+You have a practical mindset and a strong ability to create order from confusion."
+A,core,positive,5,"You are naturally drawn towards understanding.
+
+Rather than accepting information at face value, you tend to look for deeper meaning, wider context and the lessons hidden beneath the surface.
+
+You have a talent for recognising patterns and connecting ideas that initially appear unrelated. This often gives you a broader perspective than many people around you.
+
+One of your greatest strengths is your ability to turn knowledge into wisdom through lived experience."
+A,core,positive,6,"You are naturally skilled at building genuine connections. People rarely remain strangers for long because you have an ability to find common ground without forcing it.
+
+You value relationships, loyalty and emotional honesty. Rather than treating people as transactions or opportunities, you tend to see the human being behind the role, title or situation.
+
+One of your greatest strengths is your ability to bring warmth into environments that might otherwise feel cold, distant or disconnected."
+A,core,positive,7,"You possess a strong sense of direction. Once you decide something is important, you are capable of maintaining focus long after other people have become distracted or discouraged.
+
+You are naturally determined and often far more resilient than you give yourself credit for. Challenges tend to strengthen your resolve rather than weaken it.
+
+One of your greatest strengths is your ability to maintain momentum even when conditions are far from perfect."
+A,core,positive,8,"You have a strong internal compass.
+
+You naturally look for fairness, balance and truth rather than simply accepting appearances. This allows you to assess situations objectively and avoid being overly influenced by emotion, pressure or popular opinion.
+
+You value integrity and generally prefer honesty over convenience. Even when difficult decisions are required, you tend to focus on what is right rather than what is easy.
+
+One of your greatest strengths is your ability to remain principled when others become reactive."
+A,core,positive,9,"You are naturally reflective.
+
+Rather than reacting immediately to every situation, you tend to step back, observe and consider the deeper meaning of what is happening. This often gives you insights that are unavailable to people who rush through life without reflection.
+
+You value understanding over attention and substance over appearance.
+
+One of your greatest strengths is your ability to develop wisdom through observation, experience and self-awareness."
+A,core,positive,10,"You are adaptable by nature.
+
+Life rarely follows a perfectly predictable path, yet you possess an unusual ability to adjust when circumstances change. Where others become trapped by disappointment, you often look for the next opportunity.
+
+You understand that growth requires movement and that every phase of life eventually changes.
+
+One of your greatest strengths is your ability to recover, regroup and move forward after setbacks."
+A,core,positive,11,"You possess genuine inner resilience.
+
+While some people rely on force, pressure or control, your strength often comes from patience, endurance and emotional stability. You are capable of carrying responsibility without constantly needing recognition for it.
+
+You do not give up easily. Even when life becomes difficult, there is usually a part of you that continues moving forward.
+
+One of your greatest strengths is your ability to remain steady during challenges that would overwhelm many others."
+A,core,positive,12,"You have the ability to see situations from angles that other people completely miss.
+
+Rather than rushing towards obvious conclusions, you naturally pause, reflect and consider alternatives. This often allows you to discover solutions, opportunities and insights hidden from immediate view.
+
+You are capable of learning through observation rather than constant action.
+
+One of your greatest strengths is your ability to gain wisdom through perspective."
+A,core,positive,13,"You are capable of profound personal growth.
+
+Many people spend years resisting change, but you possess an ability to release what no longer serves you and move towards what does. This allows you to evolve rather than remain trapped in outdated situations or identities.
+
+You understand that endings are often part of growth rather than evidence of failure.
+
+One of your greatest strengths is your ability to transform adversity into development."
+A,core,positive,14,"You naturally seek balance.
+
+Rather than living at extremes, you tend to look for sustainable solutions, healthy compromises and practical harmony. You are often able to combine different ideas, perspectives or approaches into something that works.
+
+Patience comes more naturally to you than it does to many people.
+
+One of your greatest strengths is your ability to create stability without becoming rigid."
+A,core,positive,15,"You possess powerful drive and determination.
+
+When focused on a goal, you are capable of committing yourself fully rather than offering half-hearted effort. You tend to have high standards and a strong desire to achieve meaningful results.
+
+You are often highly motivated, ambitious and unwilling to settle for mediocrity.
+
+One of your greatest strengths is your ability to channel intensity into achievement."
+A,core,positive,16,"You have the ability to recognise when something has reached the end of its usefulness.
+
+While many people cling to situations, beliefs or structures long after they have stopped working, you are often capable of acknowledging reality and adapting accordingly. This does not mean you enjoy disruption. It means you value truth more than comfort.
+
+You are often more resilient than people realise because you are willing to rebuild rather than remain trapped.
+
+One of your greatest strengths is your ability to create a stronger future from the remains of what no longer belongs there."
+A,core,positive,17,"You naturally focus on possibility rather than limitation.
+
+Even during difficult periods, there is often a part of you that continues looking towards growth, improvement and future opportunities. You do not always lose faith simply because circumstances become challenging.
+
+You are capable of maintaining perspective when others become consumed by disappointment.
+
+One of your greatest strengths is your ability to remain connected to hope without becoming disconnected from reality."
+A,core,positive,18,"You possess strong intuition and emotional awareness.
+
+You often recognise subtle patterns, hidden motivations and underlying feelings long before they become obvious to everyone else. This gives you a depth of perception that cannot always be explained logically.
+
+You are naturally imaginative and often able to understand situations on both an emotional and symbolic level.
+
+One of your greatest strengths is your ability to navigate uncertainty without needing immediate answers."
+A,core,positive,19,"You have a naturally positive life force.
+
+There is often a genuine enthusiasm within you that helps you engage fully with experiences rather than standing on the sidelines. You tend to value authenticity over pretence and honesty over image.
+
+You are capable of appreciating success, joy and achievement without constantly searching for problems.
+
+One of your greatest strengths is your ability to approach life with openness, confidence and genuine self-belief."
+A,core,positive,20,"You possess strong self-awareness.
+
+Rather than endlessly repeating the same patterns, you are capable of reflecting on your choices, learning from experience and making meaningful adjustments when necessary.
+
+You are naturally drawn towards growth, improvement and personal accountability. This allows you to move forward rather than remaining trapped by the past.
+
+One of your greatest strengths is your willingness to answer life's wake-up calls instead of ignoring them."
+A,core,positive,21,"You have a broad perspective on life.
+
+You naturally see connections between experiences, people and events that others often view in isolation. This allows you to understand situations within a larger context rather than becoming trapped by short-term concerns.
+
+You are capable of integrating lessons, experiences and knowledge into a more complete understanding of yourself and the world.
+
+One of your greatest strengths is your ability to bring wisdom, maturity and perspective into everything you do."
+A,core,positive,22,"You possess a natural openness to life.
+
+While many people become restricted by fear, routine or the need for certainty, you retain a willingness to explore, experiment and remain curious about what might be possible.
+
+You are often willing to step into unfamiliar territory without needing every answer in advance. This gives you a flexibility and spontaneity that allows you to embrace opportunities others may never attempt.
+
+One of your greatest strengths is your ability to begin again without allowing the past to dictate every future decision."
+A,core,shadow,1,"You can become so focused on making things happen that you stop asking whether they should happen. Action feels comfortable to you. Waiting, uncertainty and lack of control do not. At times, your confidence can drift into believing that you must solve everything yourself."
+A,core,shadow,2,"You can spend so much time observing that you avoid participating. Rather than risking being misunderstood, vulnerable or wrong, you may keep your thoughts and feelings locked away. At its deepest level, this shadow creates isolation disguised as self-protection."
+A,core,shadow,3,You can become so focused on nurturing growth that you forget to ask whether something deserves your energy. The shadow appears when care becomes obligation and generosity becomes self-neglect. At times you may confuse being needed with being valued.
+A,core,shadow,4,"You can become overly attached to control. Structure and certainty help you feel secure, but when taken too far they can make life rigid. The shadow appears when control becomes more important than growth."
+A,core,shadow,5,"You can become trapped by what you already know. Knowledge is a strength, but it can become a limitation when certainty replaces curiosity. The shadow appears when wisdom stops evolving and becomes dogma."
+A,core,shadow,6,You can become so focused on keeping connection that you avoid necessary conflict. The shadow appears when acceptance becomes people-pleasing and loyalty becomes self-abandonment.
+A,core,shadow,7,You can become addicted to forward movement. Slowing down feels uncomfortable because it creates space for unresolved issues to catch up. The shadow appears when determination becomes relentless pushing and achievement becomes avoidance.
+A,core,shadow,8,You can become so attached to being right that you lose sight of being effective. The shadow appears when discernment becomes judgement and accountability becomes perfectionism.
+A,core,shadow,9,You can withdraw so far into your own world that nobody knows how to reach you. The shadow appears when independence becomes emotional distance.
+A,core,shadow,10,You can become overly dependent on change. The shadow appears when flexibility becomes instability and freedom becomes restlessness.
+A,core,shadow,11,You can become so determined to stay strong that you stop being honest about your struggles. The shadow appears when endurance becomes suppression.
+A,core,shadow,12,You can spend so much time considering possibilities that action never arrives. The shadow appears when patience becomes procrastination and perspective becomes paralysis.
+A,core,shadow,13,You can become too quick to let go. The shadow appears when transformation becomes escape and endings become avoidance.
+A,core,shadow,14,You can become so focused on balance that you avoid intensity altogether. The shadow appears when harmony becomes avoidance.
+A,core,shadow,15,You can become trapped by your own standards. The shadow appears when ambition becomes obsession and standards become self-punishment.
+A,core,shadow,16,You can become so focused on what is broken that you lose sight of what is still working. The shadow appears when truth becomes destruction and honesty becomes demolition.
+A,core,shadow,17,You can become attached to potential while neglecting reality. The shadow appears when inspiration becomes escapism and vision becomes fantasy.
+A,core,shadow,18,You can become trapped inside your own perceptions. The shadow appears when sensitivity becomes suspicion and intuition becomes projection.
+A,core,shadow,19,You can become overly identified with appearing positive. The shadow appears when confidence becomes complacency and positivity becomes denial.
+A,core,shadow,20,You can become trapped in constant self-evaluation. The shadow appears when self-awareness becomes self-judgement and reflection becomes obsession.
+A,core,shadow,21,You can become so focused on the bigger picture that you neglect the present moment. The shadow appears when wisdom becomes detachment and perspective becomes distance.
+A,core,shadow,22,You can become so attached to freedom that commitment feels like a trap. The shadow appears when freedom becomes avoidance and spontaneity becomes inconsistency.
+A,core,healing,1,Healing begins when you stop believing that every problem requires immediate action. The lesson is not to act less. The lesson is to act with greater intention.
+A,core,healing,2,Healing begins when you start expressing what you know instead of waiting for absolute certainty. The lesson is learning that vulnerability creates connection far more effectively than self-protection.
+A,core,healing,3,Healing begins when you become as willing to nourish yourself as you are to nourish everyone else. The lesson is learning that your value does not depend on how much you give.
+A,core,healing,4,Healing begins when you recognise that control and security are not the same thing. The lesson is learning to trust yourself even when life refuses to cooperate.
+A,core,healing,5,Healing begins when curiosity becomes stronger than certainty. The lesson is remembering that being teachable is one of the highest forms of intelligence.
+A,core,healing,6,"Healing begins when you stop sacrificing your truth to maintain connection. The lesson is learning that genuine connection requires authenticity, not accommodation."
+A,core,healing,7,Healing begins when you stop measuring your worth through achievement. The lesson is understanding that your value is not dependent on constant productivity.
+A,core,healing,8,Healing begins when compassion and accountability learn to work together. The lesson is balancing fairness with humanity.
+A,core,healing,9,Healing begins when you allow other people access to the parts of yourself you usually keep private. The lesson is learning that needing support does not weaken independence.
+A,core,healing,10,Healing begins when you stop looking for the next chapter before fully experiencing the current one. The lesson is learning to create stability without feeling trapped by it.
+A,core,healing,11,Healing begins when you allow yourself to be human. The lesson is understanding that vulnerability and strength can exist together.
+A,core,healing,12,Healing begins when reflection finally becomes action. The lesson is trusting that imperfect action often teaches more than perfect preparation.
+A,core,healing,13,Healing begins when you stop treating every ending as proof that something failed. The lesson is learning to let go without immediately running away.
+A,core,healing,14,Healing begins when you stop trying to keep everything comfortable. The lesson is understanding that peace and avoidance are not the same thing.
+A,core,healing,15,Healing begins when you recognise that your worth cannot be earned through achievement alone. The lesson is learning to appreciate progress without demanding perfection.
+A,core,healing,16,Healing begins when you learn the difference between what needs rebuilding and what simply needs repairing. The lesson is learning that truth can transform without destroying.
+A,core,healing,17,Healing begins when hope is supported by action. The lesson is learning to build the future rather than simply imagine it.
+A,core,healing,18,Healing begins when you learn to separate intuition from fear. The lesson is learning to question your assumptions without dismissing your instincts.
+A,core,healing,19,Healing begins when you allow yourself to experience the full range of human emotions. The lesson is learning that authenticity is more powerful than constant positivity.
+A,core,healing,20,Healing begins when you stop treating every mistake as evidence against yourself. The lesson is learning when to learn the lesson and move forward.
+A,core,healing,21,Healing begins when you stop expecting yourself to have everything figured out. The lesson is learning to appreciate the journey instead of waiting for perfect completion.
+A,core,healing,22,Healing begins when freedom and commitment learn to coexist. The lesson is learning that commitment does not remove freedom. It gives freedom direction.
+A,core,shadow_lessons,1,"Life repeatedly teaches you that not everything can be controlled through effort alone. You are here to learn the difference between influence and control, action and force."
+A,core,shadow_lessons,2,Life repeatedly teaches you that wisdom loses value when it remains unspoken. You are here to learn that trust requires expression.
+A,core,shadow_lessons,3,Life repeatedly teaches you that love and sacrifice are not the same thing. You are here to learn where generosity ends and self-neglect begins.
+A,core,shadow_lessons,4,Life repeatedly teaches you that strength does not come from controlling everything around you. You are here to learn flexibility and trust.
+A,core,shadow_lessons,5,Life repeatedly teaches you that every belief must remain open to evolution. You are here to learn that wisdom grows through curiosity.
+A,core,shadow_lessons,6,Life repeatedly teaches you that belonging should never cost you your authenticity. You are here to learn that genuine connection requires honesty.
+A,core,shadow_lessons,7,Life repeatedly teaches you that your worth is not measured by how much you achieve. You are here to learn balance between movement and presence.
+A,core,shadow_lessons,8,"Life repeatedly teaches you that fairness without compassion becomes harshness. You are here to learn that people are imperfect, including yourself."
+A,core,shadow_lessons,9,Life repeatedly teaches you that wisdom grows through connection as well as solitude. You are here to learn that independence and support can coexist.
+A,core,shadow_lessons,10,"Life repeatedly teaches you that stability is not the enemy of freedom. You are here to learn commitment, consistency and presence."
+A,core,shadow_lessons,11,Life repeatedly teaches you that vulnerability is not weakness. You are here to learn that true strength includes receiving support.
+A,core,shadow_lessons,12,"Life repeatedly teaches you that clarity often arrives after action, not before it. You are here to learn trust in the process."
+A,core,shadow_lessons,13,Life repeatedly teaches you that transformation requires discernment. You are here to learn the difference between release and escape.
+A,core,shadow_lessons,14,Life repeatedly teaches you that peace cannot be built upon avoidance. You are here to learn that discomfort is sometimes necessary for growth.
+A,core,shadow_lessons,15,Life repeatedly teaches you that your worth exists independently of achievement. You are here to learn acceptance alongside ambition.
+A,core,shadow_lessons,16,Life repeatedly teaches you that destruction and transformation are not the same thing. You are here to learn wisdom before demolition.
+A,core,shadow_lessons,17,Life repeatedly teaches you that hope must be partnered with action. You are here to learn to ground inspiration in reality.
+A,core,shadow_lessons,18,Life repeatedly teaches you to distinguish intuition from fear. You are here to learn trust without abandoning discernment.
+A,core,shadow_lessons,19,Life repeatedly teaches you that authenticity is more important than positivity. You are here to learn to be real rather than impressive.
+A,core,shadow_lessons,20,"Life repeatedly teaches you that self-awareness is valuable, but self-punishment is not. You are here to learn without carrying guilt forever."
+A,core,shadow_lessons,21,Life repeatedly teaches you that completion is an illusion. You are here to learn to value progress without demanding finality.
+A,core,shadow_lessons,22,Life repeatedly teaches you that freedom without commitment eventually becomes limitation. You are here to learn that commitment and freedom are partners.
+B,core,meaning,1,"At your core, you are someone who looks for ways forward. Even when situations are difficult, part of you is naturally searching for solutions, opportunities or alternatives. You tend to learn through action and experience. When disconnected from yourself, frustration often appears because you know you are capable of more than you are currently expressing."
+B,core,meaning,2,"At your core, you are an observer. You naturally notice details, patterns and emotional undercurrents that many people miss. Rather than immediately reacting, you absorb information first and form your own conclusions later. When disconnected from yourself, you can become trapped in hesitation, uncertainty or overthinking."
+B,core,meaning,3,"At your core, you are a builder of growth. You naturally focus your energy on development, whether that involves people, projects, relationships, ideas or opportunities. When disconnected from yourself, you can end up investing energy where there is little chance of healthy growth."
+B,core,meaning,4,"At your core, you are a stabiliser. You naturally seek structure, order and direction. There is a practical quality to this energy. When disconnected from yourself, stability can become rigidity and responsibility can become control."
+B,core,meaning,5,"At your core, you are a seeker of understanding. You rarely accept life at face value and naturally search for deeper meaning. When disconnected from yourself, learning can be replaced by certainty and curiosity by fixed beliefs."
+B,core,meaning,6,"At your core, you are relationship-driven. Connection plays a significant role in your life and you often understand yourself better through genuine relationships. When disconnected from yourself, the desire for connection can become dependence on approval."
+B,core,meaning,7,"At your core, you are driven by movement. There is usually a strong desire to progress, improve and overcome obstacles. When disconnected from yourself, progress can become pressure and ambition can become restlessness."
+B,core,meaning,8,"At your core, you are guided by principles. You naturally seek fairness, balance and honesty. When disconnected from yourself, fairness can become judgement and standards can become perfectionism."
+B,core,meaning,9,"At your core, you are reflective. You learn through observation, experience and personal insight. When disconnected from yourself, reflection can become withdrawal and wisdom can become isolation."
+B,core,meaning,10,"At your core, you are adaptable. Life tends to teach you through change, movement and unexpected developments. When disconnected from yourself, adaptability can become inconsistency and freedom can become restlessness."
+B,core,meaning,11,"At your core, you are resilient. Much of your strength comes from endurance rather than force. When disconnected from yourself, resilience can become carrying burdens that were never yours to carry."
+B,core,meaning,12,"At your core, you see life differently. You naturally question assumptions and look beyond obvious answers. When disconnected from yourself, perspective can become delay and reflection can become indecision."
+B,core,meaning,13,"At your core, you are designed for growth through change. You possess an ability to outgrow old identities and situations. When disconnected from yourself, change can become instability and letting go can become avoidance."
+B,core,meaning,14,"At your core, you seek balance. You naturally look for ways to bring different parts of life together rather than allowing them to remain in conflict. When disconnected from yourself, balance can become compromise and harmony can become avoidance."
+B,core,meaning,15,"At your core, you are driven to master your potential. There is often a strong internal drive to improve and achieve. When disconnected from yourself, ambition can become pressure and standards can become self-criticism."
+B,core,meaning,16,"At your core, you value truth. You are naturally drawn towards what is genuine and authentic. When disconnected from yourself, honesty can become harshness and change can become destruction."
+B,core,meaning,17,"At your core, you are hopeful. Even during difficult periods, there is often a part of you that continues looking towards possibilities and growth. When disconnected from yourself, hope can become wishful thinking and vision can become fantasy."
+B,core,meaning,18,"At your core, you are intuitive. You often understand life through feelings, impressions and subtle observations rather than logic alone. When disconnected from yourself, intuition can become fear and sensitivity can become confusion."
+B,core,meaning,19,"At your core, you are expressive. You function best when you are able to be yourself without excessive masks or pretence. When disconnected from yourself, confidence can become image management and positivity can become denial."
+B,core,meaning,20,"At your core, you are driven by growth. There is usually a strong desire to understand yourself and learn from experience. When disconnected from yourself, self-awareness can become self-criticism and reflection can become over-analysis."
+B,core,meaning,21,"At your core, you seek understanding of the bigger picture. You naturally look for connections between experiences, people and events. When disconnected from yourself, perspective can become detachment and understanding can become distance."
+B,core,meaning,22,"At your core, you are exploratory. You are naturally curious about life and often drawn towards new experiences and possibilities. When disconnected from yourself, freedom can become avoidance and spontaneity can become inconsistency."
+C,core,meaning,1,"Your material lesson is about taking ownership of your ability to create results.
+
+Money and practical progress are blocked when you wait for permission, doubt your own capability, or scatter your energy across too many unfinished ideas. This karma asks you to stop treating your power as accidental. If you have skill, intelligence, influence or ideas, they need to be directed properly.
+
+Material flow improves when you take initiative, finish what you start, and use your abilities responsibly rather than impulsively."
+C,core,meaning,2,"Your material lesson is about information, communication and reliability.
+
+Money can become blocked when messages are withheld, distorted, forgotten or delivered unclearly. This energy asks you to become someone who can be trusted with important information.
+
+Material flow improves when you communicate clearly, follow through, and stop assuming people already know what you know."
+C,core,meaning,3,"Your material lesson is about joy, abundance and allowing yourself to receive.
+
+Money can become complicated when pleasure, comfort or success are mixed with guilt. This karma asks you to stop treating abundance as something shameful or unsafe.
+
+Material flow improves when you allow life to become beautiful, visible and nourishing without apologising for it."
+C,core,meaning,4,"Your material lesson is about authority, structure and responsible leadership.
+
+Money is blocked when you avoid making decisions, shrink from responsibility, or wait for others to approve what you already know you need to build.
+
+Material flow improves when you stop playing small, make clear decisions, and build something with structure behind it."
+C,core,meaning,5,"Your material lesson is about clarity, teaching and formalising what has been vague.
+
+Money can become blocked when knowledge is hidden, guidance is unclear, or things remain unofficial.
+
+Material flow improves when you teach, guide, document, speak clearly, use proper agreements and stop hiding your knowledge in the shadows."
+C,core,meaning,6,"Your material lesson is about valuing skill, beauty and personal craftsmanship.
+
+Money becomes blocked when you undercharge, downplay your talent, give too much away or try to make your work cheap enough for everyone.
+
+Material flow improves when you price your work properly, honour your craft and stop confusing accessibility with self-devaluation."
+C,core,meaning,7,"Your material lesson is about direction, movement and disciplined progress.
+
+Money can become blocked when you start strongly but lose focus, chase too many goals, or treat movement as enough without a clear destination.
+
+Material flow improves when you choose a route, commit to it, and turn ambition into consistent practical action."
+C,core,meaning,8,"Your material lesson is about fairness, legality, balance and consequence.
+
+Money becomes blocked when agreements are unclear, responsibility is avoided, or things are handled unfairly.
+
+Material flow improves when everything is clean, fair, documented and energetically balanced."
+C,core,meaning,9,"Your material lesson is about sharing wisdom instead of isolating with it.
+
+Money can become blocked when you keep knowledge to yourself, avoid mentoring, or believe you must be fully ready before guiding anyone.
+
+Material flow improves when you teach from experience, mentor, share what you know and help others grow step by step."
+C,core,meaning,10,"Your material lesson is about owning the value of your insight, timing and presence.
+
+Money may not come through heavy labour alone. The block appears when you undervalue this because it does not look like proper work.
+
+Material flow improves when you stop dismissing your insight and offer it under the right conditions, to the right people, at the right value."
+C,core,meaning,11,"Your material lesson is about life force, courage and healthy use of power.
+
+Money becomes blocked when strength turns into pressure, burnout, aggression or carrying too much alone.
+
+Material flow improves when you channel your strength into purposeful work, protect your energy, and stop treating exhaustion as proof of worth."
+C,core,meaning,12,"Your material lesson is about learning when to stop waiting.
+
+Money becomes blocked when preparation never ends, decisions are endlessly postponed, or opportunities are missed because you are still trying to see every possible angle.
+
+Material flow improves when you stop treating uncertainty as a reason to remain stuck and start trusting your ability to adjust as you go."
+C,core,meaning,13,"Your material lesson is about release.
+
+Money becomes blocked when you cling to expired business models, outdated goals, dead-end projects, old identities or opportunities that have already run their course.
+
+Material flow improves when you stop trying to revive what is complete and make space for what wants to replace it."
+C,core,meaning,14,"Your material lesson is about moderation.
+
+Money becomes blocked through extremes. Too much spending. Too much restriction. Too much risk. Too much caution.
+
+Material flow improves when consistency becomes more important than intensity."
+C,core,meaning,15,"Your material lesson is about attachment.
+
+Money becomes blocked when self-worth becomes tied to achievement, status, possessions, recognition or external success.
+
+Material flow improves when you stop chasing worth and start building from it."
+C,core,meaning,16,"Your material lesson is about foundations.
+
+Money becomes blocked when problems are ignored for too long, weak systems are maintained out of convenience, or uncomfortable truths are avoided.
+
+Material flow improves when you address cracks early instead of waiting for collapse to force change."
+C,core,meaning,17,"Your material lesson is about belief and action working together.
+
+Money becomes blocked when you spend too much time dreaming about possibilities and not enough time building them.
+
+Material flow improves when hope is backed by consistent action."
+C,core,meaning,18,"Your material lesson is about clarity.
+
+Money becomes blocked when fear, assumptions, confusion or emotional decision-making replace facts.
+
+Material flow improves when intuition is supported by practical verification."
+C,core,meaning,19,"Your material lesson is about visibility.
+
+Money becomes blocked when you hide your abilities, downplay your achievements or make yourself smaller than you need to be.
+
+Material flow improves when confidence becomes action instead of remaining private potential."
+C,core,meaning,20,"Your material lesson is about accountability.
+
+Money becomes blocked when the same mistakes keep repeating because lessons are not fully integrated.
+
+Material flow improves when responsibility replaces blame and learning replaces regret."
+C,core,meaning,21,"Your material lesson is about completion.
+
+Money becomes blocked through unfinished projects, loose ends, half-built plans and constantly moving to the next thing before the current thing is fully realised.
+
+Material flow improves when you finish, deliver, conclude and harvest the results of previous effort."
+C,core,meaning,22,"Your material lesson is about commitment.
+
+Money becomes blocked when freedom is prioritised over responsibility, consistency or follow-through.
+
+Material flow improves when freedom is combined with discipline rather than used as an escape from it."
+D,core,meaning,1,"Your mission is to become someone who creates rather than waits.
+
+Life repeatedly pushes you towards initiative, self-belief and personal responsibility. You are not here to spend your life watching opportunities pass by while waiting for perfect conditions.
+
+Success comes when you trust your ability to act, influence outcomes and build something from your own efforts.
+
+Your mission is to become an active participant in your life rather than a spectator."
+D,core,meaning,2,"Your mission is to develop trust in your own judgement.
+
+Life repeatedly places you in situations where external answers are unavailable or unreliable. The challenge is learning to listen to yourself instead of constantly looking outside for certainty.
+
+Success comes when you stop doubting your perception and allow your inner wisdom to guide important decisions.
+
+Your mission is to trust what you already know."
+D,core,meaning,3,"Your mission is to create growth.
+
+Whether through people, projects, creativity, healing, business or family, your life continually asks you to develop potential into something tangible.
+
+Success comes when you stop focusing on what is lacking and start recognising what can be developed.
+
+Your mission is to bring life, growth and abundance wherever your energy is invested."
+D,core,meaning,4,"Your mission is to build strong foundations.
+
+Life repeatedly teaches responsibility, leadership, discipline and structure.
+
+Success comes when you take ownership of your direction and create stability that benefits both yourself and others.
+
+Your mission is to become someone others can rely upon."
+D,core,meaning,5,"Your mission is to turn knowledge into wisdom.
+
+Life repeatedly encourages you to learn, understand and share what you have discovered.
+
+Success comes when your experience becomes guidance that can benefit both yourself and others.
+
+Your mission is to remain teachable while becoming a teacher."
+D,core,meaning,6,"Your mission is to learn authentic connection.
+
+Life repeatedly places relationships at the centre of your growth because connection is one of your greatest teachers.
+
+Success comes when relationships are built on honesty rather than approval, and mutual respect rather than dependency.
+
+Your mission is to create meaningful relationships without abandoning your own identity."
+D,core,meaning,7,"Your mission is to master direction and determination.
+
+Life repeatedly pushes you beyond your comfort zone and asks you to develop focus, resilience and self-discipline.
+
+Success comes when your ambition is guided by purpose rather than pressure.
+
+Your mission is to become someone who keeps moving forward without losing themselves in the pursuit of achievement."
+D,core,meaning,8,"Your mission is to live with integrity.
+
+Life repeatedly teaches the importance of honesty, accountability and balance.
+
+Success comes when your actions consistently align with your values, even when doing so is difficult.
+
+Your mission is to become a person whose life reflects what they believe."
+D,core,meaning,9,"Your mission is to develop wisdom.
+
+Life repeatedly encourages self-reflection, learning and deeper understanding.
+
+Success comes when experience is transformed into genuine insight rather than simply accumulated.
+
+Your mission is to understand yourself deeply enough to understand life more clearly."
+D,core,meaning,10,"Your mission is to learn trust in change.
+
+Life repeatedly reminds you that growth rarely follows a straight line.
+
+Success comes when you stop resisting change and learn how to work with it.
+
+Your mission is to become adaptable without becoming unstable."
+D,core,meaning,11,"Your mission is to develop inner strength.
+
+Life repeatedly places you in situations that require courage, patience and emotional resilience.
+
+Success comes when strength is balanced with compassion, both towards yourself and others.
+
+Your mission is to discover that true strength comes from self-mastery rather than control."
+D,core,meaning,12,"Your mission is to develop a different perspective.
+
+Life repeatedly places you in situations where the obvious answer is not the correct answer.
+
+Success comes when you stop seeing delays as punishment and start recognising them as opportunities for understanding.
+
+Your mission is to see what others miss and bring that awareness into the world."
+D,core,meaning,13,"Your mission is to become comfortable with transformation.
+
+Life repeatedly asks you to release what is finished so that something new can emerge.
+
+Success comes when you stop clinging to old identities, outdated roles and expired chapters.
+
+Your mission is to become someone who embraces growth without fearing what must be left behind."
+D,core,meaning,14,"Your mission is to create balance.
+
+Life repeatedly teaches moderation, patience and integration.
+
+Success comes when balance becomes a conscious practice rather than an occasional achievement.
+
+Your mission is to demonstrate that harmony can exist without sacrificing authenticity."
+D,core,meaning,15,"Your mission is to master desire rather than be controlled by it.
+
+Life repeatedly places you in situations involving ambition, temptation, attachment, control and personal power.
+
+Success comes when you learn to use ambition as a tool rather than allowing it to become your master.
+
+Your mission is to build achievement without losing yourself in the process."
+D,core,meaning,16,"Your mission is to become a force for truth.
+
+Life repeatedly exposes situations that are unstable, dishonest, outdated or no longer sustainable.
+
+Success comes when you learn to rebuild rather than simply destroy.
+
+Your mission is to create stronger foundations wherever weakness has been hiding."
+D,core,meaning,17,"Your mission is to inspire possibility.
+
+Life repeatedly encourages you to look beyond limitations and recognise what could be achieved.
+
+Success comes when optimism is combined with action and vision is supported by commitment.
+
+Your mission is to help create a future that is better than the past."
+D,core,meaning,18,"Your mission is to develop discernment.
+
+Life repeatedly teaches the difference between intuition and fear, perception and assumption, feeling and fact.
+
+Success comes when sensitivity becomes wisdom rather than confusion.
+
+Your mission is to trust your inner guidance while remaining grounded in reality."
+D,core,meaning,19,"Your mission is to express your authentic self.
+
+Life repeatedly pushes you towards visibility, confidence and self-expression.
+
+Success comes when you allow yourself to be seen without needing to perform.
+
+Your mission is to bring warmth, confidence and authenticity into whatever you do."
+D,core,meaning,20,"Your mission is to awaken greater awareness.
+
+Life repeatedly encourages self-reflection, accountability and personal growth.
+
+Success comes when awareness leads to action rather than endless analysis.
+
+Your mission is to become the most evolved version of yourself that you are capable of becoming."
+D,core,meaning,21,"Your mission is to develop a broader perspective.
+
+Life repeatedly encourages you to see how individual experiences fit into a larger picture.
+
+Success comes when knowledge, experience and wisdom are brought together into something complete.
+
+Your mission is to unite understanding rather than fragment it."
+D,core,meaning,22,"Your mission is to live courageously.
+
+Life repeatedly encourages you to step beyond fear, limitation and excessive caution.
+
+Success comes when freedom is balanced with responsibility and curiosity is supported by commitment.
+
+Your mission is to remain open to life without becoming lost within it."
+E,core,meaning,1,"You feel most comfortable when you can influence what is happening around you.
+
+Sitting back and waiting rarely feels natural for long. You prefer having options, solutions and the ability to take action when necessary.
+
+You feel most at ease when you trust your own ability to handle what life places in front of you."
+E,core,meaning,2,"You feel most comfortable when you have time to think.
+
+You rarely enjoy being rushed into decisions, conclusions or commitments. Your natural tendency is to observe first, process internally and speak once you understand how you truly feel.
+
+You feel most at ease when you are allowed to move at your own pace."
+E,core,meaning,3,"You feel most comfortable when life is growing.
+
+You naturally enjoy environments where ideas, relationships, projects or opportunities are developing and improving.
+
+You feel most at ease when your energy is creating something meaningful."
+E,core,meaning,4,"You feel most comfortable when there is structure.
+
+Knowing where you stand, what is expected and where things are heading creates a sense of security.
+
+You feel most at ease when life has order and purpose."
+E,core,meaning,5,"You feel most comfortable when things make sense.
+
+You naturally look for understanding, meaning and explanation. Learning, studying and exploring ideas often feels reassuring because knowledge creates clarity.
+
+You feel most at ease when you understand what is happening and why."
+E,core,meaning,6,"You feel most comfortable when there is genuine connection.
+
+Relationships play an important role in helping you feel balanced and grounded.
+
+You feel most at ease when the important relationships in your life feel secure and authentic."
+E,core,meaning,7,"You feel most comfortable when you are moving forward.
+
+Progress creates energy for you. Having goals, plans and something meaningful to work towards often helps you feel motivated.
+
+You feel most at ease when there is a sense of momentum and purpose behind what you are doing."
+E,core,meaning,8,"You feel most comfortable when things feel fair.
+
+You naturally prefer honesty, balance and clear expectations.
+
+You feel most at ease when your environment reflects your values and principles."
+E,core,meaning,9,"You feel most comfortable when you have space to reflect.
+
+Time alone is often how you recharge, process experiences and reconnect with yourself.
+
+You feel most at ease when you have the freedom to think, reflect and move at your own pace."
+E,core,meaning,10,"You feel most comfortable when life has room to evolve.
+
+You generally cope well with change when it arrives naturally and may even become restless if everything remains exactly the same for too long.
+
+You feel most at ease when life contains both stability and enough freedom for new experiences to emerge."
+E,core,meaning,11,"You feel most comfortable when you feel emotionally steady.
+
+You do not necessarily need life to be perfect, but you do need to feel capable of handling whatever it brings.
+
+You feel most at ease when you trust your ability to cope with challenges without becoming overwhelmed."
+E,core,meaning,12,"You feel most comfortable when you have time to step back and look at the bigger picture.
+
+You rarely enjoy being pushed into immediate decisions without having an opportunity to reflect first.
+
+You feel most at ease when life allows you to process things in your own way and at your own pace."
+E,core,meaning,13,"You feel most comfortable when life feels honest.
+
+Part of you often feels relieved when something that has clearly run its course is finally acknowledged.
+
+You feel most at ease when you are not pretending that something is working when you know it isn't."
+E,core,meaning,14,"You feel most comfortable when life feels balanced.
+
+Extreme situations, constant drama and unnecessary conflict can become draining quite quickly.
+
+You feel most at ease when life feels sustainable rather than chaotic."
+E,core,meaning,15,"You feel most comfortable when you are improving something.
+
+There is often satisfaction in making progress, refining skills, solving problems and seeing tangible results.
+
+You feel most at ease when your energy is being directed towards something meaningful and productive."
+E,core,meaning,16,"You feel most comfortable when things are genuine.
+
+Pretence, dishonesty and superficial appearances often feel exhausting because you naturally prefer dealing with reality.
+
+You feel most at ease when life is built on honesty rather than illusion."
+E,core,meaning,17,"You feel most comfortable when there is something to look forward to.
+
+Hope, possibility and future potential naturally energise you.
+
+You feel most at ease when there is space for possibility and growth."
+E,core,meaning,18,"You feel most comfortable when you can trust your instincts.
+
+You naturally pay attention to atmosphere, feelings and subtle signals.
+
+You feel most at ease when your inner sense of knowing is respected."
+E,core,meaning,19,"You feel most comfortable when you can be yourself.
+
+You generally prefer openness over pretence and honesty over performance.
+
+You feel most at ease when life allows you to show up authentically."
+E,core,meaning,20,"You feel most comfortable when life feels meaningful.
+
+Growth, self-awareness and personal development often feel more satisfying to you than simply repeating the same patterns.
+
+You feel most at ease when you know you are moving in the right direction."
+E,core,meaning,21,"You feel most comfortable when things fit together.
+
+You naturally look for connections, patterns and the bigger picture.
+
+You feel most at ease when life feels complete, integrated and meaningful."
+E,core,meaning,22,"You feel most comfortable when there is freedom to explore.
+
+You naturally enjoy having room to move, experiment and discover new possibilities.
+
+You feel most at ease when life feels open rather than confined."
+F,core,meaning,1,"The men on your father's side passed down the lesson of self-reliance, initiative and personal power. This is a lineage that values capability, competence and finding solutions rather than waiting for rescue. There is often a pattern of men who prefer to handle problems themselves, take charge when necessary and rely on their own judgement rather than the opinions of others. This line can produce pioneers, innovators, skilled workers and strong personalities who believe they must create their own opportunities. The gift inherited from this line is leadership, resourcefulness and the ability to turn ideas into reality.
+
+The challenge appears when independence becomes isolation. Men in this line may struggle to ask for help, may become overly controlling, dismissive of others' abilities or convinced that only they know the correct way forward. Pride can become a defence mechanism. Instead of leading, they dominate. Instead of creating, they compete. Instead of inspiring others, they try to prove themselves superior. This often hides a deeper fear of failure or weakness.
+
+The lesson of this ancestral line is to use power responsibly. Leadership is not about controlling everyone around you. It is about becoming an example others naturally want to follow. When this line is healed, it produces confident people who inspire, create opportunities, trust their own abilities and help others grow rather than making themselves the centre of everything."
+F,core,meaning,2,"The men on your father's side passed down the gift of observation, wisdom and understanding people beneath the surface. This line often contains individuals who knew how to read situations carefully before acting. They may not always have been the loudest people in the room, but they understood how relationships worked, how information moved and how to influence outcomes through knowledge rather than force. The gift inherited from this line is intuition, diplomacy, emotional intelligence and the ability to understand what is not being said.
+
+The shadow pattern is secrecy, manipulation and passivity. Instead of using knowledge to help, information becomes a tool for control. Family members may avoid direct communication, keep secrets, gossip or expect others to read their minds. There can also be a tendency to collect knowledge without acting on it, endlessly analysing rather than making decisions. Some descendants inherit uncertainty and self-doubt because they were taught to observe life instead of participating in it.
+
+The lesson of this line is to trust wisdom but also use it. Information should be shared to guide, support and connect people rather than to gain power over them. When healed, this ancestral line produces wise advisers, natural counsellors and people who help others find clarity during confusion."
+F,core,meaning,3,"The men on your father's side passed down lessons around resources, provision, abundance and creating stability. This lineage often includes people who understood how to build, provide and ensure that others had what they needed. Even when resources were limited, there is often a strong survival instinct running through this line. The gift inherited here is creativity, productivity, generosity and the ability to create growth from very little.
+
+The shadow appears as scarcity thinking. There may be a deep fear that there is never enough money, support, love or security. Family members may become possessive, impatient, controlling around resources or overly focused on material success. Some may define their worth entirely through what they own, provide or achieve. The fear of loss can drive behaviours that actually block abundance.
+
+The lesson of this ancestral line is to understand that abundance grows through trust, patience and wise stewardship. When healed, this line produces people who know how to create security without becoming controlled by fear, and who can support others without sacrificing themselves."
+F,core,meaning,4,"The men on your father's side passed down the energy of responsibility, order and protection. This lineage often contains strong authority figures who believed life required discipline, structure and self-control. They may have faced difficult circumstances that forced them to mature quickly and become dependable. The gift inherited from this line is strength under pressure, decisiveness and the ability to build solid foundations.
+
+The shadow appears when control becomes excessive. There may be a pattern of authoritarian behaviour, emotional rigidity or believing that vulnerability is weakness. Some men in the lineage may have struggled to show affection because they believed their role was only to provide and protect. Others may have become controlling because they feared chaos.
+
+The lesson is to balance strength with humanity. Real leadership includes compassion, flexibility and emotional maturity. When healed, this line produces people who create stability without oppression and who protect others without controlling them."
+F,core,meaning,5,"The men on your father's side passed down lessons connected to knowledge, values, tradition and teaching. This lineage often contains people who believed strongly in principles, education, faith or passing wisdom from one generation to the next. The gift inherited from this line is guidance, mentorship and the ability to help others learn through experience.
+
+The shadow appears when tradition becomes limitation. Family members may have used rules to control rather than guide. There can be rigid thinking, judgement of those who choose different paths or pressure to conform to family expectations. Some descendants may struggle with guilt whenever they choose a different direction from what they were taught.
+
+The lesson is to preserve wisdom without becoming trapped by it. When healed, this line produces teachers, mentors and guides who honour the past while allowing future generations the freedom to grow in their own way."
+F,core,meaning,6,"The men on your father's side passed down lessons around relationships, choice and emotional connection. This lineage often contains people who were required to make important decisions involving family, loyalty, love or partnership. The gift inherited from this line is the ability to build meaningful relationships, bring people together and create harmony between different viewpoints. There is often a natural warmth, charm and desire for connection within this ancestral line.
+
+The shadow appears when approval becomes more important than authenticity. Men in this lineage may have sacrificed their own needs to keep others happy, stayed in unsuitable relationships or struggled to make difficult choices. There can be a tendency to idealise people, avoid conflict or become dependent on external validation. Some descendants inherit confusion around relationships because they were taught to seek acceptance rather than truth.
+
+The lesson of this line is to choose from love rather than fear. Healthy relationships require honesty, boundaries and mutual respect. When healed, this ancestral line produces people who build strong partnerships without losing themselves in the process."
+F,core,meaning,7,"The men on your father's side passed down the energy of movement, determination and achievement. This lineage often contains individuals who pushed forward regardless of obstacles. They may have travelled, relocated, taken risks or constantly sought new opportunities. The gift inherited from this line is courage, ambition and the ability to keep moving when others would stop. These are people who understand that progress requires action.
+
+The shadow appears when achievement becomes the only goal. Some men in this lineage may have become so focused on winning, succeeding or proving themselves that they neglected relationships, health or emotional wellbeing. There can be impatience, recklessness or a belief that slowing down equals failure. Descendants may feel driven to constantly do more without understanding why.
+
+The lesson is to direct energy with purpose rather than force. Success is not simply about movement; it is about moving in the right direction. When healed, this line produces focused, disciplined individuals who combine determination with wisdom and self-control."
+F,core,meaning,8,"The men on your father's side passed down lessons about fairness, responsibility and consequences. This lineage often contains people who believed strongly in right and wrong, honour, duty and accountability. The gift inherited from this line is integrity, balance and the ability to see situations objectively. These individuals often become the voice of reason during conflict.
+
+The shadow appears when fairness turns into judgement. Men in this lineage may have been highly critical of themselves and others, expecting perfection or believing that everyone should live by the same standards. There can be rigidity, resentment and difficulty accepting human imperfections. Some descendants inherit a tendency to judge before they understand.
+
+The lesson is to balance justice with compassion. Not every situation is black and white. When healed, this line produces people who uphold strong values while remaining understanding, fair and emotionally mature."
+F,core,meaning,9,"The men on your father's side passed down the gift of wisdom, reflection and inner knowledge. This lineage often contains thinkers, teachers, researchers or people who preferred depth over popularity. They may have spent significant periods alone developing skills, knowledge or understanding that later benefited others. The gift inherited from this line is insight, patience and the ability to see beneath the surface.
+
+The shadow appears when solitude becomes isolation. Some men in this lineage may have withdrawn emotionally, struggled to express their feelings or disconnected from others while pursuing knowledge or personal goals. There can be a tendency to believe that nobody understands them, leading to loneliness and separation. Descendants may inherit a fear of vulnerability or a habit of handling everything alone.
+
+The lesson is to share wisdom rather than hide it. Knowledge becomes valuable when it is used to help others. When healed, this line produces wise guides and mentors who combine understanding with genuine human connection."
+F,core,meaning,10,"The men on your father's side passed down lessons about change, timing and trusting life's cycles. This lineage often contains people who experienced dramatic shifts in fortune, unexpected opportunities or periods where life changed direction very quickly. The gift inherited from this line is adaptability, optimism and the ability to recognise opportunities when they appear. These individuals often have a strong sense that life is constantly moving and evolving.
+
+The shadow appears when people become passive and expect luck to solve everything. Some men in this lineage may have relied too heavily on chance, waited for circumstances to improve or blamed fate when things went wrong. Others resisted change and became trapped in cycles of frustration. Descendants may inherit either restlessness or fear of uncertainty.
+
+The lesson is to work with change rather than against it. Fortune favours those who prepare, adapt and take action when opportunities arise. When healed, this line produces people who trust life's timing while still taking responsibility for their own path."
+F,core,meaning,11,"The men on your father's side passed down the energy of courage, endurance and inner power. This lineage often contains individuals who survived difficult circumstances through determination and resilience. They learned how to keep going when life became challenging and often carried responsibilities that others could not. The gift inherited from this line is strength of character, persistence and the ability to overcome obstacles through steady effort.
+
+The shadow appears when strength becomes force. Men in this lineage may have believed emotions were weaknesses, leading to suppressed feelings, anger or the misuse of power. Some may have tried to dominate situations rather than master themselves. There can also be a tendency to run from one's true calling out of fear or self-doubt.
+
+The lesson is to understand that real strength comes from self-mastery, not control over others. When healed, this line produces people who use their power constructively, protect rather than dominate and lead through example rather than force."
+F,core,meaning,12,"The men on your father's side passed down lessons about sacrifice, perspective and service. This lineage often contains people who were forced to pause, wait or see life differently after significant challenges. The gift inherited from this line is patience, spiritual insight and the ability to understand situations from multiple viewpoints.
+
+The shadow appears when sacrifice becomes victimhood. Men in this lineage may have believed suffering was necessary for love, success or acceptance. There can be patterns of martyrdom, passivity or giving away too much without receiving support in return. Some descendants inherit a tendency to put everyone else's needs before their own.
+
+The lesson is to serve without self-abandonment. When healed, this line produces people who understand compassion, maintain healthy boundaries and recognise that wisdom often comes through experience rather than struggle alone."
+F,core,meaning,13,"The men on your father's side passed down lessons about endings, renewal and transformation. This lineage often contains people who experienced major life changes, losses or periods where everything had to be rebuilt from the ground up. The gift inherited from this line is resilience, adaptability and the ability to let go of what no longer serves growth.
+
+The shadow appears when fear of change creates resistance. Family members may cling to relationships, jobs, beliefs or identities long after they have expired. There can also be a tendency toward dramatic endings, avoidance of closure or fear of loss.
+
+The lesson is to trust transformation rather than fear it. When healed, this line produces people who understand that every ending creates space for a new beginning and who guide others through change with wisdom and courage."
+F,core,meaning,14,"The men on your father's side passed down the energy of moderation, balance and integration. This lineage often contains individuals who acted as peacemakers, mediators or people who brought opposing forces together. The gift inherited from this line is patience, diplomacy and the ability to create harmony where others see conflict.
+
+The shadow appears when balance turns into avoidance. Family members may suppress emotions, avoid necessary confrontations or prioritise peace at any cost. There can be a tendency to delay decisions or become stuck between options.
+
+The lesson is to understand that true harmony includes honesty. When healed, this line produces people who create lasting balance, communicate clearly and know how to unite people without losing themselves in the process."
+F,core,meaning,15,"The men on your father's side passed down lessons connected to power, desire, material success and temptation. This lineage often contains strong personalities who understood how to influence, attract resources and pursue ambitious goals. The gift inherited from this line is magnetism, determination and the ability to create abundance in the material world.
+
+The shadow appears when desire becomes control. There may be family patterns involving addiction, obsession, manipulation, greed or using power for personal gain. Some descendants inherit a fear of success while others become consumed by it.
+
+The lesson is to master desires rather than become controlled by them. When healed, this line produces people who create wealth, success and influence while remaining ethical, grounded and emotionally free."
+F,core,meaning,16,"The men on your father's side passed down lessons connected to truth, awakening and breaking false foundations. This lineage often contains individuals whose lives were transformed by sudden events that forced them to rethink everything they believed. The gift inherited from this line is honesty, spiritual growth and the courage to face reality.
+
+The shadow appears when change is resisted. Family members may ignore warning signs, cling to outdated structures or repeat destructive patterns until life forces a correction. There can also be fear of instability and an expectation that disaster is always around the corner.
+
+The lesson is to embrace truth before life has to deliver it dramatically. When healed, this line produces people who rebuild stronger foundations and help others navigate major transitions."
+F,core,meaning,17,"The men on your father's side passed down the energy of inspiration, talent and vision. This lineage often contains dreamers, creators and people who carried hope through difficult circumstances. The gift inherited from this line is creativity, optimism and the ability to inspire others through ideas, talents or example.
+
+The shadow appears when dreams remain fantasies. Family members may avoid practical action, become distracted by possibilities or seek recognition without developing their abilities. There can be disappointment when expectations exceed effort.
+
+The lesson is to turn inspiration into reality. When healed, this line produces people who combine talent with discipline and become a genuine source of hope and encouragement for others."
+F,core,meaning,18,"The men on your father's side passed down lessons connected to intuition, mystery and the subconscious mind. This lineage often contains highly sensitive individuals who were deeply affected by emotions, dreams and unseen influences. The gift inherited from this line is imagination, intuition and the ability to understand what lies beneath the surface.
+
+The shadow appears when fear replaces intuition. There may be patterns of anxiety, confusion, secrecy, avoidance or emotional instability. Family members may struggle to distinguish between reality and projection, allowing fear to guide decisions.
+
+The lesson is to trust intuition while remaining grounded in truth. When healed, this line produces people who combine sensitivity with wisdom and who help bring clarity to uncertainty."
+F,core,meaning,19,"The men on your father's side passed down the energy of confidence, vitality and success. This lineage often contains individuals who naturally attracted attention, leadership opportunities or recognition. The gift inherited from this line is positivity, generosity and the ability to bring warmth and encouragement to others.
+
+The shadow appears when confidence becomes ego. Family members may become overly concerned with status, appearance or recognition. There can be pride, arrogance or a need to prove superiority. Some descendants inherit pressure to constantly achieve or perform.
+
+The lesson is to shine without needing validation. When healed, this line produces people who lead with authenticity, inspire others and create success that benefits everyone around them."
+F,core,meaning,20,"The men on your father's side passed down lessons connected to family legacy, truth and awakening. This lineage often contains individuals who felt a strong responsibility toward family, ancestry or preserving important knowledge. The gift inherited from this line is wisdom gained through experience and a deep understanding of cause and effect.
+
+The shadow appears when the past controls the future. There may be guilt, judgement, unresolved ancestral burdens or constant revisiting of old wounds. Family members may struggle to move forward because they remain attached to what has already happened.
+
+The lesson is to honour the past without becoming trapped by it. When healed, this line produces people who break unhealthy cycles and transform ancestral lessons into wisdom."
+F,core,meaning,21,"The men on your father's side passed down the energy of expansion, completion and connection. This lineage often contains people who travelled, connected different communities or built something that reached beyond their immediate environment. The gift inherited from this line is vision, inclusiveness and the ability to see the bigger picture.
+
+The shadow appears when success creates separation. Family members may become isolated by status, disconnected from their roots or constantly searching for something better elsewhere. There can be difficulty feeling satisfied with what has already been achieved.
+
+The lesson is to understand that fulfilment comes through contribution, not endless pursuit. When healed, this line produces people who create lasting impact while remaining connected to those around them."
+F,core,meaning,22,"The men on your father's side passed down lessons about freedom, independence and trusting life's journey. This lineage often contains unconventional individuals who refused to follow traditional paths and preferred discovering life through direct experience. The gift inherited from this line is adaptability, openness and the courage to begin again when necessary.
+
+The shadow appears when freedom becomes avoidance. Family members may resist responsibility, struggle with commitment or move from one opportunity to another without building anything lasting. There can be recklessness, inconsistency and difficulty creating stability.
+
+The lesson is to understand that real freedom includes responsibility. When healed, this line produces people who remain adventurous and open-minded while creating meaningful foundations for themselves and future generations."
+G,core,meaning,1,"The women on your father's side passed down the energy of The Magician. This is a lineage of strong-minded women who rarely waited for permission before acting. They often carried the belief that if something needed doing, they would find a way. These women may have been innovators, problem-solvers, organisers or the driving force behind the family, even if they were not publicly recognised for it. The gift inherited through this line is initiative, intelligence, adaptability and the ability to create opportunities where none appear to exist.
+
+In its positive expression, this ancestral line teaches self-belief, leadership and personal responsibility. These women understood that life responds to action. They often possessed strong intuition, quick thinking and the ability to influence situations through confidence and determination. They were resourceful and rarely accepted limitations without testing them first. Their example teaches future generations that they are not powerless victims of circumstance but active creators of their reality.
+
+The shadow appears when power becomes ego. Some women in this line may have become controlling, dismissive of others or convinced that only they knew the correct way forward. There can be patterns of criticism, competitiveness, emotional distance or a need to prove superiority. Underneath this often sits a hidden lack of confidence, creating a cycle where achievement becomes a substitute for self-worth. Descendants may inherit difficulty asking for help or a belief that vulnerability is weakness.
+
+Ancestral Lesson: Use your gifts to inspire rather than dominate. Leadership is not about proving you are stronger than everyone else. It is about helping others discover their own strength. The women of this line ask you to trust your abilities without needing control, recognition or superiority to validate your worth."
+G,core,meaning,2,"The women on your father's side passed down the energy of The High Priestess. This is a lineage of women who understood people, emotions and the hidden layers beneath what was visible. They often acted as confidantes, advisers, healers or quiet influencers within the family. The gift inherited through this line is intuition, diplomacy, emotional intelligence and the ability to understand what others need before it is spoken.
+
+In its positive expression, these women created harmony through wisdom rather than force. They knew how to listen, observe and guide. Others often trusted them with secrets, worries and important decisions. They may have been drawn toward learning, spirituality, healing or preserving family knowledge. Their strength came from understanding rather than controlling. They teach future generations that influence does not require noise and that wisdom often speaks quietly.
+
+The shadow appears when information becomes manipulation. Some women in this line may have used gossip, secrecy or emotional pressure to maintain influence. There can be patterns of passive-aggressive behaviour, indecision, self-doubt or withholding important truths. Descendants may inherit difficulty trusting their intuition, fear of speaking directly or a tendency to observe life rather than fully participate in it.
+
+Ancestral Lesson: Knowledge should be used to heal, not control. The women of this line ask you to trust your inner voice, communicate honestly and use your understanding of people to bring clarity rather than confusion."
+G,core,meaning,3,"The women on your father's side passed down the energy of The Empress. This lineage carries themes of creation, fertility, nurturing and abundance. These women often held families together through practical support, emotional care and the ability to create something from very little. The gift inherited through this line is resourcefulness, creativity, generosity and the ability to help growth occur in people, projects and relationships.
+
+In its positive expression, these women understood how to create beauty, comfort and stability. They often nurtured others, built homes, supported family members and found ways to provide even during difficult circumstances. Their strength came through patience and the understanding that growth takes time. They teach future generations how to create abundance without fear and how to care without losing themselves.
+
+The shadow appears when nurturing becomes overprotection or control. Some women in this line may have measured their value only through what they provided to others. There can be patterns of martyrdom, over-giving, emotional dependency or fear of scarcity. Descendants may inherit guilt around receiving, anxiety about resources or difficulty prioritising their own needs.
+
+Ancestral Lesson: Abundance flows through balance. The women of this line ask you to nurture without smothering, give without depletion and create without fear that everything will be taken away."
+G,core,meaning,4,"The women on your father's side passed down the energy of The Emperor. This is a lineage of women who carried responsibility, authority and strength, often in situations where they had little choice. They learned how to organise, protect and maintain stability even when life became difficult. The gift inherited through this line is discipline, resilience, leadership and the ability to create order during chaos.
+
+In its positive expression, these women were dependable, practical and strong. They often became the backbone of the family, ensuring that responsibilities were fulfilled and foundations remained stable. They teach future generations how to remain composed under pressure and how to build structures that last.
+
+The shadow appears when strength becomes control. Some women in this line may have become emotionally rigid, highly critical or unwilling to delegate responsibility. There can be patterns of dominance, excessive expectations or difficulty expressing vulnerability. Descendants may inherit perfectionism, fear of failure or the belief that they must carry everything alone.
+
+Ancestral Lesson: Real strength includes flexibility. The women of this line ask you to create stability without becoming trapped by control and to remember that vulnerability is not weakness."
+G,core,meaning,5,"The women on your father's side passed down the energy of The Hierophant. This lineage carries themes of wisdom, teaching, tradition and preserving knowledge. These women often acted as the keepers of family values, beliefs and life lessons. The gift inherited through this line is guidance, mentorship, education and the ability to pass wisdom between generations.
+
+In its positive expression, these women understood the importance of learning, ethics and sharing knowledge. They often taught through experience rather than theory and became trusted sources of advice within the family. They teach future generations the value of wisdom gained through living.
+
+The shadow appears when tradition becomes limitation. Some women in this line may have judged those who chose different paths or used rules to control behaviour. There can be rigid beliefs, guilt-based expectations or pressure to conform. Descendants may inherit fear of disappointing others or difficulty trusting their own truth.
+
+Ancestral Lesson: Honour wisdom without becoming imprisoned by it. The women of this line ask you to preserve what is valuable while allowing growth, change and individuality."
+G,core,meaning,6,"The women on your father's side passed down lessons around love, relationships and choice. This lineage often contains women who carried strong emotional bonds, deep family loyalty and a desire to create harmony. The gift inherited through this line is connection, empathy and the ability to bring people together. These women often acted as the emotional glue holding relationships and families intact.
+
+In its positive expression, these women taught the importance of genuine connection, cooperation and mutual support. They understood that relationships require effort, understanding and compromise. Their example shows how love can become a source of strength rather than weakness.
+
+The shadow appears when approval becomes more important than authenticity. Some women in this line may have sacrificed themselves for others, tolerated unhealthy relationships or made decisions based on pleasing people rather than following truth. Descendants may inherit fear of rejection, difficulty setting boundaries or confusion between love and obligation.
+
+Ancestral Lesson: Choose relationships that honour who you truly are. Love should support your growth, not require you to abandon yourself."
+G,core,meaning,7,"The women on your father's side passed down the energy of movement, determination and victory. These women often survived difficult circumstances through persistence and sheer willpower. They rarely gave up once they had committed to a path. The gift inherited through this line is courage, ambition and the ability to keep moving despite obstacles.
+
+In its positive expression, these women taught discipline, focus and resilience. They understood that success requires action and that waiting rarely changes anything. They often became examples of perseverance for future generations.
+
+The shadow appears when life becomes a constant battle. Some women in this line may have struggled to rest, trust others or allow support. There can be patterns of stubbornness, control or pushing forward without considering emotional consequences. Descendants may inherit pressure to constantly achieve.
+
+Ancestral Lesson: Determination is a gift, but not every problem requires a fight. Learn when to push forward and when to allow life to support you."
+G,core,meaning,8,"The women on your father's side passed down lessons about fairness, responsibility and accountability. This lineage often contains women who carried strong moral principles and a deep sense of right and wrong. The gift inherited through this line is integrity, honesty and the ability to see situations objectively.
+
+In its positive expression, these women valued truth and fairness. They often became mediators, problem-solvers and protectors of family values. Their example teaches future generations how to act responsibly and maintain balance.
+
+The shadow appears when fairness turns into judgement. Some women in this line may have become critical, unforgiving or excessively demanding. There can be patterns of guilt, blame and perfectionism. Descendants may inherit fear of making mistakes or a tendency to judge themselves harshly.
+
+Ancestral Lesson: Justice without compassion becomes punishment. Balance truth with understanding."
+G,core,meaning,9,"The women on your father's side passed down wisdom, reflection and inner knowledge. This lineage often contains women who learned through experience rather than recognition. They may have been advisers, healers or quiet observers whose influence was deeper than it appeared. The gift inherited through this line is insight, patience and the ability to understand life's deeper lessons.
+
+In its positive expression, these women valued learning, contemplation and self-awareness. They understood that growth often comes through reflection rather than constant activity.
+
+The shadow appears when solitude becomes isolation. Some women in this line may have withdrawn emotionally, hidden their feelings or struggled to trust others. Descendants may inherit difficulty asking for help or a tendency to handle everything alone.
+
+Ancestral Lesson: Wisdom grows when shared. Your knowledge becomes valuable when it helps others."
+G,core,meaning,10,"The women on your father's side passed down lessons about timing, change and life's cycles. This lineage often contains women whose lives experienced dramatic shifts, unexpected opportunities or sudden reversals of fortune. The gift inherited through this line is adaptability, optimism and trust in life's movement.
+
+In its positive expression, these women understood how to adapt and recognise opportunity. They often knew how to rebuild after setbacks and continue forward.
+
+The shadow appears when people rely entirely on luck or become fearful of change. There can be patterns of passivity, inconsistency or waiting for life to improve on its own. Descendants may inherit anxiety around uncertainty.
+
+Ancestral Lesson: Trust life's timing, but still take action. Opportunity means little without participation."
+G,core,meaning,11,"The women on your father's side passed down courage, endurance and inner power. This lineage often contains women who survived hardship through determination and resilience. The gift inherited through this line is persistence, emotional strength and the ability to overcome challenges without losing dignity.
+
+In its positive expression, these women taught self-mastery rather than dominance. They understood that true power comes from controlling oneself rather than controlling others.
+
+The shadow appears when strength becomes suppression. Some women in this line may have hidden emotions, carried burdens alone or believed vulnerability was weakness. Descendants may inherit emotional walls or fear of appearing weak.
+
+Ancestral Lesson: Real strength includes softness. Courage is not the absence of emotion but the ability to face it honestly."
+G,core,meaning,12,"The women on your father's side passed down lessons around sacrifice, service and perspective. This lineage often contains women who spent significant portions of their lives caring for others, supporting families or placing collective needs ahead of personal desires. The gift inherited through this line is patience, compassion and spiritual understanding.
+
+In its positive expression, these women understood the value of service and personal growth through experience.
+
+The shadow appears when sacrifice becomes martyrdom. Some women in this line may have abandoned their own dreams, tolerated unhealthy situations or believed suffering was necessary to earn love.
+
+Ancestral Lesson: Service should come from love, not self-neglect."
+G,core,meaning,13,"The women on your father's side passed down the energy of endings, rebirth and transformation. This lineage often contains women who experienced profound change and were forced to reinvent themselves repeatedly. The gift inherited through this line is resilience and the ability to begin again.
+
+In its positive expression, these women understood that endings create new possibilities.
+
+The shadow appears when change is resisted. There can be fear of loss, clinging to the past or difficulty letting go of situations that have already ended.
+
+Ancestral Lesson: Trust transformation. Every ending creates space for a new chapter."
+G,core,meaning,14,"The women on your father's side passed down moderation, harmony and integration. This lineage often contains women who acted as peacemakers and mediators. The gift inherited through this line is diplomacy, patience and emotional balance.
+
+In its positive expression, these women knew how to unite opposing forces and restore stability.
+
+The shadow appears when peace is maintained at the expense of truth. There can be avoidance, suppression of emotions or fear of conflict.
+
+Ancestral Lesson: Harmony requires honesty. Balance is created through truth, not avoidance."
+G,core,meaning,15,"The women on your father's side passed down lessons around desire, power, temptation and material success. This lineage often contains powerful personalities who understood influence, attraction and survival in the material world. The gift inherited through this line is magnetism, determination and the ability to create abundance.
+
+In its positive expression, these women knew how to use resources wisely and create security for themselves and those they loved.
+
+The shadow appears when desire becomes control. There can be patterns involving manipulation, obsession, dependency, jealousy or fear of losing power. Descendants may inherit complicated relationships with money, success or emotional attachment.
+
+Ancestral Lesson: Master desire rather than being mastered by it. Power is healthiest when used with integrity."
+G,core,meaning,16,"The women on your father's side passed down lessons connected to truth, awakening and the collapse of false foundations. This lineage often contains women whose lives were shaped by sudden changes, unexpected losses or circumstances that forced them to rebuild from the ground up. They learned that what is built on illusion eventually falls, and that growth often begins when old structures can no longer support the future. The gift inherited through this line is resilience, honesty and the courage to face reality even when it is uncomfortable.
+
+In its positive expression, these women became stronger through adversity. They learned how to adapt, rebuild and find wisdom in difficult experiences. Their example teaches future generations that setbacks do not define a life and that transformation often follows disruption.
+
+The shadow appears when fear of change becomes resistance. Some women in this line may have ignored warning signs, clung to unhealthy situations or repeated destructive patterns because familiarity felt safer than uncertainty. Descendants may inherit anxiety around change or an expectation that life will eventually take something away.
+
+Ancestral Lesson: Truth liberates. The women of this line ask you to release what is no longer serving you before life is forced to remove it for you."
+G,core,meaning,17,"The women on your father's side passed down the energy of hope, inspiration and vision. This lineage often contains dreamers, creators and women who carried optimism even through difficult circumstances. They believed that life could improve and often inspired others through their ideas, talents or example. The gift inherited through this line is creativity, faith, imagination and the ability to see possibilities where others see limitations.
+
+In its positive expression, these women encouraged growth, self-expression and hope. They often supported others in following dreams and becoming more than their circumstances suggested. Their example teaches future generations to remain connected to purpose and possibility.
+
+The shadow appears when inspiration becomes fantasy. Some women in this line may have avoided practical action, relied on wishful thinking or become disappointed when reality failed to match expectations. Descendants may inherit self-doubt, fear of visibility or difficulty turning ideas into action.
+
+Ancestral Lesson: Hope must be partnered with effort. The women of this line ask you to believe in your gifts and then do the work required to bring them into reality."
+G,core,meaning,18,"The women on your father's side passed down lessons connected to intuition, emotions and the unseen world. This lineage often contains highly sensitive women who experienced life through feeling rather than logic. They may have possessed strong instincts, vivid dreams or a natural awareness of emotional undercurrents. The gift inherited through this line is intuition, imagination and emotional depth.
+
+In its positive expression, these women understood the value of inner wisdom. They often sensed what others could not see and relied on intuition when logic offered no answers. Their example teaches future generations to respect both feeling and instinct.
+
+The shadow appears when intuition becomes fear. Some women in this line may have struggled with anxiety, secrecy, confusion or emotional instability. There can be patterns of avoidance, suspicion or allowing fear to dictate decisions. Descendants may inherit uncertainty, overthinking or difficulty trusting themselves.
+
+Ancestral Lesson: Intuition guides, fear misleads. The women of this line ask you to trust your inner knowing while remaining grounded in reality."
+G,core,meaning,19,"The women on your father's side passed down the energy of vitality, confidence and joy. This lineage often contains women who brought warmth, encouragement and positivity to those around them. Even during difficult periods, they carried an ability to uplift others and find reasons to keep moving forward. The gift inherited through this line is optimism, generosity and the ability to inspire confidence.
+
+In its positive expression, these women taught self-belief and authenticity. They often encouraged others to develop their talents and live openly. Their example teaches future generations that confidence grows through self-acceptance rather than perfection.
+
+The shadow appears when confidence becomes pride. Some women in this line may have become overly concerned with recognition, status or appearance. There can be patterns of ego, competitiveness or seeking approval from others. Descendants may inherit pressure to achieve or fear of failure.
+
+Ancestral Lesson: Shine because it is your nature, not because you need validation. The women of this line ask you to express yourself authentically and share your gifts freely."
+G,core,meaning,20,"The women on your father's side passed down lessons connected to ancestry, truth and awakening. This lineage often contains women who carried a strong sense of responsibility toward family, heritage and future generations. They understood that actions have consequences and that unresolved issues often repeat until they are addressed. The gift inherited through this line is wisdom, accountability and the ability to recognise patterns.
+
+In its positive expression, these women sought understanding rather than blame. They often became the family members who helped others learn from experience and move forward with greater awareness. Their example teaches future generations to break cycles rather than repeat them.
+
+The shadow appears when the past becomes a prison. Some women in this line may have carried guilt, resentment or unresolved ancestral burdens. There can be patterns of judgement, regret or attachment to old wounds. Descendants may inherit difficulty moving on from the past.
+
+Ancestral Lesson: Learn from the past without living in it. The women of this line ask you to transform inherited burdens into wisdom."
+G,core,meaning,21,"The women on your father's side passed down the energy of completion, expansion and connection. This lineage often contains women who saw life from a broader perspective and understood how individual actions affect the wider community. They may have travelled, connected different groups of people or brought diverse ideas together. The gift inherited through this line is vision, inclusiveness and the ability to see the bigger picture.
+
+In its positive expression, these women understood fulfilment and contribution. They often encouraged growth beyond limitations and helped others see opportunities that existed outside familiar environments. Their example teaches future generations to think beyond immediate circumstances.
+
+The shadow appears when expansion becomes disconnection. Some women in this line may have struggled to feel satisfied, constantly searching for something better while overlooking what was already present. There can be patterns of restlessness or difficulty feeling rooted. Descendants may inherit a sense of never quite arriving.
+
+Ancestral Lesson: Fulfilment comes through meaningful contribution, not endless pursuit. The women of this line ask you to appreciate how far you have come while continuing to grow."
+G,core,meaning,22,"The women on your father's side passed down lessons about freedom, trust and new beginnings. This lineage often contains unconventional women who challenged expectations and followed paths that others did not understand. They valued experience, exploration and the courage to begin again when necessary. The gift inherited through this line is adaptability, openness and faith in life's possibilities.
+
+In its positive expression, these women embraced change and trusted their ability to navigate uncertainty. They often inspired others to take risks, explore new opportunities and remain open to life's adventures. Their example teaches future generations that growth requires courage.
+
+The shadow appears when freedom becomes irresponsibility. Some women in this line may have avoided commitment, resisted structure or moved from one situation to another without creating stability. There can be patterns of inconsistency, impulsiveness or difficulty completing what was started. Descendants may inherit fear of commitment or resistance to responsibility.
+
+Ancestral Lesson: Freedom and responsibility belong together. The women of this line ask you to remain open to new experiences while building foundations that support long-term growth."
+H,core,meaning,1,"Inherited Gift: Initiative, innovation and creating opportunities.
+Repeating Family Pattern: Proving capability through action.
+Healthy Expression: Confident leadership.
+Distorted Expression: Capability becomes ego."
+H,core,meaning,2,"Inherited Gift: Wisdom, observation and intuitive judgement.
+Repeating Family Pattern: Watching carefully before acting.
+Healthy Expression: Thoughtful emotional awareness.
+Distorted Expression: Silence and secrecy."
+H,core,meaning,3,"Inherited Gift: Generosity, creativity and providing stability.
+Repeating Family Pattern: Supporting family growth.
+Healthy Expression: Nurturing without control.
+Distorted Expression: Providing becomes ownership."
+H,core,meaning,4,"Inherited Gift: Leadership, discipline and responsibility.
+Repeating Family Pattern: Carrying responsibility for others.
+Healthy Expression: Structure and security.
+Distorted Expression: Control and rigidity."
+H,core,meaning,5,"Inherited Gift: Knowledge, wisdom and tradition.
+Repeating Family Pattern: Teaching across generations.
+Healthy Expression: Patient guidance.
+Distorted Expression: Superiority."
+H,core,meaning,6,"Inherited Gift: Loyalty, commitment and family values.
+Repeating Family Pattern: Responsibility before convenience.
+Healthy Expression: Devoted partnership.
+Distorted Expression: Self-sacrifice."
+H,core,meaning,7,"Inherited Gift: Determination and perseverance.
+Repeating Family Pattern: Overcoming adversity.
+Healthy Expression: Resilience.
+Distorted Expression: Burnout and pressure."
+H,core,meaning,8,"Inherited Gift: Fairness, honesty and accountability.
+Repeating Family Pattern: Duty and doing what is right.
+Healthy Expression: Integrity.
+Distorted Expression: Judgement and perfectionism."
+H,core,meaning,9,"Inherited Gift: Wisdom and self-reflection.
+Repeating Family Pattern: Solitude and inner guidance.
+Healthy Expression: Insight.
+Distorted Expression: Isolation."
+H,core,meaning,10,"Inherited Gift: Adaptability and resilience.
+Repeating Family Pattern: Reinvention after change.
+Healthy Expression: Resourcefulness.
+Distorted Expression: Inconsistency."
+H,core,meaning,11,"Inherited Gift: Endurance and courage.
+Repeating Family Pattern: Carrying responsibility quietly.
+Healthy Expression: Calm strength.
+Distorted Expression: Emotional suppression."
+H,core,meaning,12,"Inherited Gift: Patience, perspective and endurance.
+Repeating Family Pattern: Sacrifice for duty.
+Healthy Expression: Thoughtful patience.
+Distorted Expression: Self-neglect."
+H,core,meaning,13,"Inherited Gift: Resilience during change.
+Repeating Family Pattern: Major life transitions.
+Healthy Expression: Adaptability.
+Distorted Expression: Instability."
+H,core,meaning,14,"Inherited Gift: Diplomacy and balance.
+Repeating Family Pattern: Peacemaker role.
+Healthy Expression: Harmony with boundaries.
+Distorted Expression: Conflict avoidance."
+H,core,meaning,15,"Inherited Gift: Ambition and determination.
+Repeating Family Pattern: Achievement and security.
+Healthy Expression: Focused success.
+Distorted Expression: Self-worth tied to achievement."
+H,core,meaning,16,"Inherited Gift: Honesty and courage.
+Repeating Family Pattern: Rebuilding after collapse.
+Healthy Expression: Positive change.
+Distorted Expression: Criticism and destruction."
+H,core,meaning,17,"Inherited Gift: Hope and vision.
+Repeating Family Pattern: Striving for a better future.
+Healthy Expression: Inspiration.
+Distorted Expression: Fantasy."
+H,core,meaning,18,"Inherited Gift: Intuition and sensitivity.
+Repeating Family Pattern: Strong emotional undercurrents.
+Healthy Expression: Grounded instincts.
+Distorted Expression: Fear and overwhelm."
+H,core,meaning,19,"Inherited Gift: Confidence and vitality.
+Repeating Family Pattern: Leadership and visibility.
+Healthy Expression: Warm optimism.
+Distorted Expression: Ego."
+H,core,meaning,20,"Inherited Gift: Wisdom through experience.
+Repeating Family Pattern: Passing lessons forward.
+Healthy Expression: Growth and guidance.
+Distorted Expression: Regret and dwelling on the past."
+H,core,meaning,21,"Inherited Gift: Broad understanding and legacy.
+Repeating Family Pattern: Building for future generations.
+Healthy Expression: Uniting people.
+Distorted Expression: Emotional distance."
+H,core,meaning,22,"Inherited Gift: Independence and courage.
+Repeating Family Pattern: Unconventional paths.
+Healthy Expression: Adventure and openness.
+Distorted Expression: Avoidance and inconsistency."
+I,core,meaning,1,"Inherited Gift
+The women in this lineage passed down initiative, resourcefulness and the ability to create opportunities even during difficult circumstances.
+
+Repeating Family Pattern
+A recurring theme involves self-reliance.
+
+Healthy Expression
+Confident women who trust their abilities and take practical action.
+
+Distorted Expression
+Independence becomes over-control."
+I,core,meaning,2,"Inherited Gift
+The women in this lineage passed down intuition, emotional awareness and deep understanding of people.
+
+Repeating Family Pattern
+Sensing what is happening beneath the surface.
+
+Healthy Expression
+Emotionally intelligent women who combine intuition with wisdom.
+
+Distorted Expression
+Intuition becomes silence."
+I,core,meaning,3,"Inherited Gift
+The women in this lineage passed down nurturing, creativity and the ability to create comfort, beauty and security.
+
+Repeating Family Pattern
+Holding the family together.
+
+Healthy Expression
+Loving women who build supportive environments.
+
+Distorted Expression
+Nurturing becomes over-giving."
+I,core,meaning,4,"Inherited Gift
+The women in this lineage passed down strength, resilience and the ability to take charge.
+
+Repeating Family Pattern
+Carrying responsibility during difficult times.
+
+Healthy Expression
+Strong women who lead with confidence.
+
+Distorted Expression
+Strength becomes hardness."
+I,core,meaning,5,"Inherited Gift
+The women in this lineage passed down wisdom, practical knowledge and life experience.
+
+Repeating Family Pattern
+Passing knowledge between generations.
+
+Healthy Expression
+Wise women who help others grow.
+
+Distorted Expression
+Wisdom becomes criticism."
+I,core,meaning,6,"Inherited Gift
+The women in this lineage passed down loyalty, devotion and strong relationship values.
+
+Repeating Family Pattern
+Sacrifice for loved ones.
+
+Healthy Expression
+Warm, loving women who build meaningful relationships.
+
+Distorted Expression
+Love becomes self-abandonment."
+I,core,meaning,7,"Inherited Gift
+The women in this lineage passed down determination, perseverance and resilience.
+
+Repeating Family Pattern
+Overcoming adversity through hard work.
+
+Healthy Expression
+Focused, resilient women.
+
+Distorted Expression
+Perseverance becomes pressure."
+I,core,meaning,8,"Inherited Gift
+The women in this lineage passed down fairness, integrity and responsibility.
+
+Repeating Family Pattern
+Duty and accountability.
+
+Healthy Expression
+Trustworthy women who act with honesty.
+
+Distorted Expression
+Fairness becomes judgement."
+I,core,meaning,9,"Inherited Gift
+The women in this lineage passed down wisdom, reflection and strong inner guidance.
+
+Repeating Family Pattern
+Turning inward during difficult periods.
+
+Healthy Expression
+Thoughtful women whose wisdom benefits future generations.
+
+Distorted Expression
+Independence becomes isolation."
+I,core,meaning,10,"Inherited Gift
+The women in this lineage passed down adaptability, resilience and the ability to navigate uncertainty.
+
+Repeating Family Pattern
+Major life changes and rebuilding.
+
+Healthy Expression
+Resourceful women who remain calm during change.
+
+Distorted Expression
+Adaptability becomes instability."
+I,core,meaning,11,"Inherited Gift
+The women in this lineage passed down courage, endurance and emotional resilience.
+
+Repeating Family Pattern
+Carrying burdens quietly while caring for others.
+
+Healthy Expression
+Calm, dependable women.
+
+Distorted Expression
+Strength becomes suppression."
+I,core,meaning,12,"Inherited Gift
+The women in this lineage passed down patience, compassion and the ability to endure difficult circumstances.
+
+Repeating Family Pattern
+Sacrifice for family and responsibility.
+
+Healthy Expression
+Understanding, patience and perspective.
+
+Distorted Expression
+Sacrifice becomes self-abandonment."
+I,core,meaning,13,"Inherited Gift
+The women in this lineage passed down resilience during times of loss, transition and major life change.
+
+Repeating Family Pattern
+Endings followed by reinvention.
+
+Healthy Expression
+Adaptable women who embrace change.
+
+Distorted Expression
+Transformation becomes instability."
+I,core,meaning,14,"Inherited Gift
+The women in this lineage passed down balance, diplomacy and the ability to create harmony.
+
+Repeating Family Pattern
+Maintaining peace within the family.
+
+Healthy Expression
+Calm, cooperation and emotional balance.
+
+Distorted Expression
+Harmony becomes avoidance."
+I,core,meaning,15,"Inherited Gift
+The women in this lineage passed down determination, ambition and a strong desire to improve life.
+
+Repeating Family Pattern
+Striving to achieve more.
+
+Healthy Expression
+Capable, disciplined women.
+
+Distorted Expression
+Achievement becomes self-worth."
+I,core,meaning,16,"Inherited Gift
+The women in this lineage passed down honesty, courage and the ability to face difficult truths.
+
+Repeating Family Pattern
+Breaking unhealthy cycles.
+
+Healthy Expression
+Truth, healing and transformation.
+
+Distorted Expression
+Truth becomes criticism."
+I,core,meaning,17,"Inherited Gift
+The women in this lineage passed down hope, inspiration and the ability to see possibilities.
+
+Repeating Family Pattern
+Believing life can improve.
+
+Healthy Expression
+Inspiring confidence and optimism.
+
+Distorted Expression
+Hope becomes fantasy."
+I,core,meaning,18,"Inherited Gift
+The women in this lineage passed down intuition, emotional awareness and strong instinctive understanding.
+
+Repeating Family Pattern
+Sensing emotional undercurrents.
+
+Healthy Expression
+Emotionally intelligent and grounded.
+
+Distorted Expression
+Sensitivity becomes anxiety."
+I,core,meaning,19,"Inherited Gift
+The women in this lineage passed down warmth, confidence and the ability to bring light into difficult situations.
+
+Repeating Family Pattern
+Encouraging others and building confidence.
+
+Healthy Expression
+Authentic encouragement.
+
+Distorted Expression
+Confidence becomes performance."
+I,core,meaning,20,"Inherited Gift
+The women in this lineage passed down wisdom gained through life experience.
+
+Repeating Family Pattern
+Learning lessons and passing them on.
+
+Healthy Expression
+Wise guides for future generations.
+
+Distorted Expression
+Reflection becomes regret."
+I,core,meaning,21,"Inherited Gift
+The women in this lineage passed down broad understanding, wisdom and the ability to see the bigger picture.
+
+Repeating Family Pattern
+Creating something that benefits future generations.
+
+Healthy Expression
+Uniting people and building community.
+
+Distorted Expression
+Wisdom becomes distance."
+I,core,meaning,22,"Inherited Gift
+The women in this lineage passed down independence, adaptability and the courage to follow their own path.
+
+Repeating Family Pattern
+Stepping outside traditional expectations.
+
+Healthy Expression
+Adventure, openness and self-trust.
+
+Distorted Expression
+Freedom becomes avoidance."
+J,core,meaning,1,J1 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,2,J2 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,3,J3 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,4,J4 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,5,J5 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,6,J6 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,7,J7 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,8,J8 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,9,J9 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,10,J10 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,11,J11 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,12,J12 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,13,J13 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,14,J14 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,15,J15 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,16,J16 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,17,J17 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,18,J18 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,19,J19 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,20,J20 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,21,J21 Parent/Child Karma interpretation locked in from approved chat version.
+J,core,meaning,22,J22 Parent/Child Karma interpretation locked in from approved chat version.
+M-N-D,programs,the_rebel,15-20-5,"This combination (15-20-5) in the Karmic Tail (M-N-D) is known as the Rebel program. You carry a powerful, independent energy that challenges convention and seeks truth. You are here to break outdated family patterns or societal conditioning and establish a life based on your own authentic principles."
