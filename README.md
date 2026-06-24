@@ -195,16 +195,16 @@ stateDiagram-v2
 ## 🚀 Quick Start
 
 1. **Launch the Server**:
-   * Double-click **[run_locally.bat](file:///P:/Freelance/Atta 22 - (7k) + (2k)/SoulMatrix/run_locally.bat)**.
-   * The script automatically starts a local HTTP server and opens **[soul_matrix.html](file:///P:/Freelance/Atta 22 - (7k) + (2k)/SoulMatrix/src/soul_matrix.html)** in Google Chrome.
+   * Double-click **[run_locally.bat](./run_locally.bat)**.
+   * The script automatically starts a local HTTP server and opens **[soul_matrix.html](./src/soul_matrix.html)** in Google Chrome.
 
 2. **Open the Pop-out Script Board**:
    * Click **📺 Script Board** on the main navigation bar.
-   * Drag **[script_board.html](file:///P:/Freelance/Atta 22 - (7k) + (2k)/SoulMatrix/src/script_board.html)** to your second monitor or capture it as an overlay inside OBS.
+   * Drag **[script_board.html](./src/script_board.html)** to your second monitor or capture it as an overlay inside OBS.
 
 3. **Modify Interpretations**:
-   * Edit **[interpretations.xlsx](file:///P:/Freelance/Atta 22 - (7k) + (2k)/SoulMatrix/data/interpretations.xlsx)** using Excel.
-   * Double-click **[run_update.bat](file:///P:/Freelance/Atta 22 - (7k) + (2k)/SoulMatrix/run_update.bat)** to sync. Reload Chrome to view updates.
+   * Edit **[interpretations.xlsx](./data/interpretations.xlsx)** using Excel.
+   * Double-click **[run_update.bat](./run_update.bat)** to sync. Reload Chrome to view updates.
 
 ---
 
@@ -241,7 +241,7 @@ New enhancements and optimizations are welcomed to make the tool more versatile 
 1. Fork the repository.
 2. Create a clean feature branch (`feature/your-addition`).
 3. Keep code comments minimal and document technical logic inside documentation files.
-4. Verify changes by executing **[run_update.bat](file:///P:/Freelance/Atta 22 - (7k) + (2k)/SoulMatrix/run_update.bat)** to confirm no compiler regressions are introduced.
+4. Verify changes by executing **[run_update.bat](./run_update.bat)** to confirm no compiler regressions are introduced.
 5. Submit a Pull Request.
 
 ---
