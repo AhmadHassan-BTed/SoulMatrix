@@ -170,6 +170,28 @@ Once you run `run_update.bat` and reload the app, if a client has those exact nu
 
 ---
 
+## Adding Compatibility Matrix Interpretations
+
+The application supports generating a **Compatibility Matrix Chart** combined from two Dates of Birth (DOBs). To store and sync compatibility interpretations, you will add a new worksheet inside your Excel workbook.
+
+### Step 1: Create the Compatibility Sheet
+1. Open `data/interpretations.xlsx`.
+2. Create a new sheet named exactly **`Compatibility`**.
+3. Add the following **five columns** (exactly matching the structure of the primary sheet):
+   - **`Position`**
+   - **`Position Meaning`**
+   - **`Section`**
+   - **`Number`**
+   - **`Interpretation Text`**
+
+### Step 2: Define Compatibility Readings
+- **Individual Combined Nodes**: Write the node code (A, B, C... E, J, K, etc.) in the **`Position`** column. In the **`Section`** column, choose a category name (e.g. `General Compatibility`, `Love Dynamics`, `Financial Union`, `Karmic Connection`). 
+- **Compatibility Programs (3-Number Combinations)**: Write the combination nodes separated by hyphens (e.g. `M-N-D` or `A-B-C`) in the **`Position`** column. In the **`Section`** column, write the name of the compatibility program (e.g. `Mutual Success`). The **`Number`** column should hold the combined three-number code (e.g. `15-20-5`).
+
+When you double-click `run_update.bat`, the sync tool will automatically parse the `Master_Database` sheet (for Single DOB) and the `Compatibility` sheet, prefix the compatibility sections with `compat_` behind the scenes, and output a unified `interpretations.csv` database.
+
+---
+
 ## Built-in module and section names
 
 These names are already wired to friendly tab labels. You can use any name you like - unknown names will be auto-formatted - but these give the cleanest result:

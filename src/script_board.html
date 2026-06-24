@@ -364,18 +364,16 @@ header h1 {
 </div>
 
 <script>
-// State
 let client = null;
 let calculatedValues = {};
 let database = {};
 let discoveredModules = {};
 let activePos = 'A';
 let activeModId = 'core';
+let readingMode = 'single';
 
-// BroadcastChannel Setup
 const bc = new BroadcastChannel('soul_matrix_sync');
 
-// Update connection status
 function setConnected(connected) {
   const dot = document.getElementById('status-dot');
   const text = document.getElementById('status-text');
@@ -388,11 +386,9 @@ function setConnected(connected) {
   }
 }
 
-// Request sync on load
 bc.postMessage({ type: 'request_sync' });
 setConnected(false);
 
-// Listen for sync messages
 bc.onmessage = function(e) {
   const msg = e.data;
   if (msg.type === 'sync_data') {
@@ -401,15 +397,10 @@ bc.onmessage = function(e) {
     calculatedValues = msg.calculatedValues;
     database = msg.database;
     discoveredModules = msg.discoveredModules;
+    readingMode = msg.readingMode || 'single';
     
     updateHeader();
     renderNodesList();
-    
-    // Set active pos if not set
-    if (!activePos && Object.keys(calculatedValues).length > 0) {
-      // Do not automatically default to 'A' so that the programs overview can show initially
-    }
-    
     renderActiveNode();
   } else if (msg.type === 'select_position') {
     setConnected(true);
@@ -422,7 +413,6 @@ bc.onmessage = function(e) {
   }
 };
 
-// Request data interval (retry connection if needed)
 setInterval(() => {
   if (document.getElementById('status-text').textContent === 'Disconnected') {
     bc.postMessage({ type: 'request_sync' });
@@ -506,7 +496,6 @@ function renderNodesList() {
     return;
   }
 
-  // Render Active Programs section in the sidebar if they exist
   const allProgs = getActivePrograms();
   if (allProgs.length > 0) {
     const progSec = document.createElement('div');
@@ -609,11 +598,17 @@ function getModules() {
       {key:'next_phase',title:'Next Phase'},
       {key:'yearly',title:'Yearly Theme'},
     ]},
-    {id:'compatibility', label:'👥 Compatibility', sections:[
-      {key:'general',title:'General Compatibility'},
-      {key:'friction',title:'Friction Points'},
-      {key:'finances',title:'Financial Union'},
-      {key:'intimacy',title:'Intimacy & Love'},
+    {id:'compat_general', label:'👥 General', sections:[
+      {key:'meaning',title:'General Compatibility'},
+    ]},
+    {id:'compat_love', label:'♥ Love Dynamics', sections:[
+      {key:'meaning',title:'Love Alignment'},
+    ]},
+    {id:'compat_karma', label:'☽ Relationship Karma', sections:[
+      {key:'meaning',title:'Karmic Relationship'},
+    ]},
+    {id:'compat_finance', label:'$ Shared Finance', sections:[
+      {key:'meaning',title:'Financial Compatibility'},
     ]},
   ];
 
@@ -632,13 +627,21 @@ function getModules() {
     }
   });
 
-  return result;
+  const activeModules = result.filter(m => {
+    if (readingMode === 'compat') {
+      return m.id.startsWith('compat_') || m.id === 'compatibility';
+    } else {
+      return !m.id.startsWith('compat_') && m.id !== 'compatibility' && m.id !== 'programs' && m.id !== 'compat_programs';
+    }
+  });
+
+  return activeModules;
 }
 
-// Active Programs Detection
 function getActivePrograms() {
   const active = [];
   if (!database) return active;
+  const targetModule = readingMode === 'compat' ? 'compat_programs' : 'programs';
   
   for (const posKey in database) {
     if (posKey.includes('-')) {
@@ -649,7 +652,7 @@ function getActivePrograms() {
         const val3 = calculatedValues[positions[2]];
         if (val1 !== undefined && val2 !== undefined && val3 !== undefined) {
           const currentCode = `${val1}-${val2}-${val3}`;
-          const progMod = database[posKey]['programs'];
+          const progMod = database[posKey][targetModule];
           if (progMod) {
             for (const secKey in progMod) {
               const text = progMod[secKey][currentCode];
@@ -712,18 +715,15 @@ function renderActiveNode() {
   document.getElementById('active-node-num').textContent = val;
   headerEl.style.display = 'flex';
   
-  // Render tabs
   tabsEl.innerHTML = '';
   tabsEl.style.display = 'flex';
   
   const modules = getModules();
   
-  // If activeModId not valid, set to first
   if (activeModId !== 'programs_all' && !modules.find(m => m.id === activeModId)) {
-    activeModId = modules[0]?.id || 'core';
+    activeModId = modules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
   }
   
-  // Normal modules
   modules.forEach(mod => {
     const btn = document.createElement('button');
     btn.className = 'tab-btn' + (mod.id === activeModId ? ' active' : '');
@@ -732,7 +732,6 @@ function renderActiveNode() {
     tabsEl.appendChild(btn);
   });
   
-  // Special tab for ALL Programs
   const allProgs = getActivePrograms();
   const progBtn = document.createElement('button');
   progBtn.className = 'tab-btn special-tab' + (activeModId === 'programs_all' ? ' active' : '');
@@ -742,7 +741,6 @@ function renderActiveNode() {
   
   contentEl.innerHTML = '';
   
-  // Special view for all active programs
   if (activeModId === 'programs_all') {
     if (allProgs.length === 0) {
       contentEl.innerHTML = '<div class="empty-state">No active 3-number programs detected for this client matrix.</div>';
@@ -766,8 +764,6 @@ function renderActiveNode() {
     return;
   }
   
-  // Normal positions & sections content
-  // First, check if there are active programs containing the selected position!
   const nodeProgs = allProgs.filter(p => p.positions.split('-').includes(activePos));
   nodeProgs.forEach(prog => {
     const card = document.createElement('div');
@@ -784,7 +780,6 @@ function renderActiveNode() {
     contentEl.appendChild(card);
   });
   
-  // Normal interpretations sections
   const mod = modules.find(m => m.id === activeModId);
   if (mod) {
     let hasContent = false;
@@ -813,7 +808,6 @@ function renderActiveNode() {
   }
 }
 
-// Font Size Config
 function setFontSize(size) {
   document.body.className = `zoom-${size}`;
   localStorage.setItem('soul_matrix_font_size', size);
@@ -840,7 +834,6 @@ function updateFontSizeButtons() {
   });
 }
 
-// Initialize font size from storage or default to large
 const savedSize = localStorage.getItem('soul_matrix_font_size') || 'large';
 setFontSize(savedSize);
 </script>

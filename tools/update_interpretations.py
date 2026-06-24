@@ -1,18 +1,7 @@
 #!/usr/bin/env python3
 """
 Excel-to-CSV Database Synchronizer for Soul Blueprint Matrix.
-Author: Antigravity
-
-This script automates the process of converting the customer-edited Excel spreadsheet
-(.xlsx) into the exact CSV structure (position,module,section,number,text) required
-by the Soul Blueprint Matrix HTML chart.
-
-Resilience features included:
-- Automatic backup of any existing interpretations.csv into a backups/ folder.
-- Search fallbacks for multiple Excel filenames/locations.
-- Dynamic case-insensitive header column mapping.
-- Clean parsing and fallback rules for custom or default sections.
-- Graceful error handling for file locks (e.g. if Excel is open), missing dependencies, or bad formats.
+Author: Ahmad Hassan (B-Ted)
 """
 
 import os
@@ -21,7 +10,6 @@ import csv
 import shutil
 from datetime import datetime
 
-# Required third-party libraries check
 try:
     import openpyxl
 except ImportError:
@@ -33,7 +21,6 @@ except ImportError:
     input("\nPress Enter to exit...")
     sys.exit(1)
 
-# Base directories resolution relative to this script (located in tools/)
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
@@ -41,7 +28,6 @@ BACKUP_DIR = os.path.join(SCRIPT_DIR, "backups")
 
 
 def get_excel_file(data_dir):
-    """Locate the Excel file to read, checking fallback options in order."""
     search_paths = [
         os.path.join(data_dir, "interpretations.xlsx"),
         os.path.join(data_dir, "Interpretations.xlsx"),
@@ -49,16 +35,13 @@ def get_excel_file(data_dir):
         os.path.join(data_dir, "customer_s-editited", "Interpretations backup.xlsx"),
     ]
     
-    # Try preferred paths
     for path in search_paths:
         if os.path.isfile(path):
             return path
             
-    # Fallback: scan data directory for any .xlsx file
     if os.path.isdir(data_dir):
         xlsx_files = [os.path.join(data_dir, f) for f in os.listdir(data_dir) if f.endswith(".xlsx")]
         if xlsx_files:
-            # Sort to find the most recently modified one if there are multiple
             xlsx_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
             return xlsx_files[0]
         
@@ -66,15 +49,12 @@ def get_excel_file(data_dir):
 
 
 def create_backup(csv_path, backup_dir):
-    """Back up existing CSV file if it exists."""
     if not os.path.isfile(csv_path):
         return None
         
     os.makedirs(backup_dir, exist_ok=True)
-    
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_name = f"interpretations_backup_{timestamp}.csv"
-    backup_path = os.path.join(backup_dir, backup_name)
+    backup_path = os.path.join(backup_dir, f"interpretations_backup_{timestamp}.csv")
     
     try:
         shutil.copy2(csv_path, backup_path)
@@ -84,18 +64,14 @@ def create_backup(csv_path, backup_dir):
         return None
 
 
-def map_excel_to_csv_columns(pos, pos_meaning, excel_section):
-    """
-    Map the human-friendly Excel Position, Position Meaning, and Section columns
-    to the specific lowercase module and section names required by the HTML page.
-    """
+def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
     pos = str(pos).strip()
     excel_section = str(excel_section).strip()
     
     pos_upper = pos.upper()
     is_program = '-' in pos or ',' in pos or pos_upper == 'PROGRAM'
     if is_program:
-        module = 'programs'
+        module = 'compat_programs' if is_compat else 'programs'
         section = excel_section.lower().replace(' ', '_').strip('_')
         if not section:
             section = 'program_meaning'
@@ -103,7 +79,6 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section):
         
     pos = pos_upper
     
-    # 1. Handle "Interpretation" default mapping for general positions
     if excel_section.lower() == 'interpretation':
         default_map = {
             'B': ('core', 'meaning'),
@@ -131,16 +106,18 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section):
             'R2': ('money', 'activation'),
         }
         if pos in default_map:
-            return pos, default_map[pos][0], default_map[pos][1]
+            module, section = default_map[pos]
         else:
-            return pos, 'core', 'meaning'
+            module, section = 'core', 'meaning'
             
-    # 2. Parse custom section strings like "Core Meaning", "Core Positive", etc.
+        if is_compat:
+            module = f"compat_{module}"
+        return pos, module, section
+            
     sec_lower = excel_section.lower()
     module = 'core'
     section_part = sec_lower
     
-    # Detect the module component of the section header
     if 'core' in sec_lower:
         module = 'core'
         section_part = sec_lower.replace('core', '')
@@ -165,7 +142,6 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section):
         
     section_part = section_part.strip()
     
-    # Exact mappings for known section words
     section_map = {
         'meaning': 'meaning',
         'positive': 'positive',
@@ -199,10 +175,13 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section):
     if section_part in section_map:
         section = section_map[section_part]
     else:
-        # Fallback to cleaning section names dynamically (spaces to underscores)
         section = section_part.replace(' ', '_').strip('_')
         if not section:
             section = 'meaning'
+            
+    if is_compat:
+        if not module.startswith('compat_') and module != 'compatibility':
+            module = f"compat_{module}"
             
     return pos, module, section
 
@@ -221,7 +200,6 @@ def main():
         
     print(f"[INFO] Found Excel database: {excel_file}")
     
-    # Check if we can open the Excel file (prevents crashes from Excel file locks)
     try:
         wb = openpyxl.load_workbook(excel_file, read_only=True, data_only=True)
     except PermissionError:
@@ -235,30 +213,25 @@ def main():
         input("\nPress Enter to exit...")
         sys.exit(1)
         
-    # Read the first sheet or the Master_Database sheet
-    sheet_name = "Master_Database" if "Master_Database" in wb.sheetnames else wb.sheetnames[0]
-    ws = wb[sheet_name]
-    print(f"[INFO] Reading sheet: '{sheet_name}'")
+    sheets_to_process = []
+    single_sheet = "Master_Database" if "Master_Database" in wb.sheetnames else wb.sheetnames[0]
+    sheets_to_process.append((single_sheet, False))
     
-    # Read rows
-    try:
-        rows = list(ws.iter_rows(values_only=True))
-    except Exception as e:
-        print(f"[ERROR] Failed to read cell contents: {e}")
-        wb.close()
-        input("\nPress Enter to exit...")
-        sys.exit(1)
-    finally:
-        wb.close()
+    compat_sheet = None
+    if "Compatibility" in wb.sheetnames:
+        compat_sheet = "Compatibility"
+    else:
+        for s in wb.sheetnames:
+            if s.lower() != single_sheet.lower() and "compat" in s.lower():
+                compat_sheet = s
+                break
+                
+    if compat_sheet:
+        sheets_to_process.append((compat_sheet, True))
+        print(f"[INFO] Found compatibility sheet: '{compat_sheet}'")
+    else:
+        print("[INFO] No compatibility sheet found. Processing single DOB sheet only.")
         
-    if not rows:
-        print("[ERROR] The spreadsheet is completely empty!")
-        input("\nPress Enter to exit...")
-        sys.exit(1)
-        
-    # Parse headers dynamically
-    headers = [str(h).strip().lower() if h else '' for h in rows[0]]
-    
     required_cols = {
         'position': ['position', 'pos', 'node'],
         'position meaning': ['position meaning', 'meaning', 'description'],
@@ -267,89 +240,96 @@ def main():
         'interpretation text': ['interpretation text', 'text', 'content', 'interpretation']
     }
     
-    col_indices = {}
-    for col_key, aliases in required_cols.items():
-        found_idx = None
-        for alias in aliases:
-            if alias in headers:
-                found_idx = headers.index(alias)
-                break
-        if found_idx is None:
-            # Try partial matching if exact matches failed
-            for i, h in enumerate(headers):
-                if any(alias in h for alias in aliases):
-                    found_idx = i
-                    break
-        if found_idx is None:
-            print(f"[ERROR] Could not find the '{col_key}' column in Excel!")
-            print(f"Spreadsheet columns must include headers like: Position, Section, Number, Interpretation Text.")
-            print(f"Current columns found: {headers}")
-            input("\nPress Enter to exit...")
-            sys.exit(1)
-        col_indices[col_key] = found_idx
-        
-    pos_idx = col_indices['position']
-    meaning_idx = col_indices['position meaning']
-    sec_idx = col_indices['section']
-    num_idx = col_indices['number']
-    text_idx = col_indices['interpretation text']
-    
-    # 2. Back up the old CSV before editing
     csv_filename = os.path.join(DATA_DIR, "interpretations.csv")
     backup_path = create_backup(csv_filename, BACKUP_DIR)
     if backup_path:
         print(f"[OK] Pre-existing CSV backed up to: {backup_path}")
         
-    # 3. Export to CSV
     mapped_count = 0
     empty_count = 0
     invalid_rows = []
-    
-    # Track positions and sections for output summary
     active_positions = set()
     
     try:
         with open(csv_filename, 'w', encoding='utf-8', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            # Write standardized headers
             writer.writerow(['position', 'module', 'section', 'number', 'text'])
             
-            for row_num, row in enumerate(rows[1:], start=2):
-                p_val = row[pos_idx] if pos_idx < len(row) else None
-                p_mean = row[meaning_idx] if meaning_idx < len(row) else None
-                sec_val = row[sec_idx] if sec_idx < len(row) else None
-                num_val = row[num_idx] if num_idx < len(row) else None
-                text_val = row[text_idx] if text_idx < len(row) else None
+            for sheet_name, is_compat in sheets_to_process:
+                ws = wb[sheet_name]
+                print(f"[INFO] Reading sheet: '{sheet_name}'")
                 
-                # Skip rows that have completely empty position
-                if p_val is None or str(p_val).strip() == "":
-                    continue
-                # If text is empty, count it as skipped empty row
-                if text_val is None or str(text_val).strip() == "":
-                    empty_count += 1
+                try:
+                    rows = list(ws.iter_rows(values_only=True))
+                except Exception as e:
+                    print(f"[ERROR] Failed to read cell contents from '{sheet_name}': {e}")
                     continue
                     
-                # Safe conversions (bypass integer conversion for 3-number programs)
-                p_val_str = str(p_val).strip() if p_val is not None else ""
-                is_program = '-' in p_val_str or ',' in p_val_str or p_val_str.upper() == 'PROGRAM'
+                if not rows:
+                    print(f"[WARNING] Sheet '{sheet_name}' is empty.")
+                    continue
+                    
+                headers = [str(h).strip().lower() if h else '' for h in rows[0]]
                 
-                if is_program:
-                    num = str(num_val).strip() if num_val is not None else ""
-                else:
-                    try:
-                        num = int(float(num_val))
-                    except (ValueError, TypeError):
-                        invalid_rows.append((row_num, row))
+                col_indices = {}
+                for col_key, aliases in required_cols.items():
+                    found_idx = None
+                    for alias in aliases:
+                        if alias in headers:
+                            found_idx = headers.index(alias)
+                            break
+                    if found_idx is None:
+                        for i, h in enumerate(headers):
+                            if any(alias in h for alias in aliases):
+                                found_idx = i
+                                break
+                    if found_idx is None:
+                        print(f"[ERROR] Could not find the '{col_key}' column in Excel sheet '{sheet_name}'!")
+                        print(f"Spreadsheet columns must include headers like: Position, Section, Number, Interpretation Text.")
+                        print(f"Current columns found: {headers}")
+                        wb.close()
+                        input("\nPress Enter to exit...")
+                        sys.exit(1)
+                    col_indices[col_key] = found_idx
+                    
+                pos_idx = col_indices['position']
+                meaning_idx = col_indices['position meaning']
+                sec_idx = col_indices['section']
+                num_idx = col_indices['number']
+                text_idx = col_indices['interpretation text']
+                
+                for row_num, row in enumerate(rows[1:], start=2):
+                    p_val = row[pos_idx] if pos_idx < len(row) else None
+                    p_mean = row[meaning_idx] if meaning_idx < len(row) else None
+                    sec_val = row[sec_idx] if sec_idx < len(row) else None
+                    num_val = row[num_idx] if num_idx < len(row) else None
+                    text_val = row[text_idx] if text_idx < len(row) else None
+                    
+                    if p_val is None or str(p_val).strip() == "":
                         continue
+                    if text_val is None or str(text_val).strip() == "":
+                        empty_count += 1
+                        continue
+                        
+                    p_val_str = str(p_val).strip() if p_val is not None else ""
+                    is_program = '-' in p_val_str or ',' in p_val_str or p_val_str.upper() == 'PROGRAM'
                     
-                # Map columns
-                pos, module, section = map_excel_to_csv_columns(p_val, p_mean, sec_val)
-                text_clean = str(text_val).strip()
-                
-                writer.writerow([pos, module, section, num, text_clean])
-                mapped_count += 1
-                active_positions.add(pos)
-                
+                    if is_program:
+                        num = str(num_val).strip() if num_val is not None else ""
+                    else:
+                        try:
+                            num = int(float(num_val))
+                        except (ValueError, TypeError):
+                            invalid_rows.append((sheet_name, row_num, num_val, p_val))
+                            continue
+                        
+                    pos, module, section = map_excel_to_csv_columns(p_val, p_mean, sec_val, is_compat=is_compat)
+                    text_clean = str(text_val).strip()
+                    
+                    writer.writerow([pos, module, section, num, text_clean])
+                    mapped_count += 1
+                    active_positions.add(pos)
+                    
     except PermissionError:
         print(f"\n[ERROR] Permission denied: Could not write to '{csv_filename}'.")
         print("Please close any applications (like text editors or Excel) that might have the file locked.")
@@ -359,6 +339,8 @@ def main():
         print(f"\n[ERROR] Failed to write database: {e}")
         input("\nPress Enter to exit...")
         sys.exit(1)
+    finally:
+        wb.close()
         
     print("\n" + "=" * 60)
     print("                      SUCCESSFUL SYNC")
@@ -372,15 +354,14 @@ def main():
         
     if invalid_rows:
         print(f"\n[WARNING] Skipped {len(invalid_rows)} rows due to invalid 'Number' values:")
-        for r_num, row in invalid_rows[:5]:
-            print(f"  - Row {r_num}: Number='{row[num_idx]}' (Position {row[pos_idx]})")
+        for s_name, r_num, val, pos in invalid_rows[:5]:
+            print(f"  - Sheet '{s_name}', Row {r_num}: Number='{val}' (Position {pos})")
         if len(invalid_rows) > 5:
             print(f"  - ... and {len(invalid_rows) - 5} more rows.")
             
     print("\nWorkflow ready. You can now reload your Soul Blueprint Matrix in Chrome.")
     print("=" * 60)
     
-    # We add a pause when running in batch mode, but don't hold the shell if run directly
     if len(sys.argv) > 1 and sys.argv[1] == '--batch':
         input("\nPress Enter to exit...")
 
