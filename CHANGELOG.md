@@ -1,5 +1,24 @@
 # Changelog - Soul Blueprint Matrix (New Features Sync)
 
+## [June 2026] - Destiny Matrix Compatibility Chart Support (on branch `feature/modern-chart-visuals`)
+
+This update introduces a full **Compatibility Matrix Chart** combined from two Dates of Birth (DOBs), complete with real-time sync for pop-out screen viewing, custom Excel database management, and program/combination detection.
+
+### 👥 Compatibility Calculations & Tabs
+- Computes combined matrix numbers by adding corresponding nodes of Partner 1 & Partner 2 (reduced using base-22 numerology).
+- Dynamically loads compatibility-specific tabs (e.g. `👥 General`, `♥ Love Dynamics`, `$ Shared Finance`, `☽ Relationship Karma`) and filters out single-DOB reading tabs.
+- Supports adding custom compatibility categories and sections in Excel without changing any code.
+
+### 📁 Excel-to-CSV Database Sync
+- Sync tool now reads from a new **`Compatibility`** worksheet inside `data/interpretations.xlsx`.
+- Automatically maps compatibility sections to `compat_` prefixed modules and compatibility programs to `compat_programs` inside the unified `data/interpretations.csv`.
+
+### 📺 Pop-out Script Board Synchronization
+- Added `readingMode` synchronization over the `BroadcastChannel`.
+- The pop-out Script Board automatically updates its header details (displaying both client names and birth dates), sidebar nodes, and tabs to match the main screen's reading mode (Single vs Compatibility).
+
+---
+
 ## [June 2026] - Modern Chart Visual Refresh (on branch `feature/modern-chart-visuals`)
 
 This update delivers a visual modernization of the interactive chart dashboard with vibrant gradients, bolder outlines, glowing node effects, improved labels contrast, and micro-interactions.
