@@ -5,12 +5,21 @@
 The files in the `Solution` folder:
 
 ```
-soul_matrix.html          ← The chart (never edit this directly)
-interpretations.csv       ← Your interpretation database (edit this freely)
-run_locally.bat           ← Double-click this to run locally without browser CORS blocks
-server.py                 ← Built-in Python web server helper script
-server.ps1                ← Built-in PowerShell web server helper script (fallback)
-HOW-TO-UPDATE.md          ← These instructions
+SoulMatrix/
+├── data/
+│   ├── interpretations.xlsx      ← Master spreadsheet database (edit this!)
+│   └── interpretations.csv       ← Dynamic CSV database compiled by sync tool
+├── src/
+│   ├── soul_matrix.html          ← The interactive chart page
+│   ├── script_board.html         ← Pop-out streamer Script Board
+│   ├── server.py                 ← Python local web server
+│   └── server.ps1                ← PowerShell local web server (fallback)
+├── tools/
+│   ├── update_interpretations.py ← Excel-to-CSV sync tool engine
+│   └── backups/                  ← Automatically generated CSV backups
+├── run_locally.bat               ← Launch the web application locally
+├── run_update.bat                ← Compile Excel edits to CSV database
+└── HOW-TO-UPDATE.md              ← These instructions
 ```
 
 ### How to Run the App
@@ -49,7 +58,7 @@ The CSV has exactly five columns:
 
 ### Opening the file
 
-1. Open your Excel workbook (e.g. `interpretations.xlsx` or `Interpretations backup.xlsx`).
+1. Open your Excel workbook (e.g. `data/interpretations.xlsx` or `data/Interpretations backup.xlsx`).
 2. You will see 5 user-friendly columns: **Position**, **Position Meaning**, **Section**, **Number**, and **Interpretation Text**.
 
 ### Adding or editing an interpretation
@@ -65,7 +74,7 @@ The CSV has exactly five columns:
 
 1. Double-click the **`run_update.bat`** script file in the `Soul_Matrix_Blueprint` folder.
 2. A console window will pop up. It will:
-   - Automatically back up your current `interpretations.csv` to a timestamped backup inside the `backups/` folder.
+    - Automatically back up your current `data/interpretations.csv` to a timestamped backup inside the `tools/backups/` folder.
    - Parse your Excel spreadsheet.
    - Standardize column headings and translate human-friendly terms into the lowercase keys that the web application requires.
    - Print a success summary showing the number of entries successfully synced.
@@ -206,13 +215,13 @@ To bypass this restriction and load your interpretations:
 
 ## Backing up your data
 
-Your entire interpretation database is in one file: `interpretations.xlsx`. Back this up regularly by copying it to a USB drive or cloud storage. The HTML and CSV files do not need to be manually backed up, as `run_update.bat` automatically creates backups of your CSV data when run, and the Excel file is the master database.
+Your entire interpretation database is in one file: `data/interpretations.xlsx`. Back this up regularly by copying it to a USB drive or cloud storage. The HTML and CSV files do not need to be manually backed up, as `run_update.bat` automatically creates backups of your CSV data inside `tools/backups/` when run, and the Excel file is the master database.
 
 ---
 
 ## Summary of how to add new interpretations
 
-1. Open your Excel workbook (e.g. `interpretations.xlsx`).
+1. Open your Excel workbook (e.g. `data/interpretations.xlsx`).
 2. Add or edit rows: `Position, Position Meaning, Section, Number, Interpretation Text`.
 3. Save the workbook (**Ctrl+S**).
 4. Double-click `run_update.bat` to generate the CSV.

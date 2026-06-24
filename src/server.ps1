@@ -4,15 +4,16 @@ $listener.Prefixes.Add("http://localhost:$port/")
 
 try {
     $listener.Start()
+    $rootDir = Split-Path -Parent $PSScriptRoot
     Write-Host "===================================================" -ForegroundColor Cyan
     Write-Host "  PowerShell Local Server Running on port $port" -ForegroundColor Cyan
-    Write-Host "  Serving files from: $PSScriptRoot" -ForegroundColor Cyan
+    Write-Host "  Serving files from: $rootDir" -ForegroundColor Cyan
     Write-Host "  Press Ctrl+C in this window to stop the server" -ForegroundColor Cyan
     Write-Host "===================================================" -ForegroundColor Cyan
     Write-Host ""
     
     # Open the browser automatically
-    Start-Process "http://localhost:$port/soul_matrix.html"
+    Start-Process "http://localhost:$port/src/soul_matrix.html"
     
     while ($listener.IsListening) {
         $context = $listener.GetContext()
@@ -21,12 +22,12 @@ try {
         
         $urlPath = $request.Url.LocalPath.TrimStart('/')
         if ($urlPath -eq "") {
-            $urlPath = "soul_matrix.html"
+            $urlPath = "src/soul_matrix.html"
         }
-        $localPath = Join-Path $PSScriptRoot $urlPath
+        $localPath = Join-Path $rootDir $urlPath
         
         if (Test-Path $localPath -PathType Container) {
-            $localPath = Join-Path $localPath "soul_matrix.html"
+            $localPath = Join-Path $localPath "src/soul_matrix.html"
         }
         
         if (Test-Path $localPath -PathType Leaf) {

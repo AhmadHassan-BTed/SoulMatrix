@@ -31,18 +31,29 @@ Additionally, it provides a secondary **Script Board** window that communicates 
 
 ---
 
+## 📂 Repository Structure
+
+The project has been organized into a structured directory layout:
+* **`data/`**: Holds the Excel master database (`interpretations.xlsx`) and compiled data (`interpretations.csv`).
+* **`src/`**: Core application files including HTML pages and server scripts (`soul_matrix.html`, `script_board.html`, `server.py`, `server.ps1`).
+* **`tools/`**: Python Excel-to-CSV database synchronizer engine (`update_interpretations.py`) and CSV backups directory (`backups/`).
+* **`run_locally.bat`**: Direct workspace root launcher to start the web server.
+* **`run_update.bat`**: Direct workspace root compile script to sync Excel edits.
+
+---
+
 ## 🚀 Quick Start
 
 1. **Launch the Chart**:
-   * Double-click `run_locally.bat` to start the local python server.
-   * Open `http://localhost:8000/soul_matrix.html` in Google Chrome.
+   * Double-click `run_locally.bat` to start the local Python server.
+   * Open `http://localhost:8000/src/soul_matrix.html` in Google Chrome.
 
 2. **Open the Pop-out Board**:
    * Click the **📺 Script Board** button on the main navigation bar.
    * Drag the script board to your second screen or capture it inside OBS.
 
 3. **Manage Interpretations in Excel**:
-   * Open `interpretations.xlsx` and make edits or add new columns.
+   * Open `data/interpretations.xlsx` and make edits or add new columns.
    * Double-click `run_update.bat` to sync changes. Reload the browser page to apply updates.
 
 ---

@@ -2,8 +2,8 @@
 setlocal enabledelayedexpansion
 
 :: Check if the files are extracted from ZIP first
-if not exist "%~dp0soul_matrix.html" goto err_not_extracted
-if not exist "%~dp0server.ps1" goto err_not_extracted
+if not exist "%~dp0src\soul_matrix.html" goto err_not_extracted
+if not exist "%~dp0src\server.ps1" goto err_not_extracted
 
 echo ===================================================
 echo   Soul Blueprint Matrix - Local Web Server Launcher
@@ -112,16 +112,16 @@ if exist "%~dp0requirements.txt" (
 
 echo.
 echo Starting Python local web server on port 8000...
-echo Opening browser to http://localhost:8000/soul_matrix.html...
+echo Opening browser to http://localhost:8000/src/soul_matrix.html...
 echo Keep this window open while using the tool. Press Ctrl+C to stop.
 echo.
-start "" "http://localhost:8000/soul_matrix.html"
-"!PYTHON_CMD!" "%~dp0server.py"
+start "" "http://localhost:8000/src/soul_matrix.html"
+"!PYTHON_CMD!" "%~dp0src\server.py"
 goto end
 
 :run_ps
 echo Launching built-in PowerShell server...
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0server.ps1"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0src\server.ps1"
 goto end
 
 :err_not_extracted

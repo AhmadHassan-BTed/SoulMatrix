@@ -54,4 +54,4 @@ if not defined PYTHON_CMD (
 )
 
 :: Run the update script with --batch to pause at the end
-"!PYTHON_CMD!" "%~dp0update_interpretations.py" --batch
+"!PYTHON_CMD!" "%~dp0tools\update_interpretations.py" --batch

@@ -1092,7 +1092,7 @@ footer {
 <script>
 // ═══════════════════════════════════════════════════════════════════
 // CSV DATA LOADER
-// Reads interpretations.csv from the same folder as this HTML file.
+// Reads interpretations.csv from the data/ folder (sibling to src/).
 // CSV format: position,module,section,number,text
 // This is the single source of truth for all interpretation text.
 // ═══════════════════════════════════════════════════════════════════
@@ -1291,7 +1291,7 @@ async function loadCSV() {
   updateStatus('⟳ Loading interpretation data from CSV...', 'loading', false);
 
   try {
-    const response = await fetch('interpretations.csv');
+    const response = await fetch('../data/interpretations.csv');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const text = await response.text();
     const count = processCSVText(text);
@@ -1302,7 +1302,7 @@ async function loadCSV() {
     updateStatus(`✓ Loaded ${count} interpretations from CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
 
   } catch (err) {
-    console.warn('Failed to fetch interpretations.csv automatically:', err);
+    console.warn('Failed to fetch ../data/interpretations.csv automatically:', err);
     
     // Try to load from local storage fallback
     const cachedText = localStorage.getItem('soul_matrix_csv_content');

@@ -33,15 +33,20 @@ except ImportError:
     input("\nPress Enter to exit...")
     sys.exit(1)
 
+# Base directories resolution relative to this script (located in tools/)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+BACKUP_DIR = os.path.join(SCRIPT_DIR, "backups")
 
-def get_excel_file():
+
+def get_excel_file(data_dir):
     """Locate the Excel file to read, checking fallback options in order."""
     search_paths = [
-        "interpretations.xlsx",
-        "Interpretations.xlsx",
-        "Interpretations backup.xlsx",
-        os.path.join("customer_s-editited", "Interpretations backup.xlsx"),
-        "customer_s-editited/Interpretations backup.xlsx"
+        os.path.join(data_dir, "interpretations.xlsx"),
+        os.path.join(data_dir, "Interpretations.xlsx"),
+        os.path.join(data_dir, "Interpretations backup.xlsx"),
+        os.path.join(data_dir, "customer_s-editited", "Interpretations backup.xlsx"),
     ]
     
     # Try preferred paths
@@ -49,22 +54,22 @@ def get_excel_file():
         if os.path.isfile(path):
             return path
             
-    # Fallback: scan current directory for any .xlsx file
-    xlsx_files = [f for f in os.listdir(".") if f.endswith(".xlsx")]
-    if xlsx_files:
-        # Sort to find the most recently modified one if there are multiple
-        xlsx_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
-        return xlsx_files[0]
+    # Fallback: scan data directory for any .xlsx file
+    if os.path.isdir(data_dir):
+        xlsx_files = [os.path.join(data_dir, f) for f in os.listdir(data_dir) if f.endswith(".xlsx")]
+        if xlsx_files:
+            # Sort to find the most recently modified one if there are multiple
+            xlsx_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+            return xlsx_files[0]
         
     return None
 
 
-def create_backup(csv_path):
+def create_backup(csv_path, backup_dir):
     """Back up existing CSV file if it exists."""
     if not os.path.isfile(csv_path):
         return None
         
-    backup_dir = "backups"
     os.makedirs(backup_dir, exist_ok=True)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -207,10 +212,10 @@ def main():
     print("      Soul Blueprint Matrix - Excel Database Sync Tool")
     print("=" * 60)
     
-    excel_file = get_excel_file()
+    excel_file = get_excel_file(DATA_DIR)
     if not excel_file:
         print("[ERROR] Could not find any interpretations spreadsheet!")
-        print("Please place your Excel file (e.g. interpretations.xlsx) in this folder.")
+        print(f"Please place your Excel file (e.g. interpretations.xlsx) in the '{DATA_DIR}' folder.")
         input("\nPress Enter to exit...")
         sys.exit(1)
         
@@ -290,8 +295,8 @@ def main():
     text_idx = col_indices['interpretation text']
     
     # 2. Back up the old CSV before editing
-    csv_filename = "interpretations.csv"
-    backup_path = create_backup(csv_filename)
+    csv_filename = os.path.join(DATA_DIR, "interpretations.csv")
+    backup_path = create_backup(csv_filename, BACKUP_DIR)
     if backup_path:
         print(f"[OK] Pre-existing CSV backed up to: {backup_path}")
         
