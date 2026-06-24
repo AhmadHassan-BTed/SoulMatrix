@@ -371,6 +371,7 @@ let database = {};
 let discoveredModules = {};
 let activePos = 'A';
 let activeModId = 'core';
+let readingMode = 'single';
 
 // BroadcastChannel Setup
 const bc = new BroadcastChannel('soul_matrix_sync');
@@ -401,6 +402,7 @@ bc.onmessage = function(e) {
     calculatedValues = msg.calculatedValues;
     database = msg.database;
     discoveredModules = msg.discoveredModules;
+    readingMode = msg.readingMode || 'single';
     
     updateHeader();
     renderNodesList();
@@ -609,11 +611,17 @@ function getModules() {
       {key:'next_phase',title:'Next Phase'},
       {key:'yearly',title:'Yearly Theme'},
     ]},
-    {id:'compatibility', label:'👥 Compatibility', sections:[
-      {key:'general',title:'General Compatibility'},
-      {key:'friction',title:'Friction Points'},
-      {key:'finances',title:'Financial Union'},
-      {key:'intimacy',title:'Intimacy & Love'},
+    {id:'compat_general', label:'👥 General', sections:[
+      {key:'meaning',title:'General Compatibility'},
+    ]},
+    {id:'compat_love', label:'♥ Love Dynamics', sections:[
+      {key:'meaning',title:'Love Alignment'},
+    ]},
+    {id:'compat_karma', label:'☽ Relationship Karma', sections:[
+      {key:'meaning',title:'Karmic Relationship'},
+    ]},
+    {id:'compat_finance', label:'$ Shared Finance', sections:[
+      {key:'meaning',title:'Financial Compatibility'},
     ]},
   ];
 
@@ -632,13 +640,23 @@ function getModules() {
     }
   });
 
-  return result;
+  // Filter modules based on readingMode
+  const activeModules = result.filter(m => {
+    if (readingMode === 'compat') {
+      return m.id.startsWith('compat_') || m.id === 'compatibility';
+    } else {
+      return !m.id.startsWith('compat_') && m.id !== 'compatibility' && m.id !== 'programs' && m.id !== 'compat_programs';
+    }
+  });
+
+  return activeModules;
 }
 
 // Active Programs Detection
 function getActivePrograms() {
   const active = [];
   if (!database) return active;
+  const targetModule = readingMode === 'compat' ? 'compat_programs' : 'programs';
   
   for (const posKey in database) {
     if (posKey.includes('-')) {
@@ -649,7 +667,7 @@ function getActivePrograms() {
         const val3 = calculatedValues[positions[2]];
         if (val1 !== undefined && val2 !== undefined && val3 !== undefined) {
           const currentCode = `${val1}-${val2}-${val3}`;
-          const progMod = database[posKey]['programs'];
+          const progMod = database[posKey][targetModule];
           if (progMod) {
             for (const secKey in progMod) {
               const text = progMod[secKey][currentCode];
@@ -720,7 +738,7 @@ function renderActiveNode() {
   
   // If activeModId not valid, set to first
   if (activeModId !== 'programs_all' && !modules.find(m => m.id === activeModId)) {
-    activeModId = modules[0]?.id || 'core';
+    activeModId = modules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
   }
   
   // Normal modules

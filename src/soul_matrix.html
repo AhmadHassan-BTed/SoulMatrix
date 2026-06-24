@@ -1123,15 +1123,19 @@ const INTERP = {};
 // Track which modules & sections exist (dynamically discovered from CSV)
 const DISCOVERED_MODULES = {}; // { moduleId: { label, sections: [{key, title}] } }
 
-// Fallback module metadata (labels for known module IDs)
 const MODULE_LABELS = {
-  core:          '✦ Core',
-  relationships: '♥ Love',
-  karma:         '☽ Karma',
-  money:         '$ Money',
-  purpose:       '★ Purpose',
-  forecast:      '◎ Forecast',
-  compatibility: '👥 Compatibility',
+  core:             '✦ Core',
+  relationships:    '♥ Love',
+  karma:            '☽ Karma',
+  money:            '$ Money',
+  purpose:          '★ Purpose',
+  forecast:         '◎ Forecast',
+  compatibility:    '👥 Compatibility',
+  compat_general:   '👥 General',
+  compat_love:      '♥ Love Dynamics',
+  compat_karma:     '☽ Relationship Karma',
+  compat_finance:   '$ Shared Finance',
+  compat_programs:  '✦ Compatibility Programs',
 };
 
 // Fallback section titles for known section keys
@@ -1558,6 +1562,18 @@ function getModules() {
       {key:'next_phase',title:'Next Phase'},
       {key:'yearly',title:'Yearly Theme'},
     ]},
+    {id:'compat_general', label:'👥 General', sections:[
+      {key:'meaning',title:'General Compatibility'},
+    ]},
+    {id:'compat_love', label:'♥ Love Dynamics', sections:[
+      {key:'meaning',title:'Love Alignment'},
+    ]},
+    {id:'compat_karma', label:'☽ Relationship Karma', sections:[
+      {key:'meaning',title:'Karmic Relationship'},
+    ]},
+    {id:'compat_finance', label:'$ Shared Finance', sections:[
+      {key:'meaning',title:'Financial Compatibility'},
+    ]},
   ];
 
   // Start with defaults, then merge any NEW modules/sections from CSV
@@ -1608,13 +1624,25 @@ function openPanel(pos, syncToBoard = true) {
 
   // Build tabs from dynamic module list
   const modules = getModules();
+
+  // Filter modules based on readingMode
+  const activeModules = modules.filter(m => {
+    if (readingMode === 'compat') {
+      return m.id.startsWith('compat_') || m.id === 'compatibility';
+    } else {
+      return !m.id.startsWith('compat_') && m.id !== 'compatibility' && m.id !== 'programs' && m.id !== 'compat_programs';
+    }
+  });
+
   const tabsEl = document.getElementById('mod-tabs');
   tabsEl.innerHTML = '';
 
-  // If activeModId not in current modules, reset to first
-  if (!modules.find(m => m.id === activeModId)) activeModId = modules[0]?.id || 'core';
+  // If activeModId not in active modules, reset to first active module
+  if (!activeModules.find(m => m.id === activeModId)) {
+    activeModId = activeModules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
+  }
 
-  modules.forEach(mod => {
+  activeModules.forEach(mod => {
     const btn = document.createElement('button');
     btn.className = 'mod-tab' + (mod.id === activeModId ? ' active' : '');
     btn.textContent = mod.label;
@@ -1622,7 +1650,7 @@ function openPanel(pos, syncToBoard = true) {
     tabsEl.appendChild(btn);
   });
 
-  renderModContent(pos, val, activeModId, modules);
+  renderModContent(pos, val, activeModId, activeModules);
 
   document.querySelectorAll('.ng').forEach(g => g.classList.remove('active'));
   const activeNode = document.querySelector(`.ng[data-pos="${pos}"]`);
@@ -1892,6 +1920,8 @@ const bc = new BroadcastChannel('soul_matrix_sync');
 
 function getActivePrograms() {
   const active = [];
+  const targetModule = readingMode === 'compat' ? 'compat_programs' : 'programs';
+  
   for (const posKey in INTERP) {
     if (posKey.includes('-')) {
       const positions = posKey.split('-');
@@ -1901,7 +1931,7 @@ function getActivePrograms() {
         const val3 = currentVals[positions[2]];
         if (val1 !== undefined && val2 !== undefined && val3 !== undefined) {
           const currentCode = `${val1}-${val2}-${val3}`;
-          const progMod = INTERP[posKey]['programs'];
+          const progMod = INTERP[posKey][targetModule];
           if (progMod) {
             for (const secKey in progMod) {
               const text = progMod[secKey][currentCode];
@@ -2014,7 +2044,8 @@ function broadcastSyncData() {
     client: { name, day, month: mon, year: yr },
     calculatedValues: currentVals,
     database: INTERP,
-    discoveredModules: DISCOVERED_MODULES
+    discoveredModules: DISCOVERED_MODULES,
+    readingMode: readingMode
   });
 }
 
