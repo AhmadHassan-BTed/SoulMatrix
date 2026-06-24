@@ -1229,7 +1229,6 @@ function parseCSV(text) {
 function processCSVText(text) {
   const rows = parseCSV(text);
   
-  // Clear previous INTERP store to prevent mixing when reloading
   for (const key in INTERP) delete INTERP[key];
   for (const key in DISCOVERED_MODULES) delete DISCOVERED_MODULES[key];
 
@@ -1244,13 +1243,11 @@ function processCSVText(text) {
 
     if (!pos || !module || !section || (typeof number === 'number' && isNaN(number))) return;
 
-    // Populate INTERP store
     if (!INTERP[pos])                INTERP[pos] = {};
     if (!INTERP[pos][module])        INTERP[pos][module] = {};
     if (!INTERP[pos][module][section]) INTERP[pos][module][section] = {};
     INTERP[pos][module][section][number] = textVal;
 
-    // Track discovered modules/sections
     if (!DISCOVERED_MODULES[module]) {
       DISCOVERED_MODULES[module] = {
         id: module,
@@ -1279,7 +1276,6 @@ function updateStatus(text, type, autoHide = true) {
   if (!statusEl) return;
 
   statusEl.textContent = text;
-  // Reset classes to just the type ('ok', 'error', 'loading')
   statusEl.className = type;
   statusEl.classList.remove('hidden');
 
@@ -1299,7 +1295,6 @@ function updateStatus(text, type, autoHide = true) {
   }
 }
 
-// Click listener to toggle status banner
 document.getElementById('status-info-btn').addEventListener('click', () => {
   const statusEl = document.getElementById('data-status');
   if (!statusEl) return;
@@ -1320,7 +1315,6 @@ async function loadCSV() {
     const text = await response.text();
     const count = processCSVText(text);
     
-    // Save to local storage for future offline access
     localStorage.setItem('soul_matrix_csv_content', text);
 
     updateStatus(`✓ Loaded ${count} interpretations from CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
@@ -1328,12 +1322,11 @@ async function loadCSV() {
   } catch (err) {
     console.warn('Failed to fetch ../data/interpretations.csv automatically:', err);
     
-    // Try to load from local storage fallback
     const cachedText = localStorage.getItem('soul_matrix_csv_content');
     if (cachedText) {
       try {
         const count = processCSVText(cachedText);
-        updateStatus(`✓ Loaded ${count} interpretations from local browser cache (CORS blocked automatic load). Click "Load CSV" to update.`, 'ok', true);
+        updateStatus(`✓ Loaded ${count} interpretations from local browser cache. Click "Load CSV" to update.`, 'ok', true);
       } catch (cacheErr) {
         updateStatus(`⚠ CORS Blocked automatic load & cache is corrupt. Please click "Load CSV" to select interpretations.csv manually.`, 'error', false);
       }
@@ -1449,7 +1442,6 @@ function setReadingMode(mode) {
     btnCompat.classList.add('active');
   }
   
-  // Re-run the active calculation
   if (mode === 'single') {
     document.getElementById('go-btn').click();
   } else {
@@ -1528,7 +1520,6 @@ function renderDerived(d) {
 // preserving natural CSV order. New columns = new tabs automatically.
 // ═══════════════════════════════════════════════════════════════════
 function getModules() {
-  // Default structure so tabs show even if CSV has no entries yet
   const defaults = [
     {id:'core',          label:'✦ Core',    sections:[
       {key:'meaning',title:'What This Position Means'},
@@ -1576,17 +1567,14 @@ function getModules() {
     ]},
   ];
 
-  // Start with defaults, then merge any NEW modules/sections from CSV
   const result = defaults.map(d => ({...d, sections: [...d.sections]}));
   const resultIds = result.map(m => m.id);
 
   Object.values(DISCOVERED_MODULES).forEach(discovered => {
     const existing = result.find(m => m.id === discovered.id);
     if (!existing) {
-      // Completely new module from CSV — add it
       result.push({...discovered});
     } else {
-      // Merge in any new sections found in CSV
       discovered.sections.forEach(sec => {
         if (!existing.sections.find(s => s.key === sec.key)) {
           existing.sections.push(sec);
@@ -1666,7 +1654,6 @@ function renderModContent(pos, val, modId, modules) {
   const el = document.getElementById('mod-content');
   el.innerHTML = '';
 
-  // Render active programs that involve this node at the top
   const activeProgs = getActivePrograms();
   const nodeProgs = activeProgs.filter(p => p.positions.split('-').includes(pos));
   nodeProgs.forEach(prog => {
@@ -1719,14 +1706,12 @@ function renderModContent(pos, val, modId, modules) {
     el.appendChild(card);
   });
 
-  // Export hint
   const note = document.createElement('div');
   note.className = 'export-note';
   note.textContent = '✦ Add interpretations by editing interpretations.csv in Excel';
   el.appendChild(note);
 }
 
-// ── In-app quick edits (session only — save to CSV for permanent) ──
 function startEdit(card, pos, modId, secKey, numVal, currentText) {
   const p = card.querySelector('p');
   const editBtn = card.querySelector('.edit-btn');
@@ -1994,7 +1979,6 @@ function renderActiveProgramsDashboard() {
 }
 
 function highlightActiveProgramNodes() {
-  // Clear previous active program highlights
   document.querySelectorAll('.ng').forEach(g => {
     g.classList.remove('program-highlight');
   });
@@ -2064,9 +2048,6 @@ document.getElementById('script-board-btn').addEventListener('click', () => {
   window.open('script_board.html', 'SoulMatrixScriptBoard', 'width=650,height=850,menubar=no,toolbar=no,location=no,status=no');
 });
 
-// ═══════════════════════════════════════════════════════════════════
-// INIT — load CSV first, then calculate
-// ═══════════════════════════════════════════════════════════════════
 loadCSV().then(() => {
   document.getElementById('go-btn').click();
 });
