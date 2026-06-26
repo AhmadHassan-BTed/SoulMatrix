@@ -68,6 +68,26 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
     pos = str(pos).strip()
     excel_section = str(excel_section).strip()
     
+    pos_upper = pos.upper().replace(' ', '')
+    is_age = pos_upper.startswith('AGE')
+    
+    if is_age:
+        # Normalize age key: lowercase, e.g. age22.5 (replace comma with dot if any)
+        age_num_str = pos_upper[3:].replace(',', '.')
+        pos_clean = f"age{age_num_str}"
+        module = 'forecast'
+        sec_lower = excel_section.lower().strip()
+        if sec_lower in ['interpretation', '']:
+            section = 'yearly'
+        else:
+            # check mapping or use directly
+            section = sec_lower.replace(' ', '_').strip('_')
+            if not section:
+                section = 'yearly'
+        if is_compat:
+            module = f"compat_{module}"
+        return pos_clean, module, section
+
     pos_upper = pos.upper()
     is_program = '-' in pos or ',' in pos or pos_upper == 'PROGRAM'
     if is_program:
@@ -312,10 +332,17 @@ def main():
                         continue
                         
                     p_val_str = str(p_val).strip() if p_val is not None else ""
-                    is_program = '-' in p_val_str or ',' in p_val_str or p_val_str.upper() == 'PROGRAM'
+                    is_age = p_val_str.upper().replace(' ', '').startswith('AGE')
+                    is_program = (not is_age) and ('-' in p_val_str or ',' in p_val_str or p_val_str.upper() == 'PROGRAM')
                     
-                    if is_program:
-                        num = str(num_val).strip() if num_val is not None else ""
+                    if is_program or is_age:
+                        if is_age:
+                            try:
+                                num = int(float(num_val))
+                            except (ValueError, TypeError):
+                                num = str(num_val).strip() if num_val is not None else ""
+                        else:
+                            num = str(num_val).strip() if num_val is not None else ""
                     else:
                         try:
                             num = int(float(num_val))
