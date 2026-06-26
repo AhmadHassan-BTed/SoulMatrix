@@ -679,6 +679,30 @@ footer {
   body { background: white; color: black; }
   #matrix-wrap { max-width: 100%; }
 }
+
+/* ─── OUTER AGE TIMELINE NODES ───────────────────────────── */
+.ng.age-node:hover .hl {
+  opacity: 1 !important;
+}
+.ng.age-node:hover .rg {
+  stroke: var(--goldb) !important;
+  stroke-width: 1.8px !important;
+}
+.ng.age-node:hover .age-range-label {
+  fill: var(--goldb) !important;
+  font-weight: 700 !important;
+}
+.ng.age-node.active .hl {
+  opacity: 1 !important;
+}
+.ng.age-node.active .rg {
+  stroke: var(--goldb) !important;
+  stroke-width: 1.8px !important;
+}
+.ng.age-node.active .age-range-label {
+  fill: var(--goldb) !important;
+  font-weight: 700 !important;
+}
 </style>
 
 </head>
@@ -1011,6 +1035,7 @@ footer {
 </g>
 <text x="450" y="556" text-anchor="middle" font-size="21" font-weight="700" fill="#FF4D6D" filter="url(#fP)">♥</text>
 <text x="528" y="500" text-anchor="middle" font-size="21" font-weight="700" fill="#E8B84B" filter="url(#fP)">$</text>
+<g id="age-nodes-group"></g>
 </svg>
 </div>
 
@@ -1136,6 +1161,7 @@ const MODULE_LABELS = {
   compat_karma:     '☽ Relationship Karma',
   compat_finance:   '$ Shared Finance',
   compat_programs:  '✦ Compatibility Programs',
+  compat_forecast:  '◎ Couple Forecast',
 };
 
 // Fallback section titles for known section keys
@@ -1374,6 +1400,51 @@ const POSITIONS = {
   R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money',         color:'#5CDEC8'},
 };
 
+// Populate the 56 intermediate age nodes dynamically
+(() => {
+  const sectorCorners = [
+    ['A', 'F'], ['F', 'B'], ['B', 'G'], ['G', 'C'],
+    ['C', 'H'], ['H', 'D'], ['D', 'I'], ['I', 'A']
+  ];
+  sectorCorners.forEach(([c1, c2], sectorIdx) => {
+    const startAge = sectorIdx * 10;
+    const offsets = [1.25, 2.5, 3.75, 5, 6.25, 7.5, 8.75];
+    
+    const getRangeLabel = (S, offset) => {
+      if (offset === 1.25) return `${S+1}-${S+2},5`;
+      if (offset === 2.5) return `${S+2},5-${S+3},5`;
+      if (offset === 3.75) return `${S+3},5-${S+5}`;
+      if (offset === 5) return `${S+5} years old`;
+      if (offset === 6.25) return `${S+6}-${S+7},5`;
+      if (offset === 7.5) return `${S+7},5-${S+8},5`;
+      if (offset === 8.75) return `${S+8},5-${S+10}`;
+      return '';
+    };
+    
+    const getFormula = (offset) => {
+      if (offset === 5) return `red(${c1} + ${c2})`;
+      if (offset === 2.5) return `red(${c1} + Age${startAge+5})`;
+      if (offset === 7.5) return `red(Age${startAge+5} + ${c2})`;
+      if (offset === 1.25) return `red(${c1} + Age${startAge+2.5})`;
+      if (offset === 3.75) return `red(Age${startAge+2.5} + Age${startAge+5})`;
+      if (offset === 6.25) return `red(Age${startAge+5} + Age${startAge+7.5})`;
+      if (offset === 8.75) return `red(Age${startAge+7.5} + ${c2})`;
+      return '';
+    };
+
+    offsets.forEach(offset => {
+      const ageKey = `age${startAge + offset}`;
+      const rangeLabel = getRangeLabel(startAge, offset);
+      POSITIONS[ageKey] = {
+        name: `Age Node ${startAge + offset} (${rangeLabel})`,
+        formula: getFormula(offset),
+        zone: 'forecast',
+        color: '#A78BFA'
+      };
+    });
+  });
+})();
+
 // ═══════════════════════════════════════════════════════════════════
 // CALCULATION ENGINE
 // ═══════════════════════════════════════════════════════════════════
@@ -1410,8 +1481,35 @@ function calc(day, mon, yr) {
   const sum = k => chakras.reduce((a,c) => a + c[k], 0);
   const chakraTotals = {physical:red(sum('physical')), energy:red(sum('energy')), emotional:red(sum('emotional'))};
 
-  return {A,B,C,D,E,F,G,H,I,J,K,L,M,O,P,Q,N,S,T,L2,L1,F2,G2,H2,I2,F1,G1,H1,I1,R,R1,R2,
-    derived:{earth,sky,personalPurpose,paternalP,maternalP,socialPurpose,spiritualPurpose,chakras,chakraTotals}};
+  const ageVals = {};
+  const sectorCorners = [
+    ['A', 'F'], ['F', 'B'], ['B', 'G'], ['G', 'C'],
+    ['C', 'H'], ['H', 'D'], ['D', 'I'], ['I', 'A']
+  ];
+  const cornerValues = { A, F, B, G, C, H, D, I };
+  sectorCorners.forEach(([c1, c2], sectorIdx) => {
+    const startAge = sectorIdx * 10;
+    const v1 = cornerValues[c1];
+    const v2 = cornerValues[c2];
+    const vm = red(v1 + v2);
+    const vq1 = red(v1 + vm);
+    const vq2 = red(vm + v2);
+    const ve1 = red(v1 + vq1);
+    const ve2 = red(vq1 + vm);
+    const ve3 = red(vm + vq2);
+    const ve4 = red(vq2 + v2);
+    
+    ageVals[`age${startAge + 1.25}`] = ve1;
+    ageVals[`age${startAge + 2.5}`] = vq1;
+    ageVals[`age${startAge + 3.75}`] = ve2;
+    ageVals[`age${startAge + 5}`] = vm;
+    ageVals[`age${startAge + 6.25}`] = ve3;
+    ageVals[`age${startAge + 7.5}`] = vq2;
+    ageVals[`age${startAge + 8.75}`] = ve4;
+  });
+
+  return Object.assign({A,B,C,D,E,F,G,H,I,J,K,L,M,O,P,Q,N,S,T,L2,L1,F2,G2,H2,I2,F1,G1,H1,I1,R,R1,R2}, ageVals, {
+    derived:{earth,sky,personalPurpose,paternalP,maternalP,socialPurpose,spiritualPurpose,chakras,chakraTotals}});
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1565,6 +1663,9 @@ function getModules() {
     {id:'compat_finance', label:'$ Shared Finance', sections:[
       {key:'meaning',title:'Financial Compatibility'},
     ]},
+    {id:'compat_forecast', label:'◎ Couple Forecast', sections:[
+      {key:'yearly',title:'Yearly Theme'},
+    ]},
   ];
 
   const result = defaults.map(d => ({...d, sections: [...d.sections]}));
@@ -1623,7 +1724,9 @@ function openPanel(pos, syncToBoard = true) {
   const tabsEl = document.getElementById('mod-tabs');
   tabsEl.innerHTML = '';
 
-  if (!activeModules.find(m => m.id === activeModId)) {
+  if (pos.startsWith('age')) {
+    activeModId = readingMode === 'compat' ? 'compat_forecast' : 'forecast';
+  } else if (!activeModules.find(m => m.id === activeModId)) {
     activeModId = activeModules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
   }
 
@@ -2048,7 +2151,144 @@ document.getElementById('script-board-btn').addEventListener('click', () => {
   window.open('script_board.html', 'SoulMatrixScriptBoard', 'width=650,height=850,menubar=no,toolbar=no,location=no,status=no');
 });
 
+function generateOuterAgeNodes() {
+  const group = document.getElementById('age-nodes-group');
+  if (!group) return;
+  group.innerHTML = '';
+  
+  const vertices = {
+    A: { x: 130, y: 450 },
+    F: { x: 218, y: 238 },
+    B: { x: 430, y: 150 },
+    G: { x: 642, y: 238 },
+    C: { x: 730, y: 450 },
+    H: { x: 642, y: 662 },
+    D: { x: 430, y: 750 },
+    I: { x: 218, y: 662 }
+  };
+  
+  const sectorCorners = [
+    ['A', 'F'], ['F', 'B'], ['B', 'G'], ['G', 'C'],
+    ['C', 'H'], ['H', 'D'], ['D', 'I'], ['I', 'A']
+  ];
+  
+  const tValues = [0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875];
+  const ageOffsets = [1.25, 2.5, 3.75, 5, 6.25, 7.5, 8.75];
+  
+  sectorCorners.forEach(([c1, c2], sectorIdx) => {
+    const startAge = sectorIdx * 10;
+    const p1 = vertices[c1];
+    const p2 = vertices[c2];
+    
+    tValues.forEach((t, i) => {
+      const ageOffset = ageOffsets[i];
+      const age = startAge + ageOffset;
+      const ageKey = `age${age}`;
+      
+      const x = p1.x + t * (p2.x - p1.x);
+      const y = p1.y + t * (p2.y - p1.y);
+      
+      const vx = x - 430;
+      const vy = y - 450;
+      const len = Math.sqrt(vx * vx + vy * vy);
+      const ux = vx / len;
+      const uy = vy / len;
+      
+      const textDist = 25;
+      const tx = x + ux * textDist;
+      const ty = y + uy * textDist;
+      
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      g.setAttribute('class', 'ng age-node');
+      g.setAttribute('data-pos', ageKey);
+      g.style.cursor = 'pointer';
+      
+      const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+      const meta = POSITIONS[ageKey] || {name: `Age Node ${age}`};
+      title.textContent = `${ageKey} · ${meta.name}`;
+      g.appendChild(title);
+      
+      const hl = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      hl.setAttribute('cx', x);
+      hl.setAttribute('cy', y);
+      hl.setAttribute('r', 15);
+      hl.setAttribute('fill', 'rgba(167, 139, 250, 0.2)');
+      hl.setAttribute('class', 'hl');
+      hl.setAttribute('filter', 'url(#fb)');
+      hl.setAttribute('opacity', '0');
+      hl.style.transition = 'opacity 0.15s ease';
+      g.appendChild(hl);
+      
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', x);
+      circle.setAttribute('cy', y);
+      circle.setAttribute('r', 10);
+      circle.setAttribute('fill', '#0D082E');
+      circle.setAttribute('stroke', '#E0D8FF');
+      circle.setAttribute('stroke-width', '1.2');
+      circle.setAttribute('class', 'rg');
+      circle.style.transition = 'stroke 0.15s ease, stroke-width 0.15s ease';
+      g.appendChild(circle);
+      
+      const textNum = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      textNum.setAttribute('x', x);
+      textNum.setAttribute('y', y);
+      textNum.setAttribute('text-anchor', 'middle');
+      textNum.setAttribute('dominant-baseline', 'central');
+      textNum.setAttribute('font-family', 'Cinzel, serif');
+      textNum.setAttribute('font-weight', '700');
+      textNum.setAttribute('font-size', '9.5');
+      textNum.setAttribute('fill', '#FFF');
+      textNum.setAttribute('class', 'nv');
+      textNum.setAttribute('data-pos', ageKey);
+      textNum.textContent = '·';
+      g.appendChild(textNum);
+      
+      const textRange = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      textRange.setAttribute('x', tx);
+      textRange.setAttribute('y', ty);
+      textRange.setAttribute('text-anchor', 'middle');
+      textRange.setAttribute('dominant-baseline', 'central');
+      textRange.setAttribute('font-family', 'Raleway, sans-serif');
+      textRange.setAttribute('font-size', '7.5');
+      textRange.setAttribute('font-weight', '500');
+      textRange.setAttribute('fill', 'rgba(201, 184, 240, 0.6)');
+      textRange.setAttribute('class', 'age-range-label');
+      textRange.style.transition = 'fill 0.15s ease, font-weight 0.15s ease';
+      
+      const rangeMatch = meta.name.match(/\(([^)]+)\)/);
+      textRange.textContent = rangeMatch ? rangeMatch[1] : age;
+      g.appendChild(textRange);
+      
+      g.addEventListener('mouseenter', () => {
+        hl.setAttribute('opacity', '1');
+        circle.setAttribute('stroke', 'var(--goldb)');
+        circle.setAttribute('stroke-width', '1.8');
+        textRange.setAttribute('fill', 'var(--goldb)');
+        textRange.setAttribute('font-weight', '700');
+      });
+      g.addEventListener('mouseleave', () => {
+        if (activePos !== ageKey) {
+          hl.setAttribute('opacity', '0');
+          circle.setAttribute('stroke', '#E0D8FF');
+          circle.setAttribute('stroke-width', '1.2');
+          textRange.setAttribute('fill', 'rgba(201, 184, 240, 0.6)');
+          textRange.setAttribute('font-weight', '500');
+        }
+      });
+      
+      g.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openPanel(ageKey);
+      });
+      
+      group.appendChild(g);
+    });
+  });
+}
+
 loadCSV().then(() => {
+  generateOuterAgeNodes();
   document.getElementById('go-btn').click();
 });
 </script>
