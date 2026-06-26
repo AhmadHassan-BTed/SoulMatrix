@@ -42,7 +42,7 @@ SoulMatrix features a refined UI refresh designed to captivate clients during li
 ## 🌟 Key Features
 
 * **👤 Single & 👥 Couples Compatibility Mode**: Calculates combined matrix nodes by adding corresponding coordinates and reducing them (modulo-22 Major Arcana reduction). Renders specialized compatibility tabs (`General`, `Love Dynamics`, `Relationship Karma`, and `Shared Finance`) to show relationship dynamics.
-* **📅 Outer Ring Age Timeline**: Displays decadic life milestone labels (`0/80` to `70`) concentrically outside the octagram's anchor points for instant chronological reference.
+* **📅 Outer Ring Age Timeline**: Displays decadic life milestone labels (`0/80` to `70`) concentrically, along with **56 intermediate age timeline nodes** mapped dynamically along the perimeter lines of the octagram SVG, each clickable and fully integrated into the database forecast readings.
 * **📺 Pop-out Script Board**: A secondary control window featuring offline, real-time, bidirectional sync. Selecting a node or active program on one screen updates the active selection on the other instantly.
 * **🔍 Dynamic Excel Sync Engine**: Maintain your entire interpretation library—including custom categories or 3-number combinations—within Excel. Run the compiler tool to sync changes instantly.
 * **🔎 Font Zoom Controller**: Fine-tune script board text sizing (Small, Medium, Large, Extra Large) for optimal readability. User preferences are persisted locally in the browser.
@@ -60,7 +60,7 @@ graph TD
     classDef ui fill:#1b3233,stroke:#5cdec8,stroke-width:1.5px,color:#eae6f0;
 
     xlsx[Master Spreadsheet<br>interpretations.xlsx]:::file -->|Edit database| bat_sync(run_update.bat):::script
-    bat_sync -->|Executes compiler| py_sync[update_interpretations.py]:::script
+    bat_sync -->|Executes compiler| py_sync[update_interpretations.py / ps1]:::script
     py_sync -->|Generates backup & compiles| csv_db[interpretations.csv]:::file
     csv_db -->|Loaded via fetch / FileReader| main_app[soul_matrix.html Dashboard]:::ui
     main_app <-->|Offline BroadcastChannel Sync| script_board[script_board.html Script Board]:::ui
@@ -120,7 +120,8 @@ SoulMatrix/
 │   ├── server.py                 ← Python local HTTP server
 │   └── server.ps1                ← PowerShell local HTTP server (automated fallback)
 ├── tools/
-│   ├── update_interpretations.py ← Excel-to-CSV compilation sync engine
+│   ├── update_interpretations.py ← Excel-to-CSV compilation sync engine (Python)
+│   ├── update_interpretations.ps1 ← Excel-to-CSV compilation sync engine (PowerShell fallback)
 │   └── backups/                  ← Automatically generated CSV backup files
 ├── run_locally.bat               ← Launcher script to host application locally
 ├── run_update.bat                ← Shortcut batch script to compile Excel edits
@@ -188,7 +189,7 @@ stateDiagram-v2
 * **Frontend**: HTML5, Vanilla CSS3 (custom variables, keyframe animations, responsive grid), Vanilla JavaScript (ES6+).
 * **Synchronization**: HTML5 `BroadcastChannel` API (for zero-latency offline cross-window messaging).
 * **Database Parsing**: HTML5 `FileReader` and local storage caching for offline file imports.
-* **Sync Engine**: Python 3 with the `openpyxl` library.
+* **Sync Engine**: Python 3 with the `openpyxl` library (or native Windows PowerShell + COM Automation fallback for zero-dependency local environments).
 
 ---
 

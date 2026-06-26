@@ -1,5 +1,48 @@
 # Changelog - Soul Blueprint Matrix (New Features Sync)
 
+## [June 2026] - Zero-Dependency Windows Fallback & Sync Fixes
+
+This update adds a zero-dependency database compilation fallback for Windows users, fixes launcher execution diagnostics, and corrects compatibility mapping.
+
+### 🔌 Zero-Dependency PowerShell Synchronizer
+- Created `tools/update_interpretations.ps1` using native Windows PowerShell COM Automation to parse Excel files without requiring Python, pip, or `openpyxl`.
+- Integrates automatically in `run_update.bat` as a transparent fallback if Python is missing or if library installation fails.
+
+### 🛡️ Robust Launcher & Diagnostic Updates
+- Upgraded `run_update.bat` to detect and filter out the default Windows Store dummy `python.exe` alias.
+- Added explicit try-catch error blocks and pause states so launcher windows do not close immediately, allowing users to see exact error logs.
+
+### 👥 Compatibility Mapping & Loading Fix
+- Corrected sheet column mapping functions to align Excel's "General Compatibility" rows directly to `compat_general` / `meaning` keys.
+- Ensured fresh CSV updates are fetched on reload.
+
+---
+
+## [June 2026] - Outer Age Timeline Nodes (on branch `feature/outer-age-nodes`)
+
+This update introduces **56 clickable, intermediate age timeline nodes** along the outer edges of the Destiny Matrix chart (e.g., `21-22,5`, `25 years old`, `26-27,5`). They are calculated dynamically using standard subdivisions and fully integrated with the database sync engine, main dashboard panel, and pop-out Script Board.
+
+### 🕒 Dynamic Age Node Calculations
+- Implemented numerological calculations for 7 sub-nodes per decade (e.g., Age 21.25, 22.5, 23.75, 25, 26.25, 27.5, 28.75) within each of the 8 main sectors.
+- Automatically computes values using binary subdivision formulas, both for single readings and compatibility mode charts.
+
+### 🎨 SVG Rendering & Premium Aesthetics
+- Dynamically generates small clickable nodes along the perimeter lines of the octagram SVG.
+- Places outward text range labels perpendicular to the octagram boundaries.
+- Styled hovered/selected age nodes with vivid lavender glow rings, highlighted strokes, and golden active ranges.
+- Integrated selection listeners that auto-navigate the details panel to the `◎ Forecast` (or `◎ Couple Forecast` for compatibility) tabs.
+
+### 📺 Pop-out Script Board Integration
+- Groups the 56 new age nodes under a dedicated, collapsible **🕒 Outer Age Timeline** section in the sidebar list.
+- Organizes the sub-nodes logically into decade folders (e.g., `Ages 20 to 30`) to keep the interface clean.
+- Supports real-time cross-window synchronization, triggering appropriate forecast modules when selected on either screen.
+
+### 📁 Sync Engine Upgrades
+- Enhanced `tools/update_interpretations.py` to identify positions starting with `AGE` (e.g., `Age22.5`, `Age 25`).
+- Automatically maps age nodes to the forecast module and yearly section, bypassing strict integer key validations for decimal coordinates in Excel.
+
+---
+
 ## [June 2026] - Destiny Matrix Compatibility Chart Support (on branch `feature/modern-chart-visuals`)
 
 This update introduces a full **Compatibility Matrix Chart** combined from two Dates of Birth (DOBs), complete with real-time sync for pop-out screen viewing, custom Excel database management, and program/combination detection.

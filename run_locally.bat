@@ -12,51 +12,79 @@ echo.
 
 set "PYTHON_CMD="
 
+:detect_python
+:: 1. Check if 'python' is in PATH
 python --version >nul 2>&1
 if !ERRORLEVEL! equ 0 (
     set "PYTHON_CMD=python"
     goto check_done
 )
 
-
+:: 2. Check if standard launcher 'py' is in PATH
 py --version >nul 2>&1
 if !ERRORLEVEL! equ 0 (
     set "PYTHON_CMD=py"
     goto check_done
 )
 
-if exist "C:\Python313\python.exe" (
-    set "PYTHON_CMD=C:\Python313\python.exe"
-    goto check_done
-)
-
-for /f "usebackq tokens=2*" %%a in (`reg query "HKLM\Software\Python\PythonCore\3.13\InstallPath" /ve 2^>nul`) do (
-    if exist "%%b\python.exe" (
-        set "PYTHON_CMD=%%b\python.exe"
-        goto check_done
+:: 3. Check common Python versions in AppData local directory
+if exist "%USERPROFILE%\AppData\Local\Programs\Python" (
+    for /f "delims=" %%d in ('dir /b /ad /o-n "%USERPROFILE%\AppData\Local\Programs\Python\Python*" 2^>nul') do (
+        (
+            if exist "%USERPROFILE%\AppData\Local\Programs\Python\%%d\python.exe" (
+                set "PYTHON_CMD=%USERPROFILE%\AppData\Local\Programs\Python\%%d\python.exe"
+                goto check_done
+            )
+        ) 2>nul
     )
 )
 
-for /f "usebackq tokens=2*" %%a in (`reg query "HKCU\Software\Python\PythonCore\3.13\InstallPath" /ve 2^>nul`) do (
-    if exist "%%b\python.exe" (
-        set "PYTHON_CMD=%%b\python.exe"
-        goto check_done
+:: 4. Check registry for any installed PythonCore (HKLM & HKCU)
+for /f "tokens=*" %%k in ('reg query "HKLM\Software\Python\PythonCore" 2^>nul') do (
+    for /f "usebackq tokens=2*" %%a in (`reg query "%%k\InstallPath" /ve 2^>nul`) do (
+        (
+            if exist "%%b\python.exe" (
+                set "PYTHON_CMD=%%b\python.exe"
+                goto check_done
+            )
+        ) 2>nul
     )
 )
 
-if exist "%USERPROFILE%\AppData\Local\Programs\Python\Python313\python.exe" (
-    set "PYTHON_CMD=%USERPROFILE%\AppData\Local\Programs\Python\Python313\python.exe"
-    goto check_done
+for /f "tokens=*" %%k in ('reg query "HKCU\Software\Python\PythonCore" 2^>nul') do (
+    for /f "usebackq tokens=2*" %%a in (`reg query "%%k\InstallPath" /ve 2^>nul`) do (
+        (
+            if exist "%%b\python.exe" (
+                set "PYTHON_CMD=%%b\python.exe"
+                goto check_done
+            )
+        ) 2>nul
+    )
+)
+
+:: 5. Check C:\Python* folders
+if exist "C:\Python*" (
+    for /f "delims=" %%d in ('dir /b /ad /o-n "C:\Python*" 2^>nul') do (
+        (
+            if exist "C:\%%d\python.exe" (
+                set "PYTHON_CMD=C:\%%d\python.exe"
+                goto check_done
+            )
+        ) 2>nul
+    )
 )
 
 :check_done
 if defined PYTHON_CMD (
-    echo [OK] Python is available: !PYTHON_CMD!
+    echo [OK] Python detected: !PYTHON_CMD!
     goto run_server
 )
 
-echo [INFO] Python is not detected. Installing Python automatically...
+:: Python not found, attempt automatic installation
+echo [INFO] Python is not detected on your system.
+echo Attempting to install Python automatically via winget...
 echo.
+
 winget install --id Python.Python.3 --exact --accept-source-agreements --accept-package-agreements
 if !ERRORLEVEL! neq 0 (
     echo.
@@ -67,40 +95,21 @@ if !ERRORLEVEL! neq 0 (
 )
 
 echo.
-echo Python installation completed successfully! Detecting Python path...
+echo Python installation completed successfully! Re-detecting...
 echo.
-
-py --version >nul 2>&1
-if !ERRORLEVEL! equ 0 (
-    set "PYTHON_CMD=py"
-) else if exist "C:\Python313\python.exe" (
-    set "PYTHON_CMD=C:\Python313\python.exe"
-) else if exist "%USERPROFILE%\AppData\Local\Programs\Python\Python313\python.exe" (
-    set "PYTHON_CMD=%USERPROFILE%\AppData\Local\Programs\Python\Python313\python.exe"
-) else (
-    :: Try querying registry again after install
-    for /f "usebackq tokens=2*" %%a in (`reg query "HKLM\Software\Python\PythonCore\3.13\InstallPath" /ve 2^>nul`) do (
-        if exist "%%b\python.exe" set "PYTHON_CMD=%%b\python.exe"
-    )
-    if not defined PYTHON_CMD (
-        for /f "usebackq tokens=2*" %%a in (`reg query "HKCU\Software\Python\PythonCore\3.13\InstallPath" /ve 2^>nul`) do (
-            if exist "%%b\python.exe" set "PYTHON_CMD=%%b\python.exe"
-        )
-    )
-)
-
-if not defined PYTHON_CMD (
-    echo [WARNING] Could not automatically locate the newly installed Python.
-    echo Falling back to the built-in PowerShell server...
-    echo.
-    goto run_ps
-)
+goto detect_python
 
 :run_server
-
 for %%i in ("!PYTHON_CMD!") do set "PYTHON_DIR=%%~dpi"
 set "PYTHON_SCRIPTS=!PYTHON_DIR!Scripts"
 set "PATH=!PYTHON_SCRIPTS!;!PYTHON_DIR!;!PATH!"
+
+:: Verify openpyxl is installed
+"!PYTHON_CMD!" -c "import openpyxl" >nul 2>&1
+if !ERRORLEVEL! neq 0 (
+    echo [INFO] Installing required library 'openpyxl'...
+    "!PYTHON_CMD!" -m pip install openpyxl
+)
 
 if exist "%~dp0requirements.txt" (
     echo [INFO] Installing required Python libraries from requirements.txt...
@@ -121,6 +130,8 @@ goto end
 
 :run_ps
 echo Launching built-in PowerShell server...
+echo Opening browser to http://localhost:8000/src/soul_matrix.html...
+start "" "http://localhost:8000/src/soul_matrix.html"
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0src\server.ps1"
 goto end
 

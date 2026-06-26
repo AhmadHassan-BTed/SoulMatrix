@@ -455,6 +455,51 @@ const POSITIONS = {
   R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money'},
 };
 
+// Populate the 56 intermediate age nodes dynamically
+(() => {
+  const sectorCorners = [
+    ['A', 'F'], ['F', 'B'], ['B', 'G'], ['G', 'C'],
+    ['C', 'H'], ['H', 'D'], ['D', 'I'], ['I', 'A']
+  ];
+  sectorCorners.forEach(([c1, c2], sectorIdx) => {
+    const startAge = sectorIdx * 10;
+    const offsets = [1.25, 2.5, 3.75, 5, 6.25, 7.5, 8.75];
+    
+    const getRangeLabel = (S, offset) => {
+      if (offset === 1.25) return `${S+1}-${S+2},5`;
+      if (offset === 2.5) return `${S+2},5-${S+3},5`;
+      if (offset === 3.75) return `${S+3},5-${S+5}`;
+      if (offset === 5) return `${S+5} years old`;
+      if (offset === 6.25) return `${S+6}-${S+7},5`;
+      if (offset === 7.5) return `${S+7},5-${S+8},5`;
+      if (offset === 8.75) return `${S+8},5-${S+10}`;
+      return '';
+    };
+    
+    const getFormula = (offset) => {
+      if (offset === 5) return `red(${c1} + ${c2})`;
+      if (offset === 2.5) return `red(${c1} + Age${startAge+5})`;
+      if (offset === 7.5) return `red(Age${startAge+5} + ${c2})`;
+      if (offset === 1.25) return `red(${c1} + Age${startAge+2.5})`;
+      if (offset === 3.75) return `red(Age${startAge+2.5} + Age${startAge+5})`;
+      if (offset === 6.25) return `red(Age${startAge+5} + Age${startAge+7.5})`;
+      if (offset === 8.75) return `red(Age${startAge+7.5} + ${c2})`;
+      return '';
+    };
+
+    offsets.forEach(offset => {
+      const ageKey = `age${startAge + offset}`;
+      const rangeLabel = getRangeLabel(startAge, offset);
+      POSITIONS[ageKey] = {
+        name: `Age Node ${startAge + offset} (${rangeLabel})`,
+        formula: getFormula(offset),
+        zone: 'forecast',
+        color: '#A78BFA'
+      };
+    });
+  });
+})();
+
 // UI Rendering
 function updateHeader() {
   const infoEl = document.getElementById('client-info');
@@ -528,7 +573,12 @@ function renderNodesList() {
     listEl.appendChild(nodesTitle);
   }
   
-  Object.keys(POSITIONS).forEach(pos => {
+  // Separate main nodes from age nodes
+  const mainKeys = Object.keys(POSITIONS).filter(k => !k.startsWith('age'));
+  const ageKeys = Object.keys(POSITIONS).filter(k => k.startsWith('age'));
+
+  // Render Main Nodes
+  mainKeys.forEach(pos => {
     const meta = POSITIONS[pos];
     const val = calculatedValues[pos] ?? '–';
     
@@ -544,6 +594,63 @@ function renderNodesList() {
     `;
     listEl.appendChild(item);
   });
+  
+  // Render Outer Age Timeline Section Header
+  const ageHeader = document.createElement('div');
+  ageHeader.className = 'sidebar-title';
+  ageHeader.style.cssText = 'padding: 15px 5px 8px 5px; color: var(--gold); border-bottom: 1px solid rgba(212,175,110,0.15); margin-top: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;';
+  ageHeader.innerHTML = '<span>🕒 Outer Age Timeline</span><span id="age-toggle-icon" style="font-size: 10px;">▼</span>';
+  listEl.appendChild(ageHeader);
+  
+  const ageContainer = document.createElement('div');
+  ageContainer.id = 'age-nodes-container';
+  const ageCollapsed = localStorage.getItem('age_timeline_collapsed') === 'true';
+  ageContainer.style.display = ageCollapsed ? 'none' : 'block';
+  ageHeader.querySelector('#age-toggle-icon').textContent = ageCollapsed ? '▶' : '▼';
+  
+  ageHeader.onclick = () => {
+    const isCollapsed = ageContainer.style.display === 'none';
+    ageContainer.style.display = isCollapsed ? 'block' : 'none';
+    ageHeader.querySelector('#age-toggle-icon').textContent = isCollapsed ? '▼' : '▶';
+    localStorage.setItem('age_timeline_collapsed', !isCollapsed);
+  };
+  
+  // Render age nodes inside container grouped by decade
+  for (let sectorIdx = 0; sectorIdx < 8; sectorIdx++) {
+    const startAge = sectorIdx * 10;
+    const endAge = startAge + 10;
+    
+    const sectorHeader = document.createElement('div');
+    sectorHeader.style.cssText = 'padding: 8px 5px 4px 5px; font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase;';
+    sectorHeader.textContent = `Ages ${startAge} to ${endAge}`;
+    ageContainer.appendChild(sectorHeader);
+    
+    const sectorKeys = ageKeys.filter(k => {
+      const ageNum = parseFloat(k.replace('age', ''));
+      return ageNum >= startAge && ageNum < endAge;
+    });
+    
+    sectorKeys.forEach(pos => {
+      const meta = POSITIONS[pos];
+      const val = calculatedValues[pos] ?? '–';
+      
+      const item = document.createElement('div');
+      item.className = 'node-item' + (pos === activePos ? ' active' : '');
+      item.dataset.pos = pos;
+      item.onclick = () => selectNode(pos);
+      
+      const rangeMatch = meta.name.match(/\(([^)]+)\)/);
+      const rangeStr = rangeMatch ? rangeMatch[1] : pos;
+      
+      item.innerHTML = `
+        <span class="node-code" style="font-size: 10px; color: var(--muted);">${pos.replace('age', '')}</span>
+        <span class="node-name" style="margin-left: 12px; font-size: 11px;">Range: ${rangeStr}</span>
+        <span class="node-num" style="font-size: 12px;">${val}</span>
+      `;
+      ageContainer.appendChild(item);
+    });
+  }
+  listEl.appendChild(ageContainer);
 }
 
 function highlightActiveNode() {
@@ -609,6 +716,9 @@ function getModules() {
     ]},
     {id:'compat_finance', label:'$ Shared Finance', sections:[
       {key:'meaning',title:'Financial Compatibility'},
+    ]},
+    {id:'compat_forecast', label:'◎ Couple Forecast', sections:[
+      {key:'yearly',title:'Yearly Theme'},
     ]},
   ];
 
@@ -720,7 +830,9 @@ function renderActiveNode() {
   
   const modules = getModules();
   
-  if (activeModId !== 'programs_all' && !modules.find(m => m.id === activeModId)) {
+  if (activePos.startsWith('age') && activeModId !== 'programs_all') {
+    activeModId = readingMode === 'compat' ? 'compat_forecast' : 'forecast';
+  } else if (activeModId !== 'programs_all' && !modules.find(m => m.id === activeModId)) {
     activeModId = modules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
   }
   

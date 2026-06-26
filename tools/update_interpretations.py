@@ -96,10 +96,30 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         if not section:
             section = 'program_meaning'
         return pos.upper(), module, section
-        
-    pos = pos_upper
-    
-    if excel_section.lower() == 'interpretation':
+
+    sec_lower = excel_section.lower().strip()
+
+    if is_compat:
+        # Standard compatibility module mappings
+        if 'general' in sec_lower or sec_lower in ['interpretation', '']:
+            return pos_upper, 'compat_general', 'meaning'
+        elif 'love' in sec_lower or 'relationship' in sec_lower:
+            return pos_upper, 'compat_love', 'meaning'
+        elif 'karma' in sec_lower:
+            return pos_upper, 'compat_karma', 'meaning'
+        elif 'finance' in sec_lower or 'money' in sec_lower or 'wealth' in sec_lower:
+            return pos_upper, 'compat_finance', 'meaning'
+        elif 'forecast' in sec_lower or 'yearly' in sec_lower:
+            return pos_upper, 'compat_forecast', 'yearly'
+        else:
+            # For any custom compatibility sections
+            module = 'compat_' + sec_lower.replace(' ', '_').strip('_')
+            if not module:
+                module = 'compat_general'
+            return pos_upper, module, 'meaning'
+
+    # Single DOB mapping (non-compat)
+    if sec_lower == 'interpretation':
         default_map = {
             'B': ('core', 'meaning'),
             'C': ('core', 'meaning'),
@@ -125,25 +145,19 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
             'R1': ('relationships', 'partner'),
             'R2': ('money', 'activation'),
         }
-        if pos in default_map:
-            module, section = default_map[pos]
+        if pos_upper in default_map:
+            module, section = default_map[pos_upper]
         else:
             module, section = 'core', 'meaning'
-            
-        if is_compat:
-            module = f"compat_{module}"
-        return pos, module, section
-            
-    sec_lower = excel_section.lower()
+        return pos_upper, module, section
+
+    # Custom single DOB section mapping
     module = 'core'
     section_part = sec_lower
     
     if 'core' in sec_lower:
         module = 'core'
         section_part = sec_lower.replace('core', '')
-    elif 'compatibility' in sec_lower or 'couples' in sec_lower or 'couple' in sec_lower:
-        module = 'compatibility'
-        section_part = sec_lower.replace('compatibility', '').replace('couples', '').replace('couple', '')
     elif 'relationship' in sec_lower or 'love' in sec_lower:
         module = 'relationships'
         section_part = sec_lower.replace('relationships', '').replace('relationship', '').replace('love', '')
@@ -199,11 +213,7 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         if not section:
             section = 'meaning'
             
-    if is_compat:
-        if not module.startswith('compat_') and module != 'compatibility':
-            module = f"compat_{module}"
-            
-    return pos, module, section
+    return pos_upper, module, section
 
 
 def main():

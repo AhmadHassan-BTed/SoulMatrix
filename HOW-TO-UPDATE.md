@@ -72,12 +72,14 @@ The CSV has exactly five columns:
 
 ### Syncing with the Matrix Chart
 
-1. Double-click the **`run_update.bat`** script file in the `Soul_Matrix_Blueprint` folder.
+1. Double-click the **`run_update.bat`** script file in the `SoulMatrix` folder.
 2. A console window will pop up. It will:
+    - Automatically check if Python is installed on your computer. If not, it will try to install it.
+    - If Python is not present and cannot be installed automatically (e.g., offline or restricted permissions), the script **automatically falls back to a built-in Windows PowerShell synchronizer** using your local Microsoft Excel COM engine.
     - Automatically back up your current `data/interpretations.csv` to a timestamped backup inside the `tools/backups/` folder.
-   - Parse your Excel spreadsheet.
-   - Standardize column headings and translate human-friendly terms into the lowercase keys that the web application requires.
-   - Print a success summary showing the number of entries successfully synced.
+    - Parse your Excel spreadsheet.
+    - Standardize column headings and translate human-friendly terms into the lowercase keys that the web application requires.
+    - Print a success summary showing the number of entries successfully synced.
 3. Reload Chrome (press **Ctrl+R**). The chart will update instantly with your new interpretations!
 
 ---
@@ -128,6 +130,29 @@ To define a 3-number program in Excel:
 | `M-N-D`  | `Karmic Tail`    | `The Rebel` | `15-20-5` | `This combination is known as the Rebel program...` |
 
 Once you run `run_update.bat` and reload the app, if a client has those exact numbers in those three positions, the combined reading will automatically appear on both the main dashboard and the pop-out script board!
+
+---
+
+## Adding Outer Age Timeline Interpretations
+
+The chart supports 56 intermediate age timeline nodes (e.g. Age 21.25, 22.5, 23.75, 25, 26.25, 27.5, 28.75) around the perimeter.
+
+To add or update interpretations for these outer age nodes:
+
+1. In the **Position** column, write `Age` followed by the age coordinate (e.g. `Age25` or `Age 22.5`). The sync tool accepts spaces, commas, and decimals.
+2. In the **Section** column, write:
+   - `Interpretation` (or leave it blank) to map to the `yearly` theme section automatically.
+   - Or write a custom sub-heading (like `current_cycle`, `next_phase`, `yearly`).
+3. In the **Number** column, write the calculated number (1 to 22) that this age node holds.
+4. In the **Interpretation Text** cell, write the reading text.
+
+**Example Row:**
+
+| Position | Position Meaning       | Section  | Number | Interpretation Text                              |
+| -------- | ---------------------- | -------- | ------ | ------------------------------------------------ |
+| `Age25`  | `Age 25 (25 years old)` | `yearly` | `4`    | `At Age 25, you enter a cycle of structure...`   |
+
+When you double-click `run_update.bat`, the sync engine will normalize the key to lowercase (e.g. `age25`), automatically map it to the `forecast` module (or `compat_forecast` for rows placed in the Compatibility sheet), and skip strict integer validation on the Number column if a decimal key is used.
 
 ---
 
