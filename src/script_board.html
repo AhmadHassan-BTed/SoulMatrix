@@ -318,7 +318,7 @@ header h1 {
 
 <header>
   <div>
-    <h1>✦ SOUL BLUEPRINT SCRIPT BOARD ✦</h1>
+    <h1> SOUL BLUEPRINT SCRIPT BOARD </h1>
     <div id="client-info">Waiting for client data...</div>
   </div>
   <div class="controls">
@@ -599,7 +599,7 @@ function renderNodesList() {
   const ageHeader = document.createElement('div');
   ageHeader.className = 'sidebar-title';
   ageHeader.style.cssText = 'padding: 15px 5px 8px 5px; color: var(--gold); border-bottom: 1px solid rgba(212,175,110,0.15); margin-top: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;';
-  ageHeader.innerHTML = '<span>🕒 Outer Age Timeline</span><span id="age-toggle-icon" style="font-size: 10px;">▼</span>';
+  ageHeader.innerHTML = '<span> Outer Age Timeline</span><span id="age-toggle-icon" style="font-size: 10px;">▼</span>';
   listEl.appendChild(ageHeader);
   
   const ageContainer = document.createElement('div');
@@ -672,20 +672,20 @@ function selectNode(pos) {
 
 function getModules() {
   const defaults = [
-    {id:'core',          label:'✦ Core',    sections:[
+    {id:'core',          label:' Core',    sections:[
       {key:'meaning',title:'What This Position Means'},
       {key:'positive',title:'Positive Expression'},
       {key:'shadow',title:'Shadow Expression'},
       {key:'healing',title:'Healing Path'},
       {key:'shadow_lessons',title:'Shadow Lessons'},
     ]},
-    {id:'relationships', label:'♥ Love',    sections:[
+    {id:'relationships', label:' Love',    sections:[
       {key:'attraction',title:'Attraction Pattern'},
       {key:'lesson',title:'Relationship Lesson'},
       {key:'wound',title:'Core Wound'},
       {key:'partner',title:'What They Attract'},
     ]},
-    {id:'karma',         label:'☽ Karma',   sections:[
+    {id:'karma',         label:' Karma',   sections:[
       {key:'karmic',title:'Karmic Pattern'},
       {key:'past_life',title:'Past Life Theme'},
       {key:'resolution',title:'Resolution Path'},
@@ -695,7 +695,7 @@ function getModules() {
       {key:'block',title:'Financial Block'},
       {key:'activation',title:'Activation'},
     ]},
-    {id:'purpose',       label:'★ Purpose', sections:[
+    {id:'purpose',       label:' Purpose', sections:[
       {key:'life_purpose',title:'Life Purpose'},
       {key:'gifts',title:'Natural Gifts'},
       {key:'mission',title:'Soul Mission'},
@@ -705,13 +705,13 @@ function getModules() {
       {key:'next_phase',title:'Next Phase'},
       {key:'yearly',title:'Yearly Theme'},
     ]},
-    {id:'compat_general', label:'👥 General', sections:[
+    {id:'compat_general', label:' General', sections:[
       {key:'meaning',title:'General Compatibility'},
     ]},
-    {id:'compat_love', label:'♥ Love Dynamics', sections:[
+    {id:'compat_love', label:' Love Dynamics', sections:[
       {key:'meaning',title:'Love Alignment'},
     ]},
-    {id:'compat_karma', label:'☽ Relationship Karma', sections:[
+    {id:'compat_karma', label:' Relationship Karma', sections:[
       {key:'meaning',title:'Karmic Relationship'},
     ]},
     {id:'compat_finance', label:'$ Shared Finance', sections:[
@@ -801,7 +801,7 @@ function renderActiveNode() {
     
     const allProgs = getActivePrograms();
     if (allProgs.length > 0) {
-      let html = '<div class="sidebar-title" style="padding-left:0; font-size:14px; margin-bottom:15px; border-bottom:1px solid var(--border)">✦ Detected Active Programs ✦</div>';
+      let html = '<div class="sidebar-title" style="padding-left:0; font-size:14px; margin-bottom:15px; border-bottom:1px solid var(--border)"> Detected Active Programs </div>';
       allProgs.forEach(prog => {
         html += `
           <div class="interp-card program-card" style="cursor: pointer; border-color: var(--gold); background: rgba(212,175,110,0.04);" onclick="selectProgram('${prog.positions}')">
@@ -847,7 +847,7 @@ function renderActiveNode() {
   const allProgs = getActivePrograms();
   const progBtn = document.createElement('button');
   progBtn.className = 'tab-btn special-tab' + (activeModId === 'programs_all' ? ' active' : '');
-  progBtn.textContent = `✦ Programs (${allProgs.length})`;
+  progBtn.textContent = ` Programs (${allProgs.length})`;
   progBtn.onclick = () => { activeModId = 'programs_all'; renderActiveNode(); };
   tabsEl.appendChild(progBtn);
   

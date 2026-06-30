@@ -2,7 +2,7 @@
   <img src="./docs/images/after_ui_change.png" width="450" alt="SoulMatrix Banner" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.35); border: 1.8px solid rgba(212,175,110,0.3);" />
 </p>
 
-<h1 align="center">✦ SoulMatrix ✦</h1>
+<h1 align="center"> SoulMatrix </h1>
 
 <p align="center">
   <a href="https://github.com/B-Ted/SoulMatrix"><img src="https://img.shields.io/badge/Project_Status-Production-success?style=flat-square&logo=github&color=5CDEC8" alt="Project Status" /></a>
@@ -21,7 +21,7 @@
 
 ---
 
-## 📺 Overview
+##  Overview
 
 **SoulMatrix** is a high-performance interactive tool designed for numerologists, spiritual consultants, and live-stream presenters (specifically optimized for OBS, TikTok Live, and dual-monitor configurations). 
 
@@ -29,7 +29,7 @@ It calculates a client's Destiny Matrix octagram using their birth date, plots i
 
 ---
 
-## 📸 Visual Modernization (Before vs After)
+##  Visual Modernization (Before vs After)
 
 SoulMatrix features a refined UI refresh designed to captivate clients during live sessions. Hover effects, glowing neon states, and color-coded zone divisions provide instant clarity:
 
@@ -39,17 +39,17 @@ SoulMatrix features a refined UI refresh designed to captivate clients during li
 
 ---
 
-## 🌟 Key Features
+##  Key Features
 
-* **👤 Single & 👥 Couples Compatibility Mode**: Calculates combined matrix nodes by adding corresponding coordinates and reducing them (modulo-22 Major Arcana reduction). Renders specialized compatibility tabs (`General`, `Love Dynamics`, `Relationship Karma`, and `Shared Finance`) to show relationship dynamics.
-* **📅 Outer Ring Age Timeline**: Displays decadic life milestone labels (`0/80` to `70`) concentrically, along with **56 intermediate age timeline nodes** mapped dynamically along the perimeter lines of the octagram SVG, each clickable and fully integrated into the database forecast readings.
-* **📺 Pop-out Script Board**: A secondary control window featuring offline, real-time, bidirectional sync. Selecting a node or active program on one screen updates the active selection on the other instantly.
-* **🔍 Dynamic Excel Sync Engine**: Maintain your entire interpretation library—including custom categories or 3-number combinations—within Excel. Run the compiler tool to sync changes instantly.
-* **🔎 Font Zoom Controller**: Fine-tune script board text sizing (Small, Medium, Large, Extra Large) for optimal readability. User preferences are persisted locally in the browser.
+* ** Single &  Couples Compatibility Mode**: Calculates combined matrix nodes by adding corresponding coordinates and reducing them (modulo-22 Major Arcana reduction). Renders specialized compatibility tabs (`General`, `Love Dynamics`, `Relationship Karma`, and `Shared Finance`) to show relationship dynamics.
+* ** Outer Ring Age Timeline**: Displays decadic life milestone labels (`0/80` to `70`) concentrically, along with **56 intermediate age timeline nodes** mapped dynamically along the perimeter lines of the octagram SVG, each clickable and fully integrated into the database forecast readings.
+* ** Pop-out Script Board**: A secondary control window featuring offline, real-time, bidirectional sync. Selecting a node or active program on one screen updates the active selection on the other instantly.
+* ** Dynamic Excel Sync Engine**: Maintain your entire interpretation library—including custom categories or 3-number combinations—within Excel. Run the compiler tool to sync changes instantly.
+* ** Font Zoom Controller**: Fine-tune script board text sizing (Small, Medium, Large, Extra Large) for optimal readability. User preferences are persisted locally in the browser.
 
 ---
 
-## 🏗 Architecture Overview
+##  Architecture Overview
 
 The system operates local-first and zero-dependency, ensuring maximum reliability and privacy during live sessions. 
 
@@ -68,7 +68,7 @@ graph TD
 
 ---
 
-## 📈 System Workflow
+##  System Workflow
 
 This diagram outlines the complete workflow loop, from database maintenance to rendering and live presenting:
 
@@ -103,7 +103,7 @@ sequenceDiagram
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
 
 The layout separates core runtime assets, Excel data configurations, and build/sync scripts:
 
@@ -133,7 +133,7 @@ SoulMatrix/
 
 ---
 
-## 📈 Data Flow & Calculation Pipeline
+##  Data Flow & Calculation Pipeline
 
 The core engine maps birth dates to the matrix structure and reduces them using base-22 Major Arcana reduction math:
 
@@ -153,7 +153,7 @@ graph LR
 ```
 
 <details>
-<summary>✦ Click to view Arcana-22 Math & Summation Formulas</summary>
+<summary> Click to view Arcana-22 Math & Summation Formulas</summary>
 
 ### Arcana-22 Reduction Math
 All numerical nodes in the Destiny Matrix are mathematically reduced to a value between `1` and `22` (corresponding to the Major Arcana):
@@ -168,7 +168,7 @@ Derived purposes (Personal, Social, and Spiritual) and the combined Chakra energ
 
 ---
 
-## ⚡ Request Lifecycle & Sync Mechanics
+##  Request Lifecycle & Sync Mechanics
 
 When a presenter interacts with a node, the application triggers a real-time event pipeline:
 
@@ -184,7 +184,7 @@ stateDiagram-v2
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 * **Frontend**: HTML5, Vanilla CSS3 (custom variables, keyframe animations, responsive grid), Vanilla JavaScript (ES6+).
 * **Synchronization**: HTML5 `BroadcastChannel` API (for zero-latency offline cross-window messaging).
@@ -193,14 +193,14 @@ stateDiagram-v2
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 1. **Launch the Server**:
    * Double-click **[run_locally.bat](./run_locally.bat)**.
    * The script automatically starts a local HTTP server and opens **[soul_matrix.html](./src/soul_matrix.html)** in Google Chrome.
 
 2. **Open the Pop-out Script Board**:
-   * Click **📺 Script Board** on the main navigation bar.
+   * Click ** Script Board** on the main navigation bar.
    * Drag **[script_board.html](./src/script_board.html)** to your second monitor or capture it as an overlay inside OBS.
 
 3. **Modify Interpretations**:
@@ -209,7 +209,7 @@ stateDiagram-v2
 
 ---
 
-## 🔧 Internal Module Structure
+##  Internal Module Structure
 
 The sync engine handles data separation based on worksheet origins:
 
@@ -219,7 +219,7 @@ The sync engine handles data separation based on worksheet origins:
 
 ---
 
-## 📦 Build & Deployment Pipeline
+##  Build & Deployment Pipeline
 
 To package clean production bundles for end-users, follow the packaging workflow:
 
@@ -236,7 +236,7 @@ graph TD
 
 ---
 
-## 🤝 Contribution Guidelines
+##  Contribution Guidelines
 
 New enhancements and optimizations are welcomed to make the tool more versatile for presenters.
 1. Fork the repository.

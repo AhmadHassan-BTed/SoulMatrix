@@ -239,7 +239,7 @@ These names are already wired to friendly tab labels. You can use any name you l
 
 ## Quick-edit inside the chart (session only)
 
-You can also edit text directly in the panel by clicking **✏ Edit Mode** in the top-right of the side panel. This is useful for testing wording during a live session. Important: these edits only last until you refresh - they are not saved. To keep them permanently, copy the text into your CSV.
+You can also edit text directly in the panel by clicking ** Edit Mode** in the top-right of the side panel. This is useful for testing wording during a live session. Important: these edits only last until you refresh - they are not saved. To keep them permanently, copy the text into your CSV.
 
 ---
 
@@ -249,11 +249,11 @@ Because you are opening `soul_matrix.html` directly as a local file (`file://` p
 
 To bypass this restriction and load your interpretations:
 
-1. Click the **📁 Load CSV** button in the top navigation bar of the page.
+1. Click the ** Load CSV** button in the top navigation bar of the page.
 2. Select your `interpretations.csv` file from the file explorer window.
 3. The page will read and parse your interpretations instantly, and cache them in your browser.
 4. **Subsequent visits**: Future page loads will automatically use the cached interpretations from your browser cache, meaning you won't need to upload the file again unless you run `run_update.bat` to update the CSV data.
-5. **Updating**: Whenever you make edits in Excel and run `run_update.bat`, simply click **📁 Load CSV** again to upload the updated `interpretations.csv` file from the explorer window.
+5. **Updating**: Whenever you make edits in Excel and run `run_update.bat`, simply click ** Load CSV** again to upload the updated `interpretations.csv` file from the explorer window.
 
 > [!TIP]
 > **Checking Load Status**: To keep the layout clean, the load status banner automatically fades out and disappears after 5 seconds. You can check the current database status at any time by hovering over or clicking the circled "i" (**ⓘ**) button in the top right of the header. Clicking it will toggle the status banner back on or off.

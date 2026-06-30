@@ -711,7 +711,7 @@ footer {
 <canvas id="stars"></canvas>
 
 <header>
-  <h1><span style="opacity:.5">✦</span> SOUL BLUEPRINT MATRIX <span style="opacity:.5">✦</span></h1>
+  <h1><span style="opacity:.5"></span> SOUL BLUEPRINT MATRIX <span style="opacity:.5"></span></h1>
   <div id="client-display">Enter client details below to generate the matrix</div>
   <button id="status-info-btn" title="View database connection status">ⓘ</button>
 </header>
@@ -721,13 +721,13 @@ footer {
 
 <!-- Module navigation -->
 <div id="module-nav">
-  <button class="mnav-btn active" data-mod="core">✦ Core Blueprint</button>
-  <button class="mnav-btn soon" title="Coming soon">♥ Relationship Reading</button>
+  <button class="mnav-btn active" data-mod="core"> Core Blueprint</button>
+  <button class="mnav-btn soon" title="Coming soon"> Relationship Reading</button>
   <button class="mnav-btn soon" title="Coming soon">⊕ Compatibility</button>
-  <button class="mnav-btn soon" title="Coming soon">☽ Karmic Patterns</button>
+  <button class="mnav-btn soon" title="Coming soon"> Karmic Patterns</button>
   <button class="mnav-btn soon" title="Coming soon">◎ Yearly Forecast</button>
-  <button id="script-board-btn" style="background: rgba(212,175,110,.08); border-color: rgba(212,175,110,.2); color: var(--goldb);">📺 Script Board</button>
-  <button id="import-csv-btn">📁 Load CSV</button>
+  <button id="script-board-btn" style="background: rgba(212,175,110,.08); border-color: rgba(212,175,110,.2); color: var(--goldb);"> Script Board</button>
+  <button id="import-csv-btn"> Load CSV</button>
   <input type="file" id="csv-file-picker" accept=".csv" style="display: none;" />
   <button id="export-btn">⬇ Export PDF</button>
 </div>
@@ -1033,7 +1033,7 @@ footer {
   <circle cx="430" cy="450" r="46" fill="url(#gE)"/><circle cx="430" cy="450" r="46" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
   <text x="430" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="29" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06031C" class="nv" data-pos="E">·</text>
 </g>
-<text x="450" y="556" text-anchor="middle" font-size="21" font-weight="700" fill="#FF4D6D" filter="url(#fP)">♥</text>
+<text x="450" y="556" text-anchor="middle" font-size="21" font-weight="700" fill="#FF4D6D" filter="url(#fP)"></text>
 <text x="528" y="500" text-anchor="middle" font-size="21" font-weight="700" fill="#E8B84B" filter="url(#fP)">$</text>
 <g id="age-nodes-group"></g>
 </svg>
@@ -1041,8 +1041,8 @@ footer {
 
 <!-- Reading Mode Select -->
 <div id="mode-select" style="display: flex; justify-content: flex-start; gap: 8px; margin-bottom: 12px; z-index: 10; position: relative; max-width: 820px; width: 100%;">
-  <button id="btn-mode-single" class="mnav-btn active" onclick="setReadingMode('single')">👤 Single Reading</button>
-  <button id="btn-mode-compat" class="mnav-btn" onclick="setReadingMode('compat')">👥 Compatibility Reading</button>
+  <button id="btn-mode-single" class="mnav-btn active" onclick="setReadingMode('single')"> Single Reading</button>
+  <button id="btn-mode-compat" class="mnav-btn" onclick="setReadingMode('compat')"> Compatibility Reading</button>
 </div>
 
 <!-- Input bar (Single) -->
@@ -1051,7 +1051,7 @@ footer {
   <div class="fi"><label>Day</label><input id="i-day" type="number" min="1" max="31" value="16" placeholder="DD"/></div>
   <div class="fi"><label>Month</label><input id="i-mon" type="number" min="1" max="12" value="12" placeholder="MM"/></div>
   <div class="fi"><label>Year</label><input id="i-yr" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
-  <button id="go-btn">CALCULATE ✦</button>
+  <button id="go-btn">CALCULATE </button>
 </div>
 
 <!-- Input bar (Compatibility) -->
@@ -1069,7 +1069,7 @@ footer {
     <div class="fi"><label>Day</label><input id="i-day2" type="number" min="1" max="31" value="1" placeholder="DD"/></div>
     <div class="fi"><label>Month</label><input id="i-mon2" type="number" min="1" max="12" value="1" placeholder="MM"/></div>
     <div class="fi"><label>Year</label><input id="i-yr2" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
-    <button id="go-compat-btn" style="background: linear-gradient(135deg, #B07828, #D4AF6E); border: none; border-radius: 8px; color: #06031C; font-family: Cinzel, serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; padding: 9px 20px; cursor: pointer; white-space: nowrap; transition: opacity .2s; height: 38px; align-self: end;">CALCULATE ✦</button>
+    <button id="go-compat-btn" style="background: linear-gradient(135deg, #B07828, #D4AF6E); border: none; border-radius: 8px; color: #06031C; font-family: Cinzel, serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; padding: 9px 20px; cursor: pointer; white-space: nowrap; transition: opacity .2s; height: 38px; align-self: end;">CALCULATE </button>
   </div>
 </div>
 
@@ -1082,7 +1082,7 @@ footer {
   <div class="leg-item"><div class="leg-dot" style="background:#5CDEC8"></div>Heart / Talents</div>
   <div class="leg-item"><div class="leg-dot" style="background:#F0EEFF"></div>Lineage</div>
   <div class="leg-item"><div class="leg-dot" style="background:#FFD080"></div>Karmic Tail</div>
-  <div class="leg-item" style="margin-left:auto;cursor:default;color:rgba(212,175,110,.4);font-size:9px;letter-spacing:.06em">Click any node to open interpretation ✦</div>
+  <div class="leg-item" style="margin-left:auto;cursor:default;color:rgba(212,175,110,.4);font-size:9px;letter-spacing:.06em">Click any node to open interpretation </div>
 </div>
 
 <!-- Derived calculations -->
@@ -1116,8 +1116,8 @@ footer {
   <div id="panel-close">
     <div id="panel-pos-label">POSITION</div>
     <div style="display:flex;gap:8px;align-items:center">
-      <button id="panel-edit-toggle" onclick="toggleEditMode()" title="Toggle edit mode">✏ Edit Mode</button>
-      <button onclick="closePanel()" title="Close">✕</button>
+      <button id="panel-edit-toggle" onclick="toggleEditMode()" title="Toggle edit mode"> Edit Mode</button>
+      <button onclick="closePanel()" title="Close"></button>
     </div>
   </div>
   <div id="panel-body">
@@ -1132,7 +1132,7 @@ footer {
   </div>
 </div>
 
-<footer>✦ &nbsp;Soul Blueprint Matrix &nbsp;·&nbsp; Live Reading Tool &nbsp;·&nbsp; All interpretations are your intellectual property &nbsp;✦</footer>
+<footer> &nbsp;Soul Blueprint Matrix &nbsp;·&nbsp; Live Reading Tool &nbsp;·&nbsp; All interpretations are your intellectual property &nbsp;</footer>
 
 <script>
 // ═══════════════════════════════════════════════════════════════════
@@ -1149,18 +1149,18 @@ const INTERP = {};
 const DISCOVERED_MODULES = {}; // { moduleId: { label, sections: [{key, title}] } }
 
 const MODULE_LABELS = {
-  core:             '✦ Core',
-  relationships:    '♥ Love',
-  karma:            '☽ Karma',
+  core:             ' Core',
+  relationships:    ' Love',
+  karma:            ' Karma',
   money:            '$ Money',
-  purpose:          '★ Purpose',
+  purpose:          ' Purpose',
   forecast:         '◎ Forecast',
-  compatibility:    '👥 Compatibility',
-  compat_general:   '👥 General',
-  compat_love:      '♥ Love Dynamics',
-  compat_karma:     '☽ Relationship Karma',
+  compatibility:    ' Compatibility',
+  compat_general:   ' General',
+  compat_love:      ' Love Dynamics',
+  compat_karma:     ' Relationship Karma',
   compat_finance:   '$ Shared Finance',
-  compat_programs:  '✦ Compatibility Programs',
+  compat_programs:  ' Compatibility Programs',
   compat_forecast:  '◎ Couple Forecast',
 };
 
@@ -1343,7 +1343,7 @@ async function loadCSV() {
     
     localStorage.setItem('soul_matrix_csv_content', text);
 
-    updateStatus(`✓ Loaded ${count} interpretations from CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
+    updateStatus(` Loaded ${count} interpretations from CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
 
   } catch (err) {
     console.warn('Failed to fetch ../data/interpretations.csv automatically:', err);
@@ -1352,12 +1352,12 @@ async function loadCSV() {
     if (cachedText) {
       try {
         const count = processCSVText(cachedText);
-        updateStatus(`✓ Loaded ${count} interpretations from local browser cache. Click "Load CSV" to update.`, 'ok', true);
+        updateStatus(` Loaded ${count} interpretations from local browser cache. Click "Load CSV" to update.`, 'ok', true);
       } catch (cacheErr) {
-        updateStatus(`⚠ CORS Blocked automatic load & cache is corrupt. Please click "Load CSV" to select interpretations.csv manually.`, 'error', false);
+        updateStatus(` CORS Blocked automatic load & cache is corrupt. Please click "Load CSV" to select interpretations.csv manually.`, 'error', false);
       }
     } else {
-      updateStatus(`⚠ Browser security blocked loading interpretations.csv automatically. Please click "Load CSV" to select it manually.`, 'error', false);
+      updateStatus(` Browser security blocked loading interpretations.csv automatically. Please click "Load CSV" to select it manually.`, 'error', false);
     }
   }
 }
@@ -1619,19 +1619,19 @@ function renderDerived(d) {
 // ═══════════════════════════════════════════════════════════════════
 function getModules() {
   const defaults = [
-    {id:'core',          label:'✦ Core',    sections:[
+    {id:'core',          label:' Core',    sections:[
       {key:'meaning',title:'What This Position Means'},
       {key:'positive',title:'Positive Expression'},
       {key:'shadow',title:'Shadow Expression'},
       {key:'healing',title:'Healing Path'},
     ]},
-    {id:'relationships', label:'♥ Love',    sections:[
+    {id:'relationships', label:' Love',    sections:[
       {key:'attraction',title:'Attraction Pattern'},
       {key:'lesson',title:'Relationship Lesson'},
       {key:'wound',title:'Core Wound'},
       {key:'partner',title:'What They Attract'},
     ]},
-    {id:'karma',         label:'☽ Karma',   sections:[
+    {id:'karma',         label:' Karma',   sections:[
       {key:'karmic',title:'Karmic Pattern'},
       {key:'past_life',title:'Past Life Theme'},
       {key:'resolution',title:'Resolution Path'},
@@ -1641,7 +1641,7 @@ function getModules() {
       {key:'block',title:'Financial Block'},
       {key:'activation',title:'Activation'},
     ]},
-    {id:'purpose',       label:'★ Purpose', sections:[
+    {id:'purpose',       label:' Purpose', sections:[
       {key:'life_purpose',title:'Life Purpose'},
       {key:'gifts',title:'Natural Gifts'},
       {key:'mission',title:'Soul Mission'},
@@ -1651,13 +1651,13 @@ function getModules() {
       {key:'next_phase',title:'Next Phase'},
       {key:'yearly',title:'Yearly Theme'},
     ]},
-    {id:'compat_general', label:'👥 General', sections:[
+    {id:'compat_general', label:' General', sections:[
       {key:'meaning',title:'General Compatibility'},
     ]},
-    {id:'compat_love', label:'♥ Love Dynamics', sections:[
+    {id:'compat_love', label:' Love Dynamics', sections:[
       {key:'meaning',title:'Love Alignment'},
     ]},
-    {id:'compat_karma', label:'☽ Relationship Karma', sections:[
+    {id:'compat_karma', label:' Relationship Karma', sections:[
       {key:'meaning',title:'Karmic Relationship'},
     ]},
     {id:'compat_finance', label:'$ Shared Finance', sections:[
@@ -1811,7 +1811,7 @@ function renderModContent(pos, val, modId, modules) {
 
   const note = document.createElement('div');
   note.className = 'export-note';
-  note.textContent = '✦ Add interpretations by editing interpretations.csv in Excel';
+  note.textContent = ' Add interpretations by editing interpretations.csv in Excel';
   el.appendChild(note);
 }
 
@@ -1870,7 +1870,7 @@ function toggleEditMode() {
   btn.style.background    = editMode ? 'rgba(92,222,200,.18)' : '';
   btn.style.borderColor   = editMode ? 'var(--teal)' : '';
   btn.style.color         = editMode ? 'var(--teal)' : '';
-  btn.textContent         = editMode ? '✏ Exit Edit' : '✏ Edit Mode';
+  btn.textContent         = editMode ? ' Exit Edit' : ' Edit Mode';
 }
 
 function closePanel() {
@@ -1941,7 +1941,7 @@ document.getElementById('csv-file-picker').addEventListener('change', (e) => {
     try {
       const count = processCSVText(text);
       localStorage.setItem('soul_matrix_csv_content', text);
-      updateStatus(`✓ Loaded ${count} interpretations from uploaded CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
+      updateStatus(` Loaded ${count} interpretations from uploaded CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
       
       // Force calculation update
       document.getElementById('go-btn').click();
@@ -2053,7 +2053,7 @@ function renderActiveProgramsDashboard() {
   list.innerHTML = active.map(prog => `
     <div class="interp-card active-program-card" data-positions="${prog.positions}" style="border-color: var(--gold); background: rgba(212,175,110,0.05); margin-bottom: 12px; padding: 12px 16px; cursor: pointer; transition: transform 0.15s, border-color 0.15s;">
       <h4 style="font-family: Cinzel, serif; font-size: 13px; color: var(--goldb); margin: 0 0 6px; display: flex; justify-content: space-between;">
-        <span>✦ ${prog.name}</span>
+        <span> ${prog.name}</span>
         <span style="font-size: 10px; color: var(--muted); font-family: Raleway, sans-serif;">${prog.positions} (${prog.code})</span>
       </h4>
       <p style="font-size: 12px; line-height: 1.5; color: var(--lav); margin: 0; white-space: pre-wrap;">${prog.text}</p>
