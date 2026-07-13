@@ -115,6 +115,29 @@ function Map-ExcelToCsvColumns($pos, $posMeaning, $excelSection, $isCompat) {
     $excelSection = ([string]$excelSection).Trim()
     
     $posUpper = $pos.ToUpper().Replace(" ", "")
+    
+    if ($posUpper -eq "FORECAST") {
+        $secLower = $excelSection.ToLower().Trim()
+        $section = "theme"
+        if ($secLower.Contains("watch") -or $secLower.Contains("trap") -or $secLower.Contains("risk")) {
+            $section = "watch_out"
+        } elseif ($secLower.Contains("recommendation") -or $secLower.Contains("rec") -or $secLower.Contains("unlock")) {
+            $section = "recommendations"
+        }
+        return @("FORECAST", "forecast", $section)
+    }
+    
+    if ($posUpper -eq "COMPAT_FORECAST" -or $posUpper -eq "COMPATFORECAST") {
+        $secLower = $excelSection.ToLower().Trim()
+        $section = "theme"
+        if ($secLower.Contains("watch") -or $secLower.Contains("trap") -or $secLower.Contains("risk")) {
+            $section = "watch_out"
+        } elseif ($secLower.Contains("recommendation") -or $secLower.Contains("rec") -or $secLower.Contains("unlock")) {
+            $section = "recommendations"
+        }
+        return @("COMPAT_FORECAST", "compat_forecast", $section)
+    }
+    
     $isAge = $posUpper.StartsWith("AGE")
     
     if ($isAge) {

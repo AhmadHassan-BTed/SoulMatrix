@@ -725,7 +725,7 @@ footer {
   <button class="mnav-btn soon" title="Coming soon"> Relationship Reading</button>
   <button class="mnav-btn soon" title="Coming soon">⊕ Compatibility</button>
   <button class="mnav-btn soon" title="Coming soon"> Karmic Patterns</button>
-  <button class="mnav-btn soon" title="Coming soon">◎ Yearly Forecast</button>
+  <button id="nav-forecast-btn" class="mnav-btn">◎ Yearly Forecast</button>
   <button id="script-board-btn" style="background: rgba(212,175,110,.08); border-color: rgba(212,175,110,.2); color: var(--goldb);"> Script Board</button>
   <button id="import-csv-btn"> Load CSV</button>
   <input type="file" id="csv-file-picker" accept=".csv" style="display: none;" />
@@ -1097,6 +1097,10 @@ footer {
     <div class="dv-row hl"><span>Social Purpose</span><b id="dv-social">–</b></div>
     <div class="dv-row hl2"><span>Spiritual Purpose</span><b id="dv-spirit">–</b></div>
   </div>
+  <div class="dv-col" id="dv-forecast-col" style="display: none;">
+    <h4 id="fc-title">Personal Forecast <span class="dv-note">Current Age: –</span></h4>
+    <div id="fc-rows"></div>
+  </div>
   <div class="dv-col dv-wide">
     <h4>Chakra Map <span class="dv-note">Physical = horizontal · Energy = vertical · Emotional = sum</span></h4>
     <table id="dv-chakra-tbl">
@@ -1398,6 +1402,14 @@ const POSITIONS = {
   R:  {name:'Money & Relationships',      formula:'M + L',                   zone:'Money',         color:'#D4AF6E'},
   R1: {name:'Relationship Dynamics',      formula:'R + M',                   zone:'Relationships', color:'#D4AF6E'},
   R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money',         color:'#5CDEC8'},
+  
+  FORECAST_CURRENT: {name:'Current Energy (Theme)', formula:'Arcana of Current Age', zone:'forecast', color:'#A78BFA'},
+  FORECAST_KEY: {name:'Key Energy (Unlock)', formula:'Arcana of Second Age', zone:'forecast', color:'#A78BFA'},
+  FORECAST_OUTCOME: {name:'Potential Outcome', formula:'Current Energy + Key Energy', zone:'forecast', color:'#A78BFA'},
+  
+  COMPAT_FORECAST_CURRENT: {name:"Couple Current Energy (Theme)", formula:'Partner 1 Current + Partner 2 Current', zone:'compat_forecast', color:'#D4AF6E'},
+  COMPAT_FORECAST_KEY: {name:"Couple Key Energy (Unlock)", formula:'Partner 1 Key + Partner 2 Key', zone:'compat_forecast', color:'#D4AF6E'},
+  COMPAT_FORECAST_OUTCOME: {name:"Couple Potential Outcome", formula:'Partner 1 Outcome + Partner 2 Outcome', zone:'compat_forecast', color:'#D4AF6E'},
 };
 
 // Populate the 56 intermediate age nodes dynamically
@@ -1512,6 +1524,179 @@ function calc(day, mon, yr) {
     derived:{earth,sky,personalPurpose,paternalP,maternalP,socialPurpose,spiritualPurpose,chakras,chakraTotals}});
 }
 
+function calculateAge(day, month, year) {
+  const today = new Date();
+  let age = today.getFullYear() - year;
+  const m = today.getMonth() + 1 - month;
+  if (m < 0 || (m === 0 && today.getDate() < day)) {
+    age--;
+  }
+  return age;
+}
+
+function getAgeNodeKey(age) {
+  age = age % 80;
+  if (age < 0) age += 80;
+  const S = Math.floor(age / 10) * 10;
+  const rem = age % 10;
+  const cornerKeys = ['A', 'F', 'B', 'G', 'C', 'H', 'D', 'I'];
+  const sectorIdx = Math.floor(age / 10);
+  if (rem === 0) {
+    return cornerKeys[sectorIdx];
+  } else if (rem === 1 || rem === 2) {
+    return `age${S + 1.25}`;
+  } else if (rem === 3) {
+    return `age${S + 2.5}`;
+  } else if (rem === 4) {
+    return `age${S + 3.75}`;
+  } else if (rem === 5) {
+    return `age${S + 5}`;
+  } else if (rem === 6 || rem === 7) {
+    return `age${S + 6.25}`;
+  } else if (rem === 8) {
+    return `age${S + 7.5}`;
+  } else if (rem === 9) {
+    return `age${S + 8.75}`;
+  }
+}
+
+function getPersonalForecast(v, day, mon, yr) {
+  const age = calculateAge(day, mon, yr);
+  const currentEnergyKey = getAgeNodeKey(age);
+  const currentEnergy = v[currentEnergyKey];
+  const secondAge = age < 40 ? (age + 40) : (age - 40);
+  const keyEnergyKey = getAgeNodeKey(secondAge);
+  const keyEnergy = v[keyEnergyKey];
+  const outcome = red(currentEnergy + keyEnergy);
+  return {
+    age, currentEnergyKey, currentEnergy,
+    secondAge, keyEnergyKey, keyEnergy, outcome
+  };
+}
+
+function getCompatibilityForecast(day1, mon1, yr1, day2, mon2, yr2) {
+  const v1 = calc(day1, mon1, yr1);
+  const f1 = getPersonalForecast(v1, day1, mon1, yr1);
+  const v2 = calc(day2, mon2, yr2);
+  const f2 = getPersonalForecast(v2, day2, mon2, yr2);
+  const coupleCurrent = red(f1.currentEnergy + f2.currentEnergy);
+  const coupleKey = red(f1.keyEnergy + f2.keyEnergy);
+  const coupleOutcome = red(f1.outcome + f2.outcome);
+  return {
+    p1: f1, p2: f2,
+    currentEnergy: coupleCurrent,
+    keyEnergy: coupleKey,
+    outcome: coupleOutcome
+  };
+}
+
+function highlightCurrentAgeNode(ageKey) {
+  clearAgeNodeHighlights();
+  const activeNode = document.querySelector(`.age-node[data-pos="${ageKey}"]`);
+  if (activeNode) {
+    const circle = activeNode.querySelector('circle.rg');
+    if (circle) {
+      circle.style.stroke = 'var(--goldb)';
+      circle.style.strokeWidth = '2';
+    }
+    const label = activeNode.querySelector('.age-range-label');
+    if (label) {
+      label.style.fill = 'var(--goldb)';
+      label.style.fontWeight = '700';
+    }
+    activeNode.classList.add('current-age-highlight');
+  }
+}
+
+function clearAgeNodeHighlights() {
+  document.querySelectorAll('.age-node').forEach(node => {
+    node.classList.remove('current-age-highlight');
+    const circle = node.querySelector('circle.rg');
+    if (circle) {
+      circle.style.stroke = '#E0D8FF';
+      circle.style.strokeWidth = '1.2';
+    }
+    const label = node.querySelector('.age-range-label');
+    if (label) {
+      label.style.fill = 'rgba(201, 184, 240, 0.6)';
+      label.style.fontWeight = '500';
+    }
+  });
+}
+
+function renderForecast(v) {
+  const fcCol = document.getElementById('dv-forecast-col');
+  if (!fcCol) return;
+  
+  if (readingMode === 'single' && v.forecast) {
+    fcCol.style.display = 'block';
+    document.getElementById('fc-title').innerHTML = `Personal Forecast <span class="dv-note">Current Age: ${v.forecast.age} years old</span>`;
+    
+    currentVals['FORECAST_CURRENT'] = v.forecast.currentEnergy;
+    currentVals['FORECAST_KEY'] = v.forecast.keyEnergy;
+    currentVals['FORECAST_OUTCOME'] = v.forecast.outcome;
+    
+    const rowsEl = document.getElementById('fc-rows');
+    rowsEl.innerHTML = `
+      <div class="dv-row" style="cursor: pointer;" onclick="openPanel('FORECAST_CURRENT')">
+        <span>Current Energy (Theme) <em>Age ${v.forecast.age}</em></span>
+        <b>${v.forecast.currentEnergy}</b>
+      </div>
+      <div class="dv-row" style="cursor: pointer;" onclick="openPanel('FORECAST_KEY')">
+        <span>Key Energy (Unlock) <em>Age ${v.forecast.secondAge}</em></span>
+        <b>${v.forecast.keyEnergy}</b>
+      </div>
+      <div class="dv-row hl" style="cursor: pointer;" onclick="openPanel('FORECAST_OUTCOME')">
+        <span>Potential Outcome</span>
+        <b>${v.forecast.outcome}</b>
+      </div>
+    `;
+    highlightCurrentAgeNode(v.forecast.currentEnergyKey);
+    
+  } else if (readingMode === 'compat' && v.compatForecast) {
+    fcCol.style.display = 'block';
+    document.getElementById('fc-title').innerHTML = `Couple Forecast <span class="dv-note">Shared Year Energies</span>`;
+    
+    currentVals['COMPAT_FORECAST_CURRENT'] = v.compatForecast.currentEnergy;
+    currentVals['COMPAT_FORECAST_KEY'] = v.compatForecast.keyEnergy;
+    currentVals['COMPAT_FORECAST_OUTCOME'] = v.compatForecast.outcome;
+    
+    const name1 = document.getElementById('i-name1').value.trim() || 'Partner 1';
+    const name2 = document.getElementById('i-name2').value.trim() || 'Partner 2';
+    
+    const rowsEl = document.getElementById('fc-rows');
+    rowsEl.innerHTML = `
+      <div class="dv-row" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_CURRENT')">
+        <span>Couple Current Energy (Theme)</span>
+        <b>${v.compatForecast.currentEnergy}</b>
+      </div>
+      <div class="dv-row" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_KEY')">
+        <span>Couple Key Energy (Unlock)</span>
+        <b>${v.compatForecast.keyEnergy}</b>
+      </div>
+      <div class="dv-row hl" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_OUTCOME')">
+        <span>Couple Potential Outcome</span>
+        <b>${v.compatForecast.outcome}</b>
+      </div>
+      <div class="dv-row">
+        <span>${name1} Forecast Key</span>
+        <b style="font-size: 11px; width: auto; color: rgba(224,216,255,.5); font-family: Raleway, sans-serif;">
+          ${v.compatForecast.p1.currentEnergy} → ${v.compatForecast.p1.keyEnergy} → ${v.compatForecast.p1.outcome}
+        </b>
+      </div>
+      <div class="dv-row">
+        <span>${name2} Forecast Key</span>
+        <b style="font-size: 11px; width: auto; color: rgba(224,216,255,.5); font-family: Raleway, sans-serif;">
+          ${v.compatForecast.p2.currentEnergy} → ${v.compatForecast.p2.keyEnergy} → ${v.compatForecast.p2.outcome}
+        </b>
+      </div>
+    `;
+    clearAgeNodeHighlights();
+  } else {
+    fcCol.style.display = 'none';
+  }
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════════════
@@ -1592,6 +1777,7 @@ function updateMatrix(v) {
     if (p && v[p] !== undefined) el.textContent = v[p];
   });
   renderDerived(v.derived);
+  renderForecast(v);
   renderActiveProgramsDashboard();
   highlightActiveProgramNodes();
   broadcastSyncData();
@@ -1647,9 +1833,9 @@ function getModules() {
       {key:'mission',title:'Soul Mission'},
     ]},
     {id:'forecast',      label:'◎ Forecast',sections:[
-      {key:'current_cycle',title:'Current Cycle'},
-      {key:'next_phase',title:'Next Phase'},
-      {key:'yearly',title:'Yearly Theme'},
+      {key:'theme',title:'Yearly Theme'},
+      {key:'recommendations',title:'How to Unlock'},
+      {key:'watch_out',title:'What to Watch For'},
     ]},
     {id:'compat_general', label:' General', sections:[
       {key:'meaning',title:'General Compatibility'},
@@ -1664,7 +1850,9 @@ function getModules() {
       {key:'meaning',title:'Financial Compatibility'},
     ]},
     {id:'compat_forecast', label:'◎ Couple Forecast', sections:[
-      {key:'yearly',title:'Yearly Theme'},
+      {key:'theme',title:'Yearly Theme'},
+      {key:'watch_out',title:'What to Watch For'},
+      {key:'recommendations',title:'Recommendations'},
     ]},
   ];
 
@@ -1724,8 +1912,10 @@ function openPanel(pos, syncToBoard = true) {
   const tabsEl = document.getElementById('mod-tabs');
   tabsEl.innerHTML = '';
 
-  if (pos.startsWith('age')) {
+  if (pos.startsWith('age') || pos.startsWith('FORECAST_')) {
     activeModId = readingMode === 'compat' ? 'compat_forecast' : 'forecast';
+  } else if (pos.startsWith('COMPAT_FORECAST_')) {
+    activeModId = 'compat_forecast';
   } else if (!activeModules.find(m => m.id === activeModId)) {
     activeModId = activeModules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
   }
@@ -1751,6 +1941,26 @@ function renderModContent(pos, val, modId, modules) {
   const mods = modules || getModules();
   const mod = mods.find(m => m.id === modId);
   if (!mod) return;
+
+  let targetPos = pos;
+  let targetModId = modId;
+  let targetSecKey = null; // will override section keys if set
+  
+  if (pos.startsWith('age')) {
+    targetPos = 'FORECAST';
+  } else if (pos === 'FORECAST_CURRENT') {
+    targetPos = 'FORECAST';
+    targetSecKey = 'theme';
+  } else if (pos === 'FORECAST_KEY') {
+    targetPos = 'FORECAST';
+    targetSecKey = 'recommendations';
+  } else if (pos === 'FORECAST_OUTCOME') {
+    targetPos = 'FORECAST';
+    targetSecKey = 'watch_out';
+  } else if (pos.startsWith('COMPAT_FORECAST_')) {
+    targetPos = 'COMPAT_FORECAST';
+    targetModId = 'compat_forecast';
+  }
 
   const meta = POSITIONS[pos] || {name: pos, formula: '', zone: '', color: '#B088F0'};
 
@@ -1782,6 +1992,10 @@ function renderModContent(pos, val, modId, modules) {
   el.appendChild(ctx);
 
   mod.sections.forEach(sec => {
+    // If targetSecKey is set (e.g. for FORECAST_CURRENT), only render that specific section
+    const currentSecKey = targetSecKey || sec.key;
+    if (targetSecKey && sec.key !== targetSecKey) return;
+    
     const card = document.createElement('div');
     card.className = 'interp-card';
 
@@ -1790,12 +2004,12 @@ function renderModContent(pos, val, modId, modules) {
     card.appendChild(h);
 
     const numVal = parseInt(val);
-    const text = INTERP[pos]?.[modId]?.[sec.key]?.[numVal] || null;
+    const text = INTERP[targetPos]?.[targetModId]?.[currentSecKey]?.[numVal] || null;
 
     const editBtn = document.createElement('button');
     editBtn.className = 'edit-btn';
     editBtn.textContent = 'Edit';
-    editBtn.onclick = () => startEdit(card, pos, modId, sec.key, numVal, text || '');
+    editBtn.onclick = () => startEdit(card, targetPos, targetModId, currentSecKey, numVal, text || '');
     card.appendChild(editBtn);
 
     const p = document.createElement('p');
@@ -1900,7 +2114,11 @@ document.getElementById('go-btn').addEventListener('click', () => {
   const yr   = parseInt(document.getElementById('i-yr').value)   || 2000;
   document.getElementById('client-display').textContent =
     `${name}  ·  ${String(day).padStart(2,'0')} / ${String(mon).padStart(2,'0')} / ${yr}`;
-  updateMatrix(calc(day, mon, yr));
+  
+  const v = calc(day, mon, yr);
+  v.forecast = getPersonalForecast(v, day, mon, yr);
+  
+  updateMatrix(v);
   if (activePos) openPanel(activePos);
 });
 
@@ -1921,8 +2139,18 @@ document.getElementById('go-compat-btn').addEventListener('click', () => {
   document.getElementById('client-display').textContent = `${nameDisplay}  ·  ${dobDisplay}`;
   
   const v_comb = calcCompatibility(day1, mon1, yr1, day2, mon2, yr2);
+  v_comb.compatForecast = getCompatibilityForecast(day1, mon1, yr1, day2, mon2, yr2);
+  
   updateMatrix(v_comb);
   if (activePos) openPanel(activePos);
+});
+
+document.getElementById('nav-forecast-btn').addEventListener('click', () => {
+  if (readingMode === 'single') {
+    openPanel('FORECAST_CURRENT');
+  } else {
+    openPanel('COMPAT_FORECAST_CURRENT');
+  }
 });
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2268,7 +2496,7 @@ function generateOuterAgeNodes() {
         textRange.setAttribute('font-weight', '700');
       });
       g.addEventListener('mouseleave', () => {
-        if (activePos !== ageKey) {
+        if (activePos !== ageKey && !g.classList.contains('current-age-highlight')) {
           hl.setAttribute('opacity', '0');
           circle.setAttribute('stroke', '#E0D8FF');
           circle.setAttribute('stroke-width', '1.2');

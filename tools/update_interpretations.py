@@ -71,6 +71,24 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
     pos_upper = pos.upper().replace(' ', '')
     is_age = pos_upper.startswith('AGE')
     
+    if pos_upper == 'FORECAST':
+        sec_lower = excel_section.lower().strip()
+        section = 'theme'
+        if 'watch' in sec_lower or 'trap' in sec_lower or 'risk' in sec_lower:
+            section = 'watch_out'
+        elif 'recommendation' in sec_lower or 'rec' in sec_lower or 'unlock' in sec_lower:
+            section = 'recommendations'
+        return 'FORECAST', 'forecast', section
+        
+    if pos_upper == 'COMPAT_FORECAST':
+        sec_lower = excel_section.lower().strip()
+        section = 'theme'
+        if 'watch' in sec_lower or 'trap' in sec_lower or 'risk' in sec_lower:
+            section = 'watch_out'
+        elif 'recommendation' in sec_lower or 'rec' in sec_lower or 'unlock' in sec_lower:
+            section = 'recommendations'
+        return 'COMPAT_FORECAST', 'compat_forecast', section
+
     if is_age:
         # Normalize age key: lowercase, e.g. age22.5 (replace comma with dot if any)
         age_num_str = pos_upper[3:].replace(',', '.')

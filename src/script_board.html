@@ -453,6 +453,14 @@ const POSITIONS = {
   R:  {name:'Money & Relationships',      formula:'M + L',                   zone:'Money'},
   R1: {name:'Relationship Dynamics',      formula:'R + M',                   zone:'Relationships'},
   R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money'},
+  
+  FORECAST_CURRENT: {name:'Current Energy (Theme)', formula:'Arcana of Current Age', zone:'forecast'},
+  FORECAST_KEY: {name:'Key Energy (Unlock)', formula:'Arcana of Second Age', zone:'forecast'},
+  FORECAST_OUTCOME: {name:'Potential Outcome', formula:'Current Energy + Key Energy', zone:'forecast'},
+  
+  COMPAT_FORECAST_CURRENT: {name:"Couple Current Energy (Theme)", formula:'Partner 1 Current + Partner 2 Current', zone:'compat_forecast'},
+  COMPAT_FORECAST_KEY: {name:"Couple Key Energy (Unlock)", formula:'Partner 1 Key + Partner 2 Key', zone:'compat_forecast'},
+  COMPAT_FORECAST_OUTCOME: {name:"Couple Potential Outcome", formula:'Partner 1 Outcome + Partner 2 Outcome', zone:'compat_forecast'},
 };
 
 // Populate the 56 intermediate age nodes dynamically
@@ -701,9 +709,9 @@ function getModules() {
       {key:'mission',title:'Soul Mission'},
     ]},
     {id:'forecast',      label:'◎ Forecast',sections:[
-      {key:'current_cycle',title:'Current Cycle'},
-      {key:'next_phase',title:'Next Phase'},
-      {key:'yearly',title:'Yearly Theme'},
+      {key:'theme',title:'Yearly Theme'},
+      {key:'recommendations',title:'How to Unlock'},
+      {key:'watch_out',title:'What to Watch For'},
     ]},
     {id:'compat_general', label:' General', sections:[
       {key:'meaning',title:'General Compatibility'},
@@ -718,7 +726,9 @@ function getModules() {
       {key:'meaning',title:'Financial Compatibility'},
     ]},
     {id:'compat_forecast', label:'◎ Couple Forecast', sections:[
-      {key:'yearly',title:'Yearly Theme'},
+      {key:'theme',title:'Yearly Theme'},
+      {key:'watch_out',title:'What to Watch For'},
+      {key:'recommendations',title:'Recommendations'},
     ]},
   ];
 
@@ -830,8 +840,10 @@ function renderActiveNode() {
   
   const modules = getModules();
   
-  if (activePos.startsWith('age') && activeModId !== 'programs_all') {
+  if ((activePos.startsWith('age') || activePos.startsWith('FORECAST_')) && activeModId !== 'programs_all') {
     activeModId = readingMode === 'compat' ? 'compat_forecast' : 'forecast';
+  } else if (activePos.startsWith('COMPAT_FORECAST_') && activeModId !== 'programs_all') {
+    activeModId = 'compat_forecast';
   } else if (activeModId !== 'programs_all' && !modules.find(m => m.id === activeModId)) {
     activeModId = modules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
   }
@@ -894,9 +906,32 @@ function renderActiveNode() {
   
   const mod = modules.find(m => m.id === activeModId);
   if (mod) {
+    let targetPos = activePos;
+    let targetModId = activeModId;
+    let targetSecKey = null; // will override section keys if set
+    
+    if (activePos.startsWith('age')) {
+      targetPos = 'FORECAST';
+    } else if (activePos === 'FORECAST_CURRENT') {
+      targetPos = 'FORECAST';
+      targetSecKey = 'theme';
+    } else if (activePos === 'FORECAST_KEY') {
+      targetPos = 'FORECAST';
+      targetSecKey = 'recommendations';
+    } else if (activePos === 'FORECAST_OUTCOME') {
+      targetPos = 'FORECAST';
+      targetSecKey = 'watch_out';
+    } else if (activePos.startsWith('COMPAT_FORECAST_')) {
+      targetPos = 'COMPAT_FORECAST';
+      targetModId = 'compat_forecast';
+    }
+
     let hasContent = false;
     mod.sections.forEach(sec => {
-      const text = database[activePos]?.[activeModId]?.[sec.key]?.[val] || null;
+      const currentSecKey = targetSecKey || sec.key;
+      if (targetSecKey && sec.key !== targetSecKey) return;
+
+      const text = database[targetPos]?.[targetModId]?.[currentSecKey]?.[val] || null;
       
       const card = document.createElement('div');
       card.className = 'interp-card';

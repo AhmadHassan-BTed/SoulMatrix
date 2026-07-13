@@ -46,9 +46,9 @@ The CSV has exactly five columns:
 
 **What each column means:**
 
-- **position** - The node on the chart (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, R1, R2, S, T, F1, F2, G1, G2, H1, H2, I1, I2, L1, L2)
-- **module** - The tab category (core, relationships, karma, money, purpose, forecast - or any new name you invent)
-- **section** - The sub-heading within that tab (meaning, positive, shadow, healing, attraction, lesson, wound, partner, karmic, past_life, resolution, money_flow, block, activation, life_purpose, gifts, mission, current_cycle, next_phase, yearly - or any new name you invent)
+- **position** - The node on the chart (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, R1, R2, S, T, F1, F2, G1, G2, H1, H2, I1, I2, L1, L2, or custom forecast keys: `FORECAST`, `COMPAT_FORECAST`)
+- **module** - The tab category (core, relationships, karma, money, purpose, forecast, compat_forecast - or any new name you invent)
+- **section** - The sub-heading within that tab (meaning, positive, shadow, healing, attraction, lesson, wound, partner, karmic, past_life, resolution, money_flow, block, activation, life_purpose, gifts, mission, theme, recommendations, watch_out - or any new name you invent)
 - **number** - The numerological value (1 through 22)
 - **text** - Your interpretation text for that combination
 
@@ -97,6 +97,32 @@ You do NOT need any coding to add a new tab. Just use a new module name in the *
 | A        | past_life | gift    | 1      | "The gift you brought with you is..."     |
 
 Save, refresh Chrome - a new **Past Life** tab appears automatically on every node panel.
+
+---
+
+## Editing Forecast Interpretations
+
+The forecast module displays interpretations based on the **client's age**. Instead of writing interpretations for each specific age node on the outer ring (which would require 56 separate sets of text), the app looks up a centralized set of **22 master Arcana forecasts** from the spreadsheet database:
+
+### 1. Single Yearly Forecast
+- **Excel Tab**: `Master_Database`
+- **Position**: `FORECAST`
+- **Sections**:
+  - `Theme` (or `theme`) - The primary yearly theme.
+  - `What to watch for` (or `watch_out`) - Traps, risks, and shadow expressions.
+  - `Recommendations` (or `recommendations`) - Action steps to align with the energy.
+- **Numbers**: `1` through `22` (the Arcana numbers).
+
+### 2. Couple Compatibility Forecast
+- **Excel Tab**: `Compatibility`
+- **Position**: `COMPAT_FORECAST`
+- **Sections**:
+  - `Theme` (or `theme`) - The couple's joint yearly forecast theme.
+  - `What to watch for in the couple` (or `watch_out`) - Joint relationship traps and risks.
+  - `Recommendations for the couple` (or `recommendations`) - Advice for navigating the year together.
+- **Numbers**: `1` through `22`.
+
+*Note: Clicking any outer age ring node (e.g. `age22.5` or `age58.75`) or the forecast section items in the bottom derived panel will automatically look up its Arcana value inside these master forecast sections.*
 
 ---
 

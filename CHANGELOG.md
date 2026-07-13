@@ -1,5 +1,31 @@
 # Changelog - Soul Blueprint Matrix (New Features Sync)
 
+## [July 2026] - Yearly & Couple Forecast Integration
+
+This major update introduces the complete **Yearly Forecast** and **Couple's Forecast** engine, parsed directly from Nika Matrix's ebook and integrated into the interactive chart, derived panel, and pop-out Script Board streamer view.
+
+### 📅 Ebook Parsing & XLSX Population
+- Developed scripts to parse Nika Matrix's book (`docs/COUPLE’S FORECAST .md`) for all 22 Arcana (Themes, Risks/Watch Outs, and Recommendations) for both single and compatibility mode readings.
+- Populated the master spreadsheet (`data/interpretations.xlsx`) sheets `Master_Database` (position: `FORECAST`) and `Compatibility` (position: `COMPAT_FORECAST`).
+- Configured automated fallbacks to personal forecast interpretations for rare energies (e.g. Arcana 1 and 2) to ensure a complete dataset.
+
+### ⚙️ Database Synchronizers Upgrade
+- Upgraded the column-mapping engines in both Python (`tools/update_interpretations.py`) and PowerShell (`tools/update_interpretations.ps1`) to transparently parse and sync the custom `FORECAST` and `COMPAT_FORECAST` positions.
+
+### 🔮 Frontend Calculation Engine
+- **Age Extraction**: Added dynamic client age calculation from DOB input.
+- **Outer Age Ring Resolver**: Added mathematical subdivision calculations to map any integer age to the correct segment on the 80-year outer timeline.
+- **Key Energies Formula**: Implemented calculations for Energy 1 (Current), Energy 2 (Key Energy shift of +/- 40 years), and Energy 3 (reduced Outcome).
+- **Couple Forecast Formula**: Implemented couple forecast calculations by adding and reducing the corresponding partner forecast keys.
+
+### 💎 Interactive UI Enhancements
+- Added a clickable **Personal Forecast** (or **Couple Forecast** in compatibility mode) widget inside the derived panel at the bottom.
+- Hovering/selecting age ring nodes highlights the active current age segment on the octagram chart in gold.
+- Activated the top navigation button **"◎ Yearly Forecast"** to instantly open yearly forecast detail interpretations.
+- Fully synchronized Yearly Forecast calculations to the pop-out **Script Board** viewer over BroadcastChannel sync.
+
+---
+
 ## [June 2026] - Zero-Dependency Windows Fallback & Sync Fixes
 
 This update adds a zero-dependency database compilation fallback for Windows users, fixes launcher execution diagnostics, and corrects compatibility mapping.
