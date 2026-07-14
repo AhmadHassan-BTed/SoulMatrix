@@ -374,6 +374,79 @@ let readingMode = 'single';
 
 const bc = new BroadcastChannel('soul_matrix_sync');
 
+function red(n) {
+  while (n > 22) n = [...String(n)].reduce((a, d) => a + parseInt(d), 0);
+  return n;
+}
+
+function calculateAge(day, month, year) {
+  const today = new Date();
+  let age = today.getFullYear() - year;
+  const m = today.getMonth() + 1 - month;
+  if (m < 0 || (m === 0 && today.getDate() < day)) {
+    age--;
+  }
+  return age;
+}
+
+function getAgeNodeKey(age) {
+  age = age % 80;
+  if (age < 0) age += 80;
+  const S = Math.floor(age / 10) * 10;
+  const rem = age % 10;
+  const cornerKeys = ['A', 'F', 'B', 'G', 'C', 'H', 'D', 'I'];
+  const sectorIdx = Math.floor(age / 10);
+  if (rem === 0) {
+    return cornerKeys[sectorIdx];
+  } else if (rem === 1 || rem === 2) {
+    return `age${S + 1.25}`;
+  } else if (rem === 3) {
+    return `age${S + 2.5}`;
+  } else if (rem === 4) {
+    return `age${S + 3.75}`;
+  } else if (rem === 5) {
+    return `age${S + 5}`;
+  } else if (rem === 6 || rem === 7) {
+    return `age${S + 6.25}`;
+  } else if (rem === 8) {
+    return `age${S + 7.5}`;
+  } else if (rem === 9) {
+    return `age${S + 8.75}`;
+  }
+}
+
+function getAgeForecastEnergiesSingle(ageKey, v) {
+  const age = parseFloat(ageKey.substring(3));
+  const energy1 = v[ageKey] || 0;
+  const secondAge = age < 40 ? (age + 40) : (age - 40);
+  const keyEnergyKey = getAgeNodeKey(secondAge);
+  const energy2 = v[keyEnergyKey] || 0;
+  const energy3 = red(energy1 + energy2);
+  return [energy1, energy2, energy3];
+}
+
+function getAgeForecastEnergiesCompat(ageKey, v) {
+  const v1 = v.v1 || {};
+  const v2 = v.v2 || {};
+  
+  const f1_current = v1[ageKey] || 0;
+  const age = parseFloat(ageKey.substring(3));
+  const secondAge = age < 40 ? (age + 40) : (age - 40);
+  const keyEnergyKey = getAgeNodeKey(secondAge);
+  const f1_key = v1[keyEnergyKey] || 0;
+  const f1_outcome = red(f1_current + f1_key);
+  
+  const f2_current = v2[ageKey] || 0;
+  const f2_key = v2[keyEnergyKey] || 0;
+  const f2_outcome = red(f2_current + f2_key);
+  
+  const coupleCurrent = red(f1_current + f2_current);
+  const coupleKey = red(f1_key + f2_key);
+  const coupleOutcome = red(f1_outcome + f2_outcome);
+  
+  return [coupleCurrent, coupleKey, coupleOutcome];
+}
+
 function setConnected(connected) {
   const dot = document.getElementById('status-dot');
   const text = document.getElementById('status-text');
@@ -908,36 +981,48 @@ function renderActiveNode() {
   if (mod) {
     let targetPos = activePos;
     let targetModId = activeModId;
-    let targetSecKey = null; // will override section keys if set
     
-    if (activePos.startsWith('age')) {
+    if (activePos.startsWith('age') || activePos.startsWith('FORECAST_')) {
       targetPos = 'FORECAST';
-    } else if (activePos === 'FORECAST_CURRENT') {
-      targetPos = 'FORECAST';
-      targetSecKey = 'theme';
-    } else if (activePos === 'FORECAST_KEY') {
-      targetPos = 'FORECAST';
-      targetSecKey = 'recommendations';
-    } else if (activePos === 'FORECAST_OUTCOME') {
-      targetPos = 'FORECAST';
-      targetSecKey = 'watch_out';
+      targetModId = 'forecast';
     } else if (activePos.startsWith('COMPAT_FORECAST_')) {
       targetPos = 'COMPAT_FORECAST';
       targetModId = 'compat_forecast';
     }
 
+    let energies = null;
+    if (activePos.startsWith('age')) {
+      if (readingMode === 'compat') {
+        energies = getAgeForecastEnergiesCompat(activePos, calculatedValues);
+      } else {
+        energies = getAgeForecastEnergiesSingle(activePos, calculatedValues);
+      }
+    } else if (activePos.startsWith('FORECAST_')) {
+      energies = [calculatedValues['FORECAST_CURRENT'], calculatedValues['FORECAST_KEY'], calculatedValues['FORECAST_OUTCOME']];
+    } else if (activePos.startsWith('COMPAT_FORECAST_')) {
+      energies = [calculatedValues['COMPAT_FORECAST_CURRENT'], calculatedValues['COMPAT_FORECAST_KEY'], calculatedValues['COMPAT_FORECAST_OUTCOME']];
+    }
+
     let hasContent = false;
     mod.sections.forEach(sec => {
-      const currentSecKey = targetSecKey || sec.key;
-      if (targetSecKey && sec.key !== targetSecKey) return;
+      let sectionVal = parseInt(val);
+      if (energies) {
+        if (sec.key === 'theme') {
+          sectionVal = energies[0];
+        } else if (sec.key === 'recommendations') {
+          sectionVal = energies[1];
+        } else if (sec.key === 'watch_out') {
+          sectionVal = energies[2];
+        }
+      }
 
-      const text = database[targetPos]?.[targetModId]?.[currentSecKey]?.[val] || null;
+      const text = database[targetPos]?.[targetModId]?.[sec.key]?.[sectionVal] || null;
       
       const card = document.createElement('div');
       card.className = 'interp-card';
       
       const title = document.createElement('h3');
-      title.textContent = sec.title;
+      title.textContent = energies ? `${sec.title} (Arcana ${sectionVal})` : sec.title;
       card.appendChild(title);
       
       const p = document.createElement('p');
@@ -947,7 +1032,7 @@ function renderActiveNode() {
       } else {
         p.className = 'empty-state';
         p.style.padding = '10px 0';
-        p.textContent = `No interpretation yet for ${meta.name} · ${sec.title} · ${val}`;
+        p.textContent = `No interpretation yet for ${meta.name} · ${sec.title} · ${sectionVal}`;
       }
       card.appendChild(p);
       contentEl.appendChild(card);

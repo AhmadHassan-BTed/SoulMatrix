@@ -1590,6 +1590,38 @@ function getCompatibilityForecast(day1, mon1, yr1, day2, mon2, yr2) {
   };
 }
 
+function getAgeForecastEnergiesSingle(ageKey, v) {
+  const age = parseFloat(ageKey.substring(3));
+  const energy1 = v[ageKey] || 0;
+  const secondAge = age < 40 ? (age + 40) : (age - 40);
+  const keyEnergyKey = getAgeNodeKey(secondAge);
+  const energy2 = v[keyEnergyKey] || 0;
+  const energy3 = red(energy1 + energy2);
+  return [energy1, energy2, energy3];
+}
+
+function getAgeForecastEnergiesCompat(ageKey, v) {
+  const v1 = v.v1 || {};
+  const v2 = v.v2 || {};
+  
+  const f1_current = v1[ageKey] || 0;
+  const age = parseFloat(ageKey.substring(3));
+  const secondAge = age < 40 ? (age + 40) : (age - 40);
+  const keyEnergyKey = getAgeNodeKey(secondAge);
+  const f1_key = v1[keyEnergyKey] || 0;
+  const f1_outcome = red(f1_current + f1_key);
+  
+  const f2_current = v2[ageKey] || 0;
+  const f2_key = v2[keyEnergyKey] || 0;
+  const f2_outcome = red(f2_current + f2_key);
+  
+  const coupleCurrent = red(f1_current + f2_current);
+  const coupleKey = red(f1_key + f2_key);
+  const coupleOutcome = red(f1_outcome + f2_outcome);
+  
+  return [coupleCurrent, coupleKey, coupleOutcome];
+}
+
 function highlightCurrentAgeNode(ageKey) {
   clearAgeNodeHighlights();
   const activeNode = document.querySelector(`.age-node[data-pos="${ageKey}"]`);
@@ -1765,6 +1797,8 @@ function calcCompatibility(d1, m1, y1, d2, m2, y2) {
   const sum = k => chakras.reduce((a,c) => a + c[k], 0);
   const chakraTotals = {physical:red(sum('physical')), energy:red(sum('energy')), emotional:red(sum('emotional'))};
   
+  v_comb.v1 = v1;
+  v_comb.v2 = v2;
   v_comb.derived = {earth, sky, personalPurpose, paternalP, maternalP, socialPurpose, spiritualPurpose, chakras, chakraTotals};
   
   return v_comb;
@@ -1944,19 +1978,10 @@ function renderModContent(pos, val, modId, modules) {
 
   let targetPos = pos;
   let targetModId = modId;
-  let targetSecKey = null; // will override section keys if set
   
-  if (pos.startsWith('age')) {
+  if (pos.startsWith('age') || pos.startsWith('FORECAST_')) {
     targetPos = 'FORECAST';
-  } else if (pos === 'FORECAST_CURRENT') {
-    targetPos = 'FORECAST';
-    targetSecKey = 'theme';
-  } else if (pos === 'FORECAST_KEY') {
-    targetPos = 'FORECAST';
-    targetSecKey = 'recommendations';
-  } else if (pos === 'FORECAST_OUTCOME') {
-    targetPos = 'FORECAST';
-    targetSecKey = 'watch_out';
+    targetModId = 'forecast';
   } else if (pos.startsWith('COMPAT_FORECAST_')) {
     targetPos = 'COMPAT_FORECAST';
     targetModId = 'compat_forecast';
@@ -1991,25 +2016,44 @@ function renderModContent(pos, val, modId, modules) {
   ctx.textContent = `Number ${val} in position ${pos}`;
   el.appendChild(ctx);
 
+  let energies = null;
+  if (pos.startsWith('age')) {
+    if (readingMode === 'compat') {
+      energies = getAgeForecastEnergiesCompat(pos, currentVals);
+    } else {
+      energies = getAgeForecastEnergiesSingle(pos, currentVals);
+    }
+  } else if (pos.startsWith('FORECAST_')) {
+    energies = [currentVals['FORECAST_CURRENT'], currentVals['FORECAST_KEY'], currentVals['FORECAST_OUTCOME']];
+  } else if (pos.startsWith('COMPAT_FORECAST_')) {
+    energies = [currentVals['COMPAT_FORECAST_CURRENT'], currentVals['COMPAT_FORECAST_KEY'], currentVals['COMPAT_FORECAST_OUTCOME']];
+  }
+
   mod.sections.forEach(sec => {
-    // If targetSecKey is set (e.g. for FORECAST_CURRENT), only render that specific section
-    const currentSecKey = targetSecKey || sec.key;
-    if (targetSecKey && sec.key !== targetSecKey) return;
-    
     const card = document.createElement('div');
     card.className = 'interp-card';
 
+    let sectionVal = parseInt(val);
+    if (energies) {
+      if (sec.key === 'theme') {
+        sectionVal = energies[0];
+      } else if (sec.key === 'recommendations') {
+        sectionVal = energies[1];
+      } else if (sec.key === 'watch_out') {
+        sectionVal = energies[2];
+      }
+    }
+
     const h = document.createElement('h3');
-    h.textContent = sec.title;
+    h.textContent = energies ? `${sec.title} (Arcana ${sectionVal})` : sec.title;
     card.appendChild(h);
 
-    const numVal = parseInt(val);
-    const text = INTERP[targetPos]?.[targetModId]?.[currentSecKey]?.[numVal] || null;
+    const text = INTERP[targetPos]?.[targetModId]?.[sec.key]?.[sectionVal] || null;
 
     const editBtn = document.createElement('button');
     editBtn.className = 'edit-btn';
     editBtn.textContent = 'Edit';
-    editBtn.onclick = () => startEdit(card, targetPos, targetModId, currentSecKey, numVal, text || '');
+    editBtn.onclick = () => startEdit(card, targetPos, targetModId, sec.key, sectionVal, text || '');
     card.appendChild(editBtn);
 
     const p = document.createElement('p');
@@ -2017,7 +2061,7 @@ function renderModContent(pos, val, modId, modules) {
       p.textContent = text;
     } else {
       p.className = 'empty';
-      p.textContent = `No interpretation yet for ${meta.name || pos} · ${sec.title} · ${val}. Click Edit to add, or add a row to interpretations.csv.`;
+      p.textContent = `No interpretation yet for ${meta.name || pos} · ${sec.title} · ${sectionVal}. Click Edit to add, or add a row to interpretations.csv.`;
     }
     card.appendChild(p);
     el.appendChild(card);
