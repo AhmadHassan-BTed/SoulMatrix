@@ -1403,13 +1403,13 @@ const POSITIONS = {
   R1: {name:'Relationship Dynamics',      formula:'R + M',                   zone:'Relationships', color:'#D4AF6E'},
   R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money',         color:'#5CDEC8'},
   
-  FORECAST_CURRENT: {name:'Current Energy (Theme)', formula:'Arcana of Current Age', zone:'forecast', color:'#A78BFA'},
-  FORECAST_KEY: {name:'Key Energy (Unlock)', formula:'Arcana of Second Age', zone:'forecast', color:'#A78BFA'},
-  FORECAST_OUTCOME: {name:'Potential Outcome', formula:'Current Energy + Key Energy', zone:'forecast', color:'#A78BFA'},
+  FORECAST_CURRENT: {name:'Energy of the Period', formula:'Arcana of Current Age', zone:'forecast', color:'#A78BFA'},
+  FORECAST_KEY: {name:'Event Line', formula:'Arcana of Second Age', zone:'forecast', color:'#A78BFA'},
+  FORECAST_OUTCOME: {name:'Outcome of the Period', formula:'Current Energy + Key Energy', zone:'forecast', color:'#A78BFA'},
   
-  COMPAT_FORECAST_CURRENT: {name:"Couple Current Energy (Theme)", formula:'Partner 1 Current + Partner 2 Current', zone:'compat_forecast', color:'#D4AF6E'},
-  COMPAT_FORECAST_KEY: {name:"Couple Key Energy (Unlock)", formula:'Partner 1 Key + Partner 2 Key', zone:'compat_forecast', color:'#D4AF6E'},
-  COMPAT_FORECAST_OUTCOME: {name:"Couple Potential Outcome", formula:'Partner 1 Outcome + Partner 2 Outcome', zone:'compat_forecast', color:'#D4AF6E'},
+  COMPAT_FORECAST_CURRENT: {name:"Couple Energy of the Period", formula:'Partner 1 Current + Partner 2 Current', zone:'compat_forecast', color:'#D4AF6E'},
+  COMPAT_FORECAST_KEY: {name:"Couple Event Line", formula:'Partner 1 Key + Partner 2 Key', zone:'compat_forecast', color:'#D4AF6E'},
+  COMPAT_FORECAST_OUTCOME: {name:"Couple Outcome of the Period", formula:'Partner 1 Outcome + Partner 2 Outcome', zone:'compat_forecast', color:'#D4AF6E'},
 };
 
 // Populate the 56 intermediate age nodes dynamically
@@ -1671,15 +1671,15 @@ function renderForecast(v) {
     const rowsEl = document.getElementById('fc-rows');
     rowsEl.innerHTML = `
       <div class="dv-row" style="cursor: pointer;" onclick="openPanel('FORECAST_CURRENT')">
-        <span>Current Energy (Theme) <em>Age ${v.forecast.age}</em></span>
+        <span>Energy of the Period <em>Age ${v.forecast.age}</em></span>
         <b>${v.forecast.currentEnergy}</b>
       </div>
       <div class="dv-row" style="cursor: pointer;" onclick="openPanel('FORECAST_KEY')">
-        <span>Key Energy (Unlock) <em>Age ${v.forecast.secondAge}</em></span>
+        <span>Event Line <em>Age ${v.forecast.secondAge}</em></span>
         <b>${v.forecast.keyEnergy}</b>
       </div>
       <div class="dv-row hl" style="cursor: pointer;" onclick="openPanel('FORECAST_OUTCOME')">
-        <span>Potential Outcome</span>
+        <span>Outcome of the Period</span>
         <b>${v.forecast.outcome}</b>
       </div>
     `;
@@ -1699,15 +1699,15 @@ function renderForecast(v) {
     const rowsEl = document.getElementById('fc-rows');
     rowsEl.innerHTML = `
       <div class="dv-row" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_CURRENT')">
-        <span>Couple Current Energy (Theme)</span>
+        <span>Couple Energy of the Period</span>
         <b>${v.compatForecast.currentEnergy}</b>
       </div>
       <div class="dv-row" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_KEY')">
-        <span>Couple Key Energy (Unlock)</span>
+        <span>Couple Event Line</span>
         <b>${v.compatForecast.keyEnergy}</b>
       </div>
       <div class="dv-row hl" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_OUTCOME')">
-        <span>Couple Potential Outcome</span>
+        <span>Couple Outcome of the Period</span>
         <b>${v.compatForecast.outcome}</b>
       </div>
       <div class="dv-row">
@@ -1867,9 +1867,9 @@ function getModules() {
       {key:'mission',title:'Soul Mission'},
     ]},
     {id:'forecast',      label:'◎ Forecast',sections:[
-      {key:'theme',title:'Yearly Theme'},
-      {key:'recommendations',title:'How to Unlock'},
-      {key:'watch_out',title:'What to Watch For'},
+      {key:'theme',title:'Energy of the Period'},
+      {key:'recommendations',title:'Event Line'},
+      {key:'watch_out',title:'Outcome of the Period'},
     ]},
     {id:'compat_general', label:' General', sections:[
       {key:'meaning',title:'General Compatibility'},
@@ -1884,9 +1884,9 @@ function getModules() {
       {key:'meaning',title:'Financial Compatibility'},
     ]},
     {id:'compat_forecast', label:'◎ Couple Forecast', sections:[
-      {key:'theme',title:'Yearly Theme'},
-      {key:'watch_out',title:'What to Watch For'},
-      {key:'recommendations',title:'Recommendations'},
+      {key:'theme',title:'Energy of the Period'},
+      {key:'watch_out',title:'Event Line'},
+      {key:'recommendations',title:'Outcome of the Period'},
     ]},
   ];
 
