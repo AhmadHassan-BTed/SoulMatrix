@@ -1565,7 +1565,7 @@ function getPersonalForecast(v, day, mon, yr) {
   const currentEnergyKey = getAgeNodeKey(age);
   const currentEnergy = v[currentEnergyKey];
   const secondAge = age < 40 ? (age + 40) : (age - 40);
-  const keyEnergyKey = getAgeNodeKey(secondAge);
+  const keyEnergyKey = getAgeNodeKey(Math.round(secondAge));
   const keyEnergy = v[keyEnergyKey];
   const outcome = red(currentEnergy + keyEnergy);
   return {
