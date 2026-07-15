@@ -1594,7 +1594,7 @@ function getAgeForecastEnergiesSingle(ageKey, v) {
   const age = parseFloat(ageKey.substring(3));
   const energy1 = v[ageKey] || 0;
   const secondAge = age < 40 ? (age + 40) : (age - 40);
-  const keyEnergyKey = getAgeNodeKey(secondAge);
+  const keyEnergyKey = getAgeNodeKey(Math.round(secondAge));
   const energy2 = v[keyEnergyKey] || 0;
   const energy3 = red(energy1 + energy2);
   return [energy1, energy2, energy3];
@@ -1607,7 +1607,7 @@ function getAgeForecastEnergiesCompat(ageKey, v) {
   const f1_current = v1[ageKey] || 0;
   const age = parseFloat(ageKey.substring(3));
   const secondAge = age < 40 ? (age + 40) : (age - 40);
-  const keyEnergyKey = getAgeNodeKey(secondAge);
+  const keyEnergyKey = getAgeNodeKey(Math.round(secondAge));
   const f1_key = v1[keyEnergyKey] || 0;
   const f1_outcome = red(f1_current + f1_key);
   
