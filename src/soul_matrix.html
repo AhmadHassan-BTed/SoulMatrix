@@ -1170,26 +1170,29 @@ const MODULE_LABELS = {
 
 // Fallback section titles for known section keys
 const SECTION_TITLES = {
-  meaning:       'What This Position Means',
-  positive:      'Positive Expression',
-  shadow:        'Shadow Expression',
-  healing:       'Healing Path',
-  attraction:    'Attraction Pattern',
-  lesson:        'Relationship Lesson',
-  wound:         'Core Wound',
-  partner:       'What They Attract',
-  karmic:        'Karmic Pattern',
-  past_life:     'Past Life Theme',
-  resolution:    'Resolution Path',
-  money_flow:    'Money Flow',
-  block:         'Financial Block',
-  activation:    'Activation',
-  life_purpose:  'Life Purpose',
-  gifts:         'Natural Gifts',
-  mission:       'Soul Mission',
-  current_cycle: 'Current Cycle',
-  next_phase:    'Next Phase',
-  yearly:        'Yearly Theme',
+  meaning:          'What This Position Means',
+  positive:         'Positive Expression',
+  shadow:           'Shadow Expression',
+  healing:          'Healing Path',
+  attraction:       'Attraction Pattern',
+  lesson:           'Relationship Lesson',
+  wound:            'Core Wound',
+  partner:          'What They Attract',
+  karmic:           'Karmic Pattern',
+  past_life:        'Past Life Theme',
+  resolution:       'Resolution Path',
+  money_flow:       'Money Flow',
+  block:            'Financial Block',
+  activation:       'Activation',
+  life_purpose:     'Life Purpose',
+  gifts:            'Natural Gifts',
+  mission:          'Soul Mission',
+  current_cycle:    'Current Cycle',
+  next_phase:       'Next Phase',
+  yearly:           'Yearly Theme',
+  theme:            'Energy of the Period',
+  recommendations:  'Event Line',
+  watch_out:        'Outcome of the Period',
 };
 
 /**
@@ -1564,7 +1567,7 @@ function getPersonalForecast(v, day, mon, yr) {
   const age = calculateAge(day, mon, yr);
   const currentEnergyKey = getAgeNodeKey(age);
   const currentEnergy = v[currentEnergyKey];
-  const secondAge = age < 40 ? (age + 40) : (age - 40);
+  const secondAge = age <= 40 ? (age + 40) : (age - 40);
   const keyEnergyKey = getAgeNodeKey(Math.round(secondAge));
   const keyEnergy = v[keyEnergyKey];
   const outcome = red(currentEnergy + keyEnergy);
@@ -1593,7 +1596,7 @@ function getCompatibilityForecast(day1, mon1, yr1, day2, mon2, yr2) {
 function getAgeForecastEnergiesSingle(ageKey, v) {
   const age = parseFloat(ageKey.substring(3));
   const energy1 = v[ageKey] || 0;
-  const secondAge = age < 40 ? (age + 40) : (age - 40);
+  const secondAge = age <= 40 ? (age + 40) : (age - 40);
   const keyEnergyKey = getAgeNodeKey(Math.round(secondAge));
   const energy2 = v[keyEnergyKey] || 0;
   const energy3 = red(energy1 + energy2);
@@ -1606,7 +1609,7 @@ function getAgeForecastEnergiesCompat(ageKey, v) {
   
   const f1_current = v1[ageKey] || 0;
   const age = parseFloat(ageKey.substring(3));
-  const secondAge = age < 40 ? (age + 40) : (age - 40);
+  const secondAge = age <= 40 ? (age + 40) : (age - 40);
   const keyEnergyKey = getAgeNodeKey(Math.round(secondAge));
   const f1_key = v1[keyEnergyKey] || 0;
   const f1_outcome = red(f1_current + f1_key);
@@ -1671,7 +1674,7 @@ function renderForecast(v) {
     const rowsEl = document.getElementById('fc-rows');
     rowsEl.innerHTML = `
       <div class="dv-row" style="cursor: pointer;" onclick="openPanel('FORECAST_CURRENT')">
-        <span>Energy of the Period <em>Age ${v.forecast.age}</em></span>
+        <span>Energy of the Period</span>
         <b>${v.forecast.currentEnergy}</b>
       </div>
       <div class="dv-row" style="cursor: pointer;" onclick="openPanel('FORECAST_KEY')">
@@ -1699,15 +1702,15 @@ function renderForecast(v) {
     const rowsEl = document.getElementById('fc-rows');
     rowsEl.innerHTML = `
       <div class="dv-row" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_CURRENT')">
-        <span>Couple Energy of the Period</span>
+        <span>Energy of the Period</span>
         <b>${v.compatForecast.currentEnergy}</b>
       </div>
       <div class="dv-row" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_KEY')">
-        <span>Couple Event Line</span>
+        <span>Event Line</span>
         <b>${v.compatForecast.keyEnergy}</b>
       </div>
       <div class="dv-row hl" style="cursor: pointer;" onclick="openPanel('COMPAT_FORECAST_OUTCOME')">
-        <span>Couple Outcome of the Period</span>
+        <span>Outcome of the Period</span>
         <b>${v.compatForecast.outcome}</b>
       </div>
       <div class="dv-row">
@@ -1885,13 +1888,12 @@ function getModules() {
     ]},
     {id:'compat_forecast', label:'◎ Couple Forecast', sections:[
       {key:'theme',title:'Energy of the Period'},
-      {key:'watch_out',title:'Event Line'},
-      {key:'recommendations',title:'Outcome of the Period'},
+      {key:'recommendations',title:'Event Line'},
+      {key:'watch_out',title:'Outcome of the Period'},
     ]},
   ];
 
   const result = defaults.map(d => ({...d, sections: [...d.sections]}));
-  const resultIds = result.map(m => m.id);
 
   Object.values(DISCOVERED_MODULES).forEach(discovered => {
     const existing = result.find(m => m.id === discovered.id);
@@ -1978,7 +1980,7 @@ function renderModContent(pos, val, modId, modules) {
 
   let targetPos = pos;
   let targetModId = modId;
-  
+
   if (pos.startsWith('age') || pos.startsWith('FORECAST_')) {
     targetPos = 'FORECAST';
     targetModId = 'forecast';
@@ -2011,41 +2013,53 @@ function renderModContent(pos, val, modId, modules) {
     el.appendChild(card);
   });
 
-  const ctx = document.createElement('div');
-  ctx.className = 'section-label';
-  ctx.textContent = `Number ${val} in position ${pos}`;
-  el.appendChild(ctx);
-
+  // Compute 3-energy forecast for age nodes and forecast positions
   let energies = null;
   if (pos.startsWith('age')) {
-    if (readingMode === 'compat') {
-      energies = getAgeForecastEnergiesCompat(pos, currentVals);
-    } else {
-      energies = getAgeForecastEnergiesSingle(pos, currentVals);
-    }
-  } else if (pos.startsWith('FORECAST_')) {
-    energies = [currentVals['FORECAST_CURRENT'], currentVals['FORECAST_KEY'], currentVals['FORECAST_OUTCOME']];
+    energies = readingMode === 'compat'
+      ? getAgeForecastEnergiesCompat(pos, currentVals)
+      : getAgeForecastEnergiesSingle(pos, currentVals);
+  } else if (pos === 'FORECAST_CURRENT' || pos === 'FORECAST_KEY' || pos === 'FORECAST_OUTCOME') {
+    energies = [
+      currentVals['FORECAST_CURRENT'],
+      currentVals['FORECAST_KEY'],
+      currentVals['FORECAST_OUTCOME']
+    ];
   } else if (pos.startsWith('COMPAT_FORECAST_')) {
-    energies = [currentVals['COMPAT_FORECAST_CURRENT'], currentVals['COMPAT_FORECAST_KEY'], currentVals['COMPAT_FORECAST_OUTCOME']];
+    energies = [
+      currentVals['COMPAT_FORECAST_CURRENT'],
+      currentVals['COMPAT_FORECAST_KEY'],
+      currentVals['COMPAT_FORECAST_OUTCOME']
+    ];
   }
+
+  const ctx = document.createElement('div');
+  ctx.className = 'section-label';
+  if (energies && energies[0]) {
+    ctx.textContent = `Forecast: Arcana ${energies[0]} → ${energies[1]} → ${energies[2]}`;
+  } else {
+    ctx.textContent = `Number ${val} in position ${pos}`;
+  }
+  el.appendChild(ctx);
 
   mod.sections.forEach(sec => {
     const card = document.createElement('div');
     card.className = 'interp-card';
 
+    // Each section maps to its own energy number
     let sectionVal = parseInt(val);
     if (energies) {
       if (sec.key === 'theme') {
-        sectionVal = energies[0];
+        sectionVal = energies[0];          // 1. Energy of the Period
       } else if (sec.key === 'recommendations') {
-        sectionVal = energies[1];
+        sectionVal = energies[1];          // 2. Event Line
       } else if (sec.key === 'watch_out') {
-        sectionVal = energies[2];
+        sectionVal = energies[2];          // 3. Outcome of the Period
       }
     }
 
     const h = document.createElement('h3');
-    h.textContent = energies ? `${sec.title} (Arcana ${sectionVal})` : sec.title;
+    h.textContent = energies ? `${sec.title} · Arcana ${sectionVal}` : sec.title;
     card.appendChild(h);
 
     const text = INTERP[targetPos]?.[targetModId]?.[sec.key]?.[sectionVal] || null;
@@ -2061,7 +2075,7 @@ function renderModContent(pos, val, modId, modules) {
       p.textContent = text;
     } else {
       p.className = 'empty';
-      p.textContent = `No interpretation yet for ${meta.name || pos} · ${sec.title} · ${sectionVal}. Click Edit to add, or add a row to interpretations.csv.`;
+      p.textContent = `No interpretation yet for ${sec.title} · Arcana ${sectionVal}. Click Edit to add, or update interpretations.csv.`;
     }
     card.appendChild(p);
     el.appendChild(card);
