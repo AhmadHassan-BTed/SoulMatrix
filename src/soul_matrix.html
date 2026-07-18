@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- v2.7.1 forecast-triple-key-banner -->
 <title>Soul Blueprint Matrix</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
@@ -308,6 +309,78 @@ header h1 {
 }
 #go-btn:hover { opacity: .88; }
 
+/* ─── FORECAST TRIPLE-KEY BANNER ─────────────────────────── */
+#forecast-banner {
+  display: none;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 820px;
+  margin: 8px 0 0;
+  background: linear-gradient(135deg, rgba(15,8,48,.95), rgba(25,14,70,.95));
+  border: 1px solid rgba(212,175,110,.35);
+  border-radius: 14px;
+  padding: 16px 20px;
+  box-shadow: 0 0 30px rgba(212,175,110,.08);
+}
+#forecast-banner h3 {
+  font-family: Cinzel, serif;
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: rgba(212,175,110,.6);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.fc-triple {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.fc-triple-item {
+  flex: 1;
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(212,175,110,.18);
+  border-radius: 10px;
+  padding: 12px 10px 10px;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  text-align: center;
+}
+.fc-triple-item:hover { border-color: var(--gold); background: rgba(212,175,110,.07); }
+.fc-triple-label {
+  font-size: 9px;
+  letter-spacing: .08em;
+  color: rgba(201,184,240,.5);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.fc-triple-num {
+  font-family: Cinzel, serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--goldb);
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(255,217,125,.4);
+}
+.fc-triple-num.key-num { color: var(--lilacb); text-shadow: 0 0 20px rgba(176,136,240,.5); }
+.fc-triple-num.outcome-num { color: var(--teal); text-shadow: 0 0 20px rgba(92,222,200,.4); }
+.fc-triple-sub {
+  font-size: 9px;
+  color: rgba(201,184,240,.4);
+  margin-top: 4px;
+}
+.fc-triple-sep {
+  font-size: 28px;
+  color: rgba(212,175,110,.3);
+  font-family: Cinzel, serif;
+  flex-shrink: 0;
+}
+
 /* ─── LEGEND ─────────────────────────────────────────────── */
 #legend {
   position: relative;
@@ -526,6 +599,63 @@ header h1 {
   margin-top: 8px;
   opacity: .75;
 }
+
+/* ─── PANEL FORECAST TRIPLE ─────────────────────────── */
+#panel-forecast-triple {
+  display: none;
+  margin: 14px 0 0;
+  padding: 12px 10px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(212,175,110,.18);
+  border-radius: 10px;
+}
+#panel-forecast-triple .pft-label {
+  font-size: 8px;
+  letter-spacing: .12em;
+  color: rgba(212,175,110,.5);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 10px;
+}
+#panel-forecast-triple .pft-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  justify-content: center;
+}
+.pft-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.04);
+  cursor: pointer;
+  transition: background .15s;
+  border: 1px solid transparent;
+}
+.pft-item:hover { background: rgba(212,175,110,.09); border-color: rgba(212,175,110,.25); }
+.pft-item.active-pft { border-color: rgba(255,217,125,.5); background: rgba(255,217,125,.07); }
+.pft-item-num {
+  font-family: Cinzel, serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+.pft-item-num.pft-e1 { color: var(--goldb); }
+.pft-item-num.pft-e2 { color: var(--lilacb); }
+.pft-item-num.pft-e3 { color: var(--teal); }
+.pft-item-title {
+  font-size: 7.5px;
+  color: rgba(201,184,240,.45);
+  text-align: center;
+  margin-top: 4px;
+  line-height: 1.3;
+  letter-spacing: .04em;
+}
+.pft-sep { color: rgba(212,175,110,.25); font-size: 18px; align-self: center; flex-shrink: 0; }
+
 .mod-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -1085,6 +1215,30 @@ footer {
   <div class="leg-item" style="margin-left:auto;cursor:default;color:rgba(212,175,110,.4);font-size:9px;letter-spacing:.06em">Click any node to open interpretation </div>
 </div>
 
+<!-- Forecast Triple-Key Banner -->
+<div id="forecast-banner">
+  <h3 id="fc-banner-title">Personal Forecast Triple Key</h3>
+  <div class="fc-triple">
+    <div class="fc-triple-item" id="fc-btn-1" onclick="openPanel('FORECAST_CURRENT')">
+      <div class="fc-triple-label">Energy of the Period</div>
+      <div class="fc-triple-num" id="fc-num-1">–</div>
+      <div class="fc-triple-sub" id="fc-sub-1">Current Age</div>
+    </div>
+    <div class="fc-triple-sep">—</div>
+    <div class="fc-triple-item" id="fc-btn-2" onclick="openPanel('FORECAST_KEY')">
+      <div class="fc-triple-label">Event Line</div>
+      <div class="fc-triple-num key-num" id="fc-num-2">–</div>
+      <div class="fc-triple-sub" id="fc-sub-2">±40 Years</div>
+    </div>
+    <div class="fc-triple-sep">—</div>
+    <div class="fc-triple-item" id="fc-btn-3" onclick="openPanel('FORECAST_OUTCOME')">
+      <div class="fc-triple-label">Outcome of the Period</div>
+      <div class="fc-triple-num outcome-num" id="fc-num-3">–</div>
+      <div class="fc-triple-sub">E1 + E2 reduced</div>
+    </div>
+  </div>
+</div>
+
 <!-- Derived calculations -->
 <div id="derived">
   <div class="dv-col">
@@ -1130,6 +1284,25 @@ footer {
       <div class="pos-name" id="p-name"></div>
       <div class="pos-formula" id="p-formula"></div>
       <div class="pos-zone-badge" id="p-zone-badge">ZONE</div>
+      <div id="panel-forecast-triple">
+        <div class="pft-label">Forecast Triple Key</div>
+        <div class="pft-row">
+          <div class="pft-item" id="pft-btn-1">
+            <div class="pft-item-num pft-e1" id="pft-n1">–</div>
+            <div class="pft-item-title">Energy of<br>the Period</div>
+          </div>
+          <div class="pft-sep">—</div>
+          <div class="pft-item" id="pft-btn-2">
+            <div class="pft-item-num pft-e2" id="pft-n2">–</div>
+            <div class="pft-item-title">Event<br>Line</div>
+          </div>
+          <div class="pft-sep">—</div>
+          <div class="pft-item" id="pft-btn-3">
+            <div class="pft-item-num pft-e3" id="pft-n3">–</div>
+            <div class="pft-item-title">Outcome of<br>the Period</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="mod-tabs" id="mod-tabs"></div>
     <div id="mod-content"></div>
@@ -1661,6 +1834,7 @@ function clearAgeNodeHighlights() {
 
 function renderForecast(v) {
   const fcCol = document.getElementById('dv-forecast-col');
+  const fcBanner = document.getElementById('forecast-banner');
   if (!fcCol) return;
   
   if (readingMode === 'single' && v.forecast) {
@@ -1687,6 +1861,20 @@ function renderForecast(v) {
       </div>
     `;
     highlightCurrentAgeNode(v.forecast.currentEnergyKey);
+    
+    // Update the prominent triple-key banner
+    if (fcBanner) {
+      fcBanner.style.display = 'block';
+      document.getElementById('fc-banner-title').textContent = `Personal Forecast Triple Key  ·  Age ${v.forecast.age}`;
+      document.getElementById('fc-num-1').textContent = v.forecast.currentEnergy;
+      document.getElementById('fc-num-2').textContent = v.forecast.keyEnergy;
+      document.getElementById('fc-num-3').textContent = v.forecast.outcome;
+      document.getElementById('fc-sub-1').textContent = `Current Age ${v.forecast.age}`;
+      document.getElementById('fc-sub-2').textContent = `Age ${v.forecast.secondAge}`;
+      document.getElementById('fc-btn-1').onclick = () => openPanel('FORECAST_CURRENT');
+      document.getElementById('fc-btn-2').onclick = () => openPanel('FORECAST_KEY');
+      document.getElementById('fc-btn-3').onclick = () => openPanel('FORECAST_OUTCOME');
+    }
     
   } else if (readingMode === 'compat' && v.compatForecast) {
     fcCol.style.display = 'block';
@@ -1727,8 +1915,24 @@ function renderForecast(v) {
       </div>
     `;
     clearAgeNodeHighlights();
+    
+    // Update the prominent triple-key banner for couple
+    if (fcBanner) {
+      fcBanner.style.display = 'block';
+      document.getElementById('fc-banner-title').textContent = `Couple Forecast Triple Key`;
+      document.getElementById('fc-num-1').textContent = v.compatForecast.currentEnergy;
+      document.getElementById('fc-num-2').textContent = v.compatForecast.keyEnergy;
+      document.getElementById('fc-num-3').textContent = v.compatForecast.outcome;
+      document.getElementById('fc-sub-1').textContent = `${name1}: ${v.compatForecast.p1.currentEnergy}  +  ${name2}: ${v.compatForecast.p2.currentEnergy}`;
+      document.getElementById('fc-sub-2').textContent = `${name1}: ${v.compatForecast.p1.keyEnergy}  +  ${name2}: ${v.compatForecast.p2.keyEnergy}`;
+      document.getElementById('fc-btn-1').onclick = () => openPanel('COMPAT_FORECAST_CURRENT');
+      document.getElementById('fc-btn-2').onclick = () => openPanel('COMPAT_FORECAST_KEY');
+      document.getElementById('fc-btn-3').onclick = () => openPanel('COMPAT_FORECAST_OUTCOME');
+    }
+    
   } else {
     fcCol.style.display = 'none';
+    if (fcBanner) fcBanner.style.display = 'none';
   }
 }
 
@@ -1934,6 +2138,45 @@ function openPanel(pos, syncToBoard = true) {
   const badge = document.getElementById('p-zone-badge');
   badge.textContent = meta.zone.toUpperCase();
   badge.style.color = col;
+
+  // ── Panel Forecast Triple ──────────────────────────────────────
+  const pft = document.getElementById('panel-forecast-triple');
+  if (pft) {
+    const isForecast = pos.startsWith('age') || pos.startsWith('FORECAST_') || pos.startsWith('COMPAT_FORECAST_');
+    if (isForecast) {
+      // Determine which energies and which panel keys to use
+      let e1, e2, e3, key1, key2, key3;
+      if (pos.startsWith('COMPAT_FORECAST_') || (pos.startsWith('age') && readingMode === 'compat')) {
+        e1 = currentVals['COMPAT_FORECAST_CURRENT'];
+        e2 = currentVals['COMPAT_FORECAST_KEY'];
+        e3 = currentVals['COMPAT_FORECAST_OUTCOME'];
+        key1 = 'COMPAT_FORECAST_CURRENT'; key2 = 'COMPAT_FORECAST_KEY'; key3 = 'COMPAT_FORECAST_OUTCOME';
+      } else {
+        e1 = currentVals['FORECAST_CURRENT'];
+        e2 = currentVals['FORECAST_KEY'];
+        e3 = currentVals['FORECAST_OUTCOME'];
+        key1 = 'FORECAST_CURRENT'; key2 = 'FORECAST_KEY'; key3 = 'FORECAST_OUTCOME';
+      }
+      if (e1 != null) {
+        pft.style.display = 'block';
+        document.getElementById('pft-n1').textContent = e1;
+        document.getElementById('pft-n2').textContent = e2;
+        document.getElementById('pft-n3').textContent = e3;
+        // Highlight the currently active position
+        ['pft-btn-1','pft-btn-2','pft-btn-3'].forEach(id => document.getElementById(id).classList.remove('active-pft'));
+        if (pos === key1 || (pos.startsWith('age') && activeModId !== 'compat_forecast')) document.getElementById('pft-btn-1').classList.add('active-pft');
+        if (pos === key2) document.getElementById('pft-btn-2').classList.add('active-pft');
+        if (pos === key3) document.getElementById('pft-btn-3').classList.add('active-pft');
+        document.getElementById('pft-btn-1').onclick = () => openPanel(key1);
+        document.getElementById('pft-btn-2').onclick = () => openPanel(key2);
+        document.getElementById('pft-btn-3').onclick = () => openPanel(key3);
+      } else {
+        pft.style.display = 'none';
+      }
+    } else {
+      pft.style.display = 'none';
+    }
+  }
 
   const modules = getModules();
 
