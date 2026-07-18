@@ -2279,13 +2279,24 @@ function renderModContent(pos, val, modId, modules) {
   const ctx = document.createElement('div');
   ctx.className = 'section-label';
   if (energies && energies[0]) {
-    ctx.textContent = `Forecast: Arcana ${energies[0]} → ${energies[1]} → ${energies[2]}`;
+    ctx.textContent = `Forecast Key: ${energies[0]} — ${energies[1]} — ${energies[2]}`;
   } else {
     ctx.textContent = `Number ${val} in position ${pos}`;
   }
   el.appendChild(ctx);
 
+  // Determine which single section to show for specific forecast position clicks.
+  // Age-node clicks show all 3 sections (overview). Direct position clicks show just 1.
+  const sectionFilter =
+    (pos === 'FORECAST_CURRENT' || pos === 'COMPAT_FORECAST_CURRENT') ? 'theme' :
+    (pos === 'FORECAST_KEY'     || pos === 'COMPAT_FORECAST_KEY')     ? 'recommendations' :
+    (pos === 'FORECAST_OUTCOME' || pos === 'COMPAT_FORECAST_OUTCOME') ? 'watch_out' :
+    null; // null = show all sections (age nodes, core positions, etc.)
+
   mod.sections.forEach(sec => {
+    // Skip sections that don't match the filter for direct forecast position clicks
+    if (sectionFilter && sec.key !== sectionFilter) return;
+
     const card = document.createElement('div');
     card.className = 'interp-card';
 
