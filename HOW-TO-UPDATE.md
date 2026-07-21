@@ -203,9 +203,9 @@ When you double-click `run_update.bat`, the sync engine will normalize the key t
 | O        | Child–Parent Balance       | A + J          |
 | P        | Comfort Zone / Third Eye   | B + K          |
 | Q        | Material Talent            | L + C          |
-| R        | Money & Relationships      | M + L          |
-| R1       | Relationship Dynamics      | R + M          |
-| R2       | Profession / Success       | R + L          |
+| R        | Money & Relationships      | M + L          | Maps to **Love** (`relationships`) or **$ Money** (`money`) |
+| R1       | Relationship Dynamics      | R + M          | Maps to **Love** (`relationships` -> `partner` / `meaning`) |
+| R2       | Profession / Success       | R + L          | Maps to **$ Money** (`money` -> `activation` / `block`) |
 | S        | Relationship Block         | J + E          |
 | T        | Heart's Desire             | K + E          |
 | L1       | Lineage + Core             | E + L2         |

@@ -187,7 +187,7 @@ function Map-ExcelToCsvColumns($pos, $posMeaning, $excelSection, $isCompat) {
     }
     
     # Single DOB
-    if ($secLower -eq "interpretation") {
+    if ($secLower -eq "interpretation" -or -not $secLower) {
         $defaultMap = @{
             "B" = @("core", "meaning"); "C" = @("core", "meaning"); "D" = @("core", "meaning")
             "E" = @("core", "meaning"); "F" = @("core", "meaning"); "F2" = @("core", "meaning")
@@ -195,8 +195,9 @@ function Map-ExcelToCsvColumns($pos, $posMeaning, $excelSection, $isCompat) {
             "H1" = @("core", "meaning"); "I" = @("core", "meaning"); "I1" = @("core", "meaning")
             "J" = @("core", "meaning"); "K" = @("purpose", "gifts"); "L" = @("relationships", "lesson")
             "M" = @("relationships", "partner"); "N" = @("karma", "karmic"); "O" = @("core", "meaning")
-            "P" = @("core", "meaning"); "Q" = @("core", "meaning"); "R" = @("money", "money_flow")
-            "R1" = @("relationships", "partner"); "R2" = @("money", "activation")
+            "P" = @("core", "meaning"); "Q" = @("core", "meaning"); "R" = @("relationships", "meaning")
+            "R1" = @("relationships", "partner"); "R2" = @("money", "activation"); "S" = @("relationships", "wound")
+            "T" = @("relationships", "meaning")
         }
         if ($defaultMap.ContainsKey($posUpper)) {
             $moduleSection = $defaultMap[$posUpper]
@@ -209,48 +210,54 @@ function Map-ExcelToCsvColumns($pos, $posMeaning, $excelSection, $isCompat) {
         return @($posUpper, $module, $section)
     }
     
-    $module = "core"
-    $sectionPart = $secLower
+    $cleanSec = $secLower -replace '[^a-z0-9\s]', ' '
+    $cleanSec = ($cleanSec -split '\s+' | Where-Object { $_ }) -join ' '
     
-    if ($secLower.Contains("core")) {
-        $module = "core"
-        $sectionPart = $secLower.Replace("core", "")
-    } elseif ($secLower.Contains("relationship") -or $secLower.Contains("love")) {
+    if ($posUpper -eq 'R1' -or $posUpper -eq 'L' -or $posUpper -eq 'M' -or $posUpper -eq 'S') {
         $module = "relationships"
-        $sectionPart = $secLower.Replace("relationships", "").Replace("relationship", "").Replace("love", "")
-    } elseif ($secLower.Contains("karma")) {
-        $module = "karma"
-        $sectionPart = $secLower.Replace("karma", "")
-    } elseif ($secLower.Contains("money")) {
+    } elseif ($posUpper -eq 'R2') {
         $module = "money"
-        $sectionPart = $secLower.Replace("money", "")
-    } elseif ($secLower.Contains("purpose")) {
+    } elseif ($posUpper -eq 'N') {
+        $module = "karma"
+    } elseif ($cleanSec.Contains("relationship") -or $cleanSec.Contains("love")) {
+        $module = "relationships"
+    } elseif ($cleanSec.Contains("karma")) {
+        $module = "karma"
+    } elseif ($cleanSec.Contains("money") -or $cleanSec.Contains("finance") -or $cleanSec.Contains("wealth")) {
+        $module = "money"
+    } elseif ($cleanSec.Contains("purpose")) {
         $module = "purpose"
-        $sectionPart = $secLower.Replace("purpose", "")
-    } elseif ($secLower.Contains("forecast")) {
+    } elseif ($cleanSec.Contains("forecast")) {
         $module = "forecast"
-        $sectionPart = $secLower.Replace("forecast", "")
-    }
-    
-    $sectionPart = $sectionPart.Trim()
-    
-    $sectionMap = @{
-        "meaning" = "meaning"; "positive" = "positive"; "shadow" = "shadow"
-        "healing" = "healing"; "shadow lessons" = "shadow_lessons"; "shadow_lessons" = "shadow_lessons"
-        "attraction" = "attraction"; "lesson" = "lesson"; "wound" = "wound"
-        "partner" = "partner"; "karmic" = "karmic"; "past life" = "past_life"
-        "past_life" = "past_life"; "resolution" = "resolution"; "money flow" = "money_flow"
-        "money_flow" = "money_flow"; "block" = "block"; "activation" = "activation"
-        "life purpose" = "life_purpose"; "life_purpose" = "life_purpose"; "gifts" = "gifts"
-        "mission" = "mission"; "current cycle" = "current_cycle"; "current_cycle" = "current_cycle"
-        "next phase" = "next_phase"; "next_phase" = "next_phase"; "yearly" = "yearly"
-    }
-    
-    if ($sectionMap.ContainsKey($sectionPart)) {
-        $section = $sectionMap[$sectionPart]
     } else {
+        if ($posUpper -eq 'R') { $module = "relationships" } else { $module = "core" }
+    }
+    
+    if ($cleanSec -match 'problem|problems|wound|wounds|crisis|block|blocks|challenge|shadow') {
+        if ($module -eq 'relationships') { $section = "wound" }
+        elseif ($module -eq 'money') { $section = "block" }
+        else { $section = "shadow" }
+    } elseif ($cleanSec -match 'partner|partners|attract|attraction|dynamics') {
+        $section = "partner"
+    } elseif ($cleanSec -match 'lesson|lessons') {
+        $section = "lesson"
+    } elseif ($cleanSec -match 'money_flow|flow|income') {
+        $section = "money_flow"
+    } elseif ($cleanSec -match 'activation|activate') {
+        $section = "activation"
+    } elseif ($cleanSec -match 'positive|gift|gifts') {
+        if ($module -eq 'core') { $section = "positive" } else { $section = "gifts" }
+    } elseif ($cleanSec -match 'meaning|general|interpretation|description') {
+        $section = "meaning"
+    } else {
+        $sectionPart = $cleanSec
+        foreach ($kw in @('relationships', 'relationship', 'love', 'money', 'finance', 'karma', 'core', 'purpose', 'forecast')) {
+            $sectionPart = $sectionPart.Replace($kw, '').Trim()
+        }
         $section = $sectionPart.Replace(" ", "_").Trim("_")
-        if (-not $section) { $section = "meaning" }
+        if (-not $section) {
+            if ($module -eq 'relationships') { $section = "partner" } else { $section = "meaning" }
+        }
     }
     
     return @($posUpper, $module, $section)

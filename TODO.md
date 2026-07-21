@@ -1,5 +1,21 @@
-So if i click 6 it gives me lovers complete read which it only should give me first part, then if i click 2nd number 19 it gives me the whole reading for 6 the lovers again when it should be giving me 19 the event text and if i click 7 again it gives me all of the lovers (6) text when it should be giving me the outcome paragraph/info
+# Soul Matrix Development & Fixes TODO
 
-So the number wiring needs tweaking as does the interpretations sheet each 22 arcana has 3 different parts 1)energy of the period 2)events 3) outcome ALSO Same for compatibility forecast
+## Completed Tasks
 
-i can handle interprestation sheet adjustment but obviously need you to make sure it then pulls through the 3 different aspects related to each of the 3 numbers
+### 1. 🔮 Yearly & Couple Forecast Integration
+- [x] 3-number forecast calculations (Energy 1: Current Age, Energy 2: ±40 shift, Energy 3: reduced sum).
+- [x] Couple forecast calculations (Current+Current, Key+Key, Outcome+Outcome reduced).
+- [x] Prominent Forecast Triple Key Banner on chart view showing all 3 numbers.
+- [x] Side panel section routing:
+  - Click Energy 1 -> displays Energy of the Period (`theme`).
+  - Click Energy 2 -> displays Event Line (`recommendations`).
+  - Click Energy 3 -> displays Outcome of the Period (`watch_out`).
+  - Click Outer Age Ring Node -> displays 3-card overview.
+
+### 2. 🛠️ R & R1 Position & Tab Fixes
+- [x] **R1 (Relationship Dynamics)**: Updated `update_interpretations.py` & `update_interpretations.ps1` to map `R1` to `relationships` (`Love` channel).
+- [x] **R (Money & Relationships)**: Updated synchronizers and position definitions so `R` maps to `relationships` or `money`.
+- [x] **Custom Section Sanitization**: Sanitized punctuation in custom Excel section names (e.g. `Love/relationship - problems` -> `relationships` / `wound`).
+- [x] **Smart Module Tab Auto-Selection**: Updated `openPanel()` in `soul_matrix.html` so clicking any node automatically switches to the module tab containing interpretation text for that position (e.g. `R1` -> `Love` tab).
+- [x] Synchronized database (`interpretations.xlsx` -> `interpretations.csv`).
+- [x] Updated documentation (`CHANGELOG.md`, `HOW-TO-UPDATE.md`, `TODO.md`).

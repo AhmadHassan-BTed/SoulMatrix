@@ -8,6 +8,7 @@ import os
 import sys
 import csv
 import shutil
+import re
 from datetime import datetime
 
 try:
@@ -137,7 +138,7 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
             return pos_upper, module, 'meaning'
 
     # Single DOB mapping (non-compat)
-    if sec_lower == 'interpretation':
+    if sec_lower in ['interpretation', '']:
         default_map = {
             'B': ('core', 'meaning'),
             'C': ('core', 'meaning'),
@@ -159,9 +160,11 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
             'O': ('core', 'meaning'),
             'P': ('core', 'meaning'),
             'Q': ('core', 'meaning'),
-            'R': ('money', 'money_flow'),
+            'R': ('relationships', 'meaning'),
             'R1': ('relationships', 'partner'),
             'R2': ('money', 'activation'),
+            'S': ('relationships', 'wound'),
+            'T': ('relationships', 'meaning'),
         }
         if pos_upper in default_map:
             module, section = default_map[pos_upper]
@@ -170,66 +173,56 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         return pos_upper, module, section
 
     # Custom single DOB section mapping
-    module = 'core'
-    section_part = sec_lower
+    clean_sec = re.sub(r'[^a-z0-9\s]', ' ', sec_lower)
+    clean_sec = ' '.join(clean_sec.split())
     
-    if 'core' in sec_lower:
-        module = 'core'
-        section_part = sec_lower.replace('core', '')
-    elif 'relationship' in sec_lower or 'love' in sec_lower:
+    # Module detection
+    if pos_upper in ['R1', 'L', 'M', 'S']:
         module = 'relationships'
-        section_part = sec_lower.replace('relationships', '').replace('relationship', '').replace('love', '')
-    elif 'karma' in sec_lower:
-        module = 'karma'
-        section_part = sec_lower.replace('karma', '')
-    elif 'money' in sec_lower:
+    elif pos_upper in ['R2']:
         module = 'money'
-        section_part = sec_lower.replace('money', '')
-    elif 'purpose' in sec_lower:
+    elif pos_upper == 'N':
+        module = 'karma'
+    elif 'relationship' in clean_sec or 'love' in clean_sec:
+        module = 'relationships'
+    elif 'karma' in clean_sec:
+        module = 'karma'
+    elif 'money' in clean_sec or 'finance' in clean_sec or 'wealth' in clean_sec:
+        module = 'money'
+    elif 'purpose' in clean_sec:
         module = 'purpose'
-        section_part = sec_lower.replace('purpose', '')
-    elif 'forecast' in sec_lower:
+    elif 'forecast' in clean_sec:
         module = 'forecast'
-        section_part = sec_lower.replace('forecast', '')
-        
-    section_part = section_part.strip()
-    
-    section_map = {
-        'meaning': 'meaning',
-        'positive': 'positive',
-        'shadow': 'shadow',
-        'healing': 'healing',
-        'shadow lessons': 'shadow_lessons',
-        'shadow_lessons': 'shadow_lessons',
-        'attraction': 'attraction',
-        'lesson': 'lesson',
-        'wound': 'wound',
-        'partner': 'partner',
-        'karmic': 'karmic',
-        'past life': 'past_life',
-        'past_life': 'past_life',
-        'resolution': 'resolution',
-        'money flow': 'money_flow',
-        'money_flow': 'money_flow',
-        'block': 'block',
-        'activation': 'activation',
-        'life purpose': 'life_purpose',
-        'life_purpose': 'life_purpose',
-        'gifts': 'gifts',
-        'mission': 'mission',
-        'current cycle': 'current_cycle',
-        'current_cycle': 'current_cycle',
-        'next phase': 'next_phase',
-        'next_phase': 'next_phase',
-        'yearly': 'yearly',
-    }
-    
-    if section_part in section_map:
-        section = section_map[section_part]
     else:
+        module = 'relationships' if pos_upper == 'R' else 'core'
+        
+    # Section detection
+    if any(w in clean_sec for w in ['problem', 'problems', 'wound', 'wounds', 'crisis', 'block', 'blocks', 'challenge', 'shadow']):
+        if module == 'relationships':
+            section = 'wound'
+        elif module == 'money':
+            section = 'block'
+        else:
+            section = 'shadow'
+    elif any(w in clean_sec for w in ['partner', 'partners', 'attract', 'attraction', 'dynamics']):
+        section = 'partner'
+    elif any(w in clean_sec for w in ['lesson', 'lessons']):
+        section = 'lesson'
+    elif any(w in clean_sec for w in ['money_flow', 'flow', 'income']):
+        section = 'money_flow'
+    elif any(w in clean_sec for w in ['activation', 'activate']):
+        section = 'activation'
+    elif any(w in clean_sec for w in ['positive', 'gift', 'gifts']):
+        section = 'positive' if module == 'core' else 'gifts'
+    elif any(w in clean_sec for w in ['meaning', 'general', 'interpretation', 'description']):
+        section = 'meaning'
+    else:
+        section_part = clean_sec
+        for kw in ['relationships', 'relationship', 'love', 'money', 'finance', 'karma', 'core', 'purpose', 'forecast']:
+            section_part = section_part.replace(kw, '').strip()
         section = section_part.replace(' ', '_').strip('_')
         if not section:
-            section = 'meaning'
+            section = 'meaning' if module != 'relationships' else 'partner'
             
     return pos_upper, module, section
 

@@ -1575,7 +1575,7 @@ const POSITIONS = {
   G1: {name:'Maternal Upper Gift',        formula:'G + G2',                  zone:'Lineage',       color:'#D4CCFF'},
   H1: {name:'Child Character (Paternal)', formula:'H + H2',                  zone:'Family',        color:'#D4CCFF'},
   I1: {name:'Child Character (Maternal)', formula:'I + I2',                  zone:'Family',        color:'#D4CCFF'},
-  R:  {name:'Money & Relationships',      formula:'M + L',                   zone:'Money',         color:'#D4AF6E'},
+  R:  {name:'Money & Relationships',      formula:'M + L',                   zone:'Relationships / Money', color:'#D4AF6E'},
   R1: {name:'Relationship Dynamics',      formula:'R + M',                   zone:'Relationships', color:'#D4AF6E'},
   R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money',         color:'#5CDEC8'},
   
@@ -2195,8 +2195,58 @@ function openPanel(pos, syncToBoard = true) {
     activeModId = readingMode === 'compat' ? 'compat_forecast' : 'forecast';
   } else if (pos.startsWith('COMPAT_FORECAST_')) {
     activeModId = 'compat_forecast';
-  } else if (!activeModules.find(m => m.id === activeModId)) {
-    activeModId = activeModules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
+  } else {
+    // Check preferred module map
+    const prefMapSingle = {
+      R1: 'relationships', L: 'relationships', M: 'relationships', S: 'relationships', R: 'relationships',
+      R2: 'money', Q: 'money',
+      N: 'karma', H2: 'karma', I2: 'karma',
+      K: 'purpose', T: 'purpose'
+    };
+    const prefMapCompat = {
+      R1: 'compat_love', L: 'compat_love', M: 'compat_love', S: 'compat_love', R: 'compat_love',
+      R2: 'compat_finance', Q: 'compat_finance',
+      N: 'compat_karma', H2: 'compat_karma', I2: 'compat_karma'
+    };
+    const prefMap = readingMode === 'compat' ? prefMapCompat : prefMapSingle;
+
+    // Check if current activeModId has data for this position & value
+    let hasDataInActiveMod = false;
+    if (INTERP[pos] && INTERP[pos][activeModId]) {
+      for (const secKey in INTERP[pos][activeModId]) {
+        if (INTERP[pos][activeModId][secKey] && INTERP[pos][activeModId][secKey][val]) {
+          hasDataInActiveMod = true;
+          break;
+        }
+      }
+    }
+
+    // If activeModId has no data, find which module DOES have data for this position
+    if (!hasDataInActiveMod) {
+      let foundModWithData = null;
+      if (INTERP[pos]) {
+        for (const modKey in INTERP[pos]) {
+          const isModActive = activeModules.some(m => m.id === modKey);
+          if (isModActive) {
+            for (const secKey in INTERP[pos][modKey]) {
+              if (INTERP[pos][modKey][secKey] && INTERP[pos][modKey][secKey][val]) {
+                foundModWithData = modKey;
+                break;
+              }
+            }
+          }
+          if (foundModWithData) break;
+        }
+      }
+
+      if (foundModWithData) {
+        activeModId = foundModWithData;
+      } else if (prefMap[pos] && activeModules.some(m => m.id === prefMap[pos])) {
+        activeModId = prefMap[pos];
+      } else if (!activeModules.find(m => m.id === activeModId)) {
+        activeModId = activeModules[0]?.id || (readingMode === 'compat' ? 'compat_general' : 'core');
+      }
+    }
   }
 
   activeModules.forEach(mod => {

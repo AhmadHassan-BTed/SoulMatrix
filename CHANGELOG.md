@@ -24,6 +24,12 @@ This major update introduces the complete **Yearly Forecast** and **Couple's For
 - Activated the top navigation button **"◎ Yearly Forecast"** to instantly open yearly forecast detail interpretations.
 - Fully synchronized Yearly Forecast calculations to the pop-out **Script Board** viewer over BroadcastChannel sync.
 
+### 🛠️ Position Mapping & Smart Tab Selection Fixes
+- **R & R1 Love Channel Alignment**: Updated database synchronizers (`update_interpretations.py` & `update_interpretations.ps1`) so position `R` (Money & Relationships) and `R1` (Relationship Dynamics) map cleanly to the `relationships` module (`Love` tab).
+- **Section Name Sanitization**: Enhanced section name parser to handle custom Excel section titles (e.g. `Love/relationship - problems`) by sanitizing punctuation and mapping to standard section keys (`wound`, `partner`, `lesson`, `meaning`).
+- **Smart Module Tab Auto-Selection**: Upgraded `openPanel()` in `soul_matrix.html` to automatically detect which module tab contains interpretation data for any clicked chart node, ensuring nodes like `R`, `R1`, `R2`, `L`, `M`, `S`, and `N` immediately switch to the active interpretation tab (`Love`, `$ Money`, `Karma`, etc.).
+- **Forecast Section Routing**: Refined `renderModContent()` so clicking individual forecast cards (Energy of the Period, Event Line, Outcome of the Period) displays the exact single card for that position, while clicking outer age ring nodes presents the full 3-card overview.
+
 ---
 
 ## [June 2026] - Zero-Dependency Windows Fallback & Sync Fixes
