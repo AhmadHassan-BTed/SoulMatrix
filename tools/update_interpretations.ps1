@@ -195,8 +195,8 @@ function Map-ExcelToCsvColumns($pos, $posMeaning, $excelSection, $isCompat) {
             "H1" = @("core", "meaning"); "I" = @("core", "meaning"); "I1" = @("core", "meaning")
             "J" = @("core", "meaning"); "K" = @("purpose", "gifts"); "L" = @("relationships", "lesson")
             "M" = @("relationships", "partner"); "N" = @("karma", "karmic"); "O" = @("core", "meaning")
-            "P" = @("core", "meaning"); "Q" = @("core", "meaning"); "R" = @("relationships", "meaning")
-            "R1" = @("relationships", "partner"); "R2" = @("money", "activation"); "S" = @("relationships", "wound")
+            "P" = @("core", "meaning"); "Q" = @("core", "meaning"); "R" = @("relationships", "relationship_problems")
+            "R1" = @("relationships", "nature_of_the_relationship"); "R2" = @("money", "activation"); "S" = @("relationships", "wound")
             "T" = @("relationships", "meaning")
         }
         if ($defaultMap.ContainsKey($posUpper)) {

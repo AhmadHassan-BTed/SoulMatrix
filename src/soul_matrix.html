@@ -1343,6 +1343,8 @@ const MODULE_LABELS = {
 
 // Fallback section titles for known section keys
 const SECTION_TITLES = {
+  relationship_problems: 'Relationship Problems',
+  nature_of_the_relationship: 'Nature of the Relationship',
   meaning:          'What This Position Means',
   positive:         'Positive Expression',
   shadow:           'Shadow Expression',
@@ -2343,12 +2345,25 @@ function renderModContent(pos, val, modId, modules) {
     (pos === 'FORECAST_OUTCOME' || pos === 'COMPAT_FORECAST_OUTCOME') ? 'watch_out' :
     null; // null = show all sections (age nodes, core positions, etc.)
 
+  // Check if any section in this module has interpretation text for this position
+  let hasAnyTextInModule = false;
+  mod.sections.forEach(sec => {
+    let sVal = parseInt(val);
+    if (energies) {
+      if (sec.key === 'theme') sVal = energies[0];
+      else if (sec.key === 'recommendations') sVal = energies[1];
+      else if (sec.key === 'watch_out') sVal = energies[2];
+    }
+    if (INTERP[targetPos]?.[targetModId]?.[sec.key]?.[sVal]) {
+      hasAnyTextInModule = true;
+    }
+  });
+
+  let renderedCardCount = 0;
+
   mod.sections.forEach(sec => {
     // Skip sections that don't match the filter for direct forecast position clicks
     if (sectionFilter && sec.key !== sectionFilter) return;
-
-    const card = document.createElement('div');
-    card.className = 'interp-card';
 
     // Each section maps to its own energy number
     let sectionVal = parseInt(val);
@@ -2362,11 +2377,19 @@ function renderModContent(pos, val, modId, modules) {
       }
     }
 
+    const text = INTERP[targetPos]?.[targetModId]?.[sec.key]?.[sectionVal] || null;
+
+    // If text exists for other sections in this module, skip empty sections
+    if (!text && hasAnyTextInModule) return;
+    // If no text exists anywhere in the module, render only 1 placeholder card
+    if (!text && !hasAnyTextInModule && renderedCardCount > 0) return;
+
+    const card = document.createElement('div');
+    card.className = 'interp-card';
+
     const h = document.createElement('h3');
     h.textContent = energies ? `${sec.title} · Arcana ${sectionVal}` : sec.title;
     card.appendChild(h);
-
-    const text = INTERP[targetPos]?.[targetModId]?.[sec.key]?.[sectionVal] || null;
 
     const editBtn = document.createElement('button');
     editBtn.className = 'edit-btn';
@@ -2383,6 +2406,7 @@ function renderModContent(pos, val, modId, modules) {
     }
     card.appendChild(p);
     el.appendChild(card);
+    renderedCardCount++;
   });
 
   const note = document.createElement('div');
