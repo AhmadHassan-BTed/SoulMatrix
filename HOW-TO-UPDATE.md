@@ -191,10 +191,10 @@ When you double-click `run_update.bat`, the sync engine will normalize the key t
 | C        | Material Karma             | Year Digit Sum |
 | D        | Spiritual Karma            | A + B + C      |
 | E        | Core Energy / Soul Mission | A + B + C + D  |
-| F        | Mother Line                | A + B          |
-| G        | Mother Diagonal            | B + C          |
-| H        | Father Line                | C + D          |
-| I        | Father Diagonal            | D + A          |
+| F        | Father's Male Line         | A + B          |
+| G        | Father's Female Line       | B + C          |
+| H        | Mother's Male Line         | C + D          |
+| I        | Mother's Female Line       | D + A          |
 | J        | Throat / Physical Chakra   | A + E          |
 | K        | Talents & Potentials       | B + E          |
 | L        | Relationship Crisis        | C + E          |
@@ -210,14 +210,14 @@ When you double-click `run_update.bat`, the sync engine will normalize the key t
 | T        | Heart's Desire             | K + E          |
 | L1       | Lineage + Core             | E + L2         |
 | L2       | Lineage Combined           | F + G + H + I  |
-| F1       | Paternal Upper Gift        | F + F2         |
-| F2       | Paternal Inherited Talent  | F + L2         |
-| G1       | Maternal Upper Gift        | G + G2         |
-| G2       | Maternal Inherited Talent  | G + L2         |
-| H1       | Child Character (Paternal) | H + H2         |
-| H2       | Father Ancestral Karma     | H + L2         |
-| I1       | Child Character (Maternal) | I + I2         |
-| I2       | Mother Ancestral Karma     | I + L2         |
+| F1       | Father's Male Line Upper Gift        | F + F2         |
+| F2       | Father's Male Line Inherited Talent  | F + L2         |
+| G1       | Father's Female Line Upper Gift      | G + G2         |
+| G2       | Father's Female Line Inherited Talent| G + L2         |
+| H1       | Mother's Male Line Child Character   | H + H2         |
+| H2       | Mother's Male Line Ancestral Karma   | H + L2         |
+| I1       | Mother's Female Line Child Character | I + I2         |
+| I2       | Mother's Female Line Ancestral Karma | I + L2         |
 
 ---
 

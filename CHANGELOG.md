@@ -28,7 +28,12 @@ This major update introduces the complete **Yearly Forecast** and **Couple's For
 - **R & R1 Love Channel Alignment**: Updated database synchronizers (`update_interpretations.py` & `update_interpretations.ps1`) so position `R` (Money & Relationships) and `R1` (Relationship Dynamics) map cleanly to the `relationships` module (`Love` tab).
 - **Section Name Sanitization**: Enhanced section name parser to handle custom Excel section titles (e.g. `Love/relationship - problems`) by sanitizing punctuation and mapping to standard section keys (`wound`, `partner`, `lesson`, `meaning`).
 - **Smart Module Tab Auto-Selection**: Upgraded `openPanel()` in `soul_matrix.html` to automatically detect which module tab contains interpretation data for any clicked chart node, ensuring nodes like `R`, `R1`, `R2`, `L`, `M`, `S`, and `N` immediately switch to the active interpretation tab (`Love`, `$ Money`, `Karma`, etc.).
-- **Forecast Section Routing**: Refined `renderModContent()` so clicking individual forecast cards (Energy of the Period, Event Line, Outcome of the Period) displays the exact single card for that position, while clicking outer age ring nodes presents the full 3-card overview.
+- **Ancestral Line Position Label Alignment**: Corrected ancestral line node names across the SVG chart, side panel metadata, script board, and derived calculations to align 100% with the Matrix handbook:
+  - **F**: `Father's Male Line` (`A + B`)
+  - **G**: `Father's Female Line` (`B + C`)
+  - **H**: `Mother's Male Line` (`C + D`)
+  - **I**: `Mother's Female Line` (`D + A`)
+  - Derived nodes updated accordingly (`F1`, `F2`, `G1`, `G2`, `H1`, `H2`, `I1`, `I2`) and derived calculation rows updated to **Male Lines (`F+H`)** and **Female Lines (`G+I`)**.
 
 ---
 
