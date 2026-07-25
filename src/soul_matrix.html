@@ -2617,43 +2617,99 @@ document.querySelectorAll('.mnav-btn:not(.soon)').forEach(btn => {
 // ═══════════════════════════════════════════════════════════════════
 const bc = new BroadcastChannel('soul_matrix_sync');
 
+const MATRIX_TRIPLETS = [
+  { key: 'M-N-D', label: 'Karmic Tail', nodes: ['M', 'N', 'D'] },
+  { key: 'L2-L1-L', label: 'Relationship / Sacral Line', nodes: ['L2', 'L1', 'L'] },
+  { key: 'R-R1-R2', label: 'Money & Wealth Line', nodes: ['R', 'R1', 'R2'] },
+  { key: 'A-J-E', label: 'Personal Talent Line', nodes: ['A', 'J', 'E'] },
+  { key: 'B-K-E', label: 'Mind & Communication Line', nodes: ['B', 'K', 'E'] },
+  { key: 'C-L-E', label: 'Physical Root Line', nodes: ['C', 'L', 'E'] },
+  { key: 'D-M-E', label: 'Ancestral Earth Line', nodes: ['D', 'M', 'E'] },
+  { key: 'F-F1-F2', label: "Father's Male Line", nodes: ['F', 'F1', 'F2'] },
+  { key: 'G-G1-G2', label: "Father's Female Line", nodes: ['G', 'G1', 'G2'] },
+  { key: 'H-H1-H2', label: "Mother's Male Line", nodes: ['H', 'H1', 'H2'] },
+  { key: 'I-I1-I2', label: "Mother's Female Line", nodes: ['I', 'I1', 'I2'] },
+  { key: 'A-O-P', label: 'Ajna / Third Eye Zone', nodes: ['A', 'O', 'P'] },
+  { key: 'J-S-T', label: 'Heart & Expression Zone', nodes: ['J', 'S', 'T'] }
+];
+
 function getActivePrograms() {
   const active = [];
-  const targetModule = readingMode === 'compat' ? 'compat_programs' : 'programs';
-  
-  for (const posKey in INTERP) {
-    if (posKey.includes('-')) {
-      const positions = posKey.split('-').map(p => p.trim());
-      if (positions.length === 3) {
-        const val1 = currentVals[positions[0]];
-        const val2 = currentVals[positions[1]];
-        const val3 = currentVals[positions[2]];
-        if (val1 !== undefined && val2 !== undefined && val3 !== undefined) {
-          const currentCode = `${val1}-${val2}-${val3}`;
-          const normCurrentCode = [val1, val2, val3].map(n => parseInt(n, 10)).join('-');
-          const sortedCurrentCode = [val1, val2, val3].map(n => parseInt(n, 10)).sort((a,b) => a - b).join('-');
+  const db = (typeof INTERP !== 'undefined') ? INTERP : database;
+  const vals = (typeof currentVals !== 'undefined') ? currentVals : calculatedValues;
+  if (!db || !vals) return active;
 
-          const progMod = INTERP[posKey][targetModule];
-          if (progMod) {
-            for (const secKey in progMod) {
-              let text = progMod[secKey][currentCode] || progMod[secKey][normCurrentCode];
-              if (!text) {
-                for (const numKey in progMod[secKey]) {
-                  const normKey = String(numKey).split(/[\s,-]+/).map(n => parseInt(n.trim(), 10) || n.trim()).join('-');
-                  const sortedKey = String(numKey).split(/[\s,-]+/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n)).sort((a,b) => a - b).join('-');
-                  if (normKey === normCurrentCode || sortedKey === sortedCurrentCode) {
-                    text = progMod[secKey][numKey];
-                    break;
-                  }
+  const targetModule = readingMode === 'compat' ? 'compat_programs' : 'programs';
+  const seenMatches = new Set();
+
+  function parseCodeNumbers(codeStr) {
+    return String(codeStr).split(/[\s,-]+/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n));
+  }
+
+  function numbersEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+    const s1 = [...arr1].sort((a,b) => a - b).join('-');
+    const s2 = [...arr2].sort((a,b) => a - b).join('-');
+    return s1 === s2;
+  }
+
+  for (const posKey in db) {
+    const pUpper = posKey.toUpperCase().trim();
+    const isGenericProgram = pUpper === 'PROGRAM' || pUpper === 'PROGRAMS' || pUpper === '*' || pUpper === 'ANY' || pUpper === 'ALL';
+    const isSpecificTrio = posKey.includes('-');
+
+    const progMod = db[posKey][targetModule];
+    if (!progMod) continue;
+
+    for (const secKey in progMod) {
+      for (const numKey in progMod[secKey]) {
+        const text = progMod[secKey][numKey];
+        if (!text) continue;
+
+        const targetNums = parseCodeNumbers(numKey);
+        if (targetNums.length !== 3) continue;
+
+        const progName = secKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+        if (isSpecificTrio && !isGenericProgram) {
+          const positions = posKey.split('-').map(p => p.trim());
+          if (positions.length === 3) {
+            const v1 = vals[positions[0]], v2 = vals[positions[1]], v3 = vals[positions[2]];
+            if (v1 !== undefined && v2 !== undefined && v3 !== undefined) {
+              const currentNums = [parseInt(v1, 10), parseInt(v2, 10), parseInt(v3, 10)];
+              if (numbersEqual(targetNums, currentNums)) {
+                const matchId = `${progName}:${posKey}`;
+                if (!seenMatches.has(matchId)) {
+                  seenMatches.add(matchId);
+                  active.push({
+                    positions: posKey,
+                    code: `${v1}-${v2}-${v3}`,
+                    name: progName,
+                    locationLabel: posKey,
+                    text: text
+                  });
                 }
               }
-              if (text) {
-                active.push({
-                  positions: posKey,
-                  code: currentCode,
-                  name: secKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-                  text: text
-                });
+            }
+          }
+        } else {
+          // Universal Scanner: Scan all standard matrix triplets & node combinations
+          for (const trip of MATRIX_TRIPLETS) {
+            const v1 = vals[trip.nodes[0]], v2 = vals[trip.nodes[1]], v3 = vals[trip.nodes[2]];
+            if (v1 !== undefined && v2 !== undefined && v3 !== undefined) {
+              const currentNums = [parseInt(v1, 10), parseInt(v2, 10), parseInt(v3, 10)];
+              if (numbersEqual(targetNums, currentNums)) {
+                const matchId = `${progName}:${trip.key}`;
+                if (!seenMatches.has(matchId)) {
+                  seenMatches.add(matchId);
+                  active.push({
+                    positions: trip.key,
+                    code: `${v1}-${v2}-${v3}`,
+                    name: progName,
+                    locationLabel: `${trip.label} (${trip.key})`,
+                    text: text
+                  });
+                }
               }
             }
           }
@@ -2681,7 +2737,7 @@ function renderActiveProgramsDashboard() {
     <div class="interp-card active-program-card" data-positions="${prog.positions}" style="border-color: var(--gold); background: rgba(212,175,110,0.05); margin-bottom: 12px; padding: 12px 16px; cursor: pointer; transition: transform 0.15s, border-color 0.15s;">
       <h4 style="font-family: Cinzel, serif; font-size: 13px; color: var(--goldb); margin: 0 0 6px; display: flex; justify-content: space-between;">
         <span> ${prog.name}</span>
-        <span style="font-size: 10px; color: var(--muted); font-family: Raleway, sans-serif;">${prog.positions} (${prog.code})</span>
+        <span style="font-size: 10px; color: var(--muted); font-family: Raleway, sans-serif;">${prog.locationLabel || prog.positions} (${prog.code})</span>
       </h4>
       <p style="font-size: 12px; line-height: 1.5; color: var(--lav); margin: 0; white-space: pre-wrap;">${prog.text}</p>
     </div>

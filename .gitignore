@@ -4,3 +4,6 @@ tools/backups/
 archive/
 releases/
 TODO.md
+SoulMatrix_*.zip
+__pycache__/
+*.pyc
