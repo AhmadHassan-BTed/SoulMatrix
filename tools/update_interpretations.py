@@ -9,23 +9,70 @@ import sys
 import csv
 import shutil
 import re
-from datetime import datetime
+from datetime import datetime, date
 
 try:
     import openpyxl
+    HAS_OPENPYXL = True
 except ImportError:
-    print("=" * 60)
-    print("[ERROR] The required library 'openpyxl' is not installed.")
-    print("Please run the following command to install it and try again:")
-    print("    pip install openpyxl")
-    print("=" * 60)
-    input("\nPress Enter to exit...")
-    sys.exit(1)
+    HAS_OPENPYXL = False
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
 BACKUP_DIR = os.path.join(SCRIPT_DIR, "backups")
+
+
+def read_xlsx_fallback(filepath):
+    """Fallback XLSX reader using standard library zipfile and xml.etree."""
+    import zipfile
+    import xml.etree.ElementTree as ET
+
+    sheets = {}
+    with zipfile.ZipFile(filepath, 'r') as z:
+        shared_strings = []
+        if 'xl/sharedStrings.xml' in z.namelist():
+            tree = ET.fromstring(z.read('xl/sharedStrings.xml'))
+            for elem in tree.iter():
+                if elem.tag.endswith('t') and elem.text is not None:
+                    shared_strings.append(elem.text)
+
+        sheet_names = {}
+        if 'xl/workbook.xml' in z.namelist():
+            wb_tree = ET.fromstring(z.read('xl/workbook.xml'))
+            ns = {'s': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+            for sheet in wb_tree.findall('.//s:sheet', ns):
+                s_name = sheet.attrib.get('name')
+                r_id = sheet.attrib.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id')
+                if s_name and r_id:
+                    sheet_names[r_id] = s_name
+
+        ns = {'s': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+        sheet_files = [f for f in z.namelist() if f.startswith('xl/worksheets/sheet') and f.endswith('.xml')]
+        sheet_files.sort()
+
+        for idx, fpath in enumerate(sheet_files):
+            r_id = f"rId{idx+1}"
+            title = sheet_names.get(r_id, f"Sheet{idx+1}")
+            sheet_tree = ET.fromstring(z.read(fpath))
+            rows = []
+            for row_elem in sheet_tree.findall('.//s:row', ns):
+                row_vals = []
+                for c_elem in row_elem.findall('s:c', ns):
+                    t_attr = c_elem.attrib.get('t')
+                    v_elem = c_elem.find('s:v', ns)
+                    val = v_elem.text if v_elem is not None else None
+                    if t_attr == 's' and val is not None and val.isdigit():
+                        s_idx = int(val)
+                        val = shared_strings[s_idx] if s_idx < len(shared_strings) else val
+                    elif t_attr == 'inlineStr':
+                        is_elem = c_elem.find('s:is', ns)
+                        val = is_elem.find('s:t', ns).text if is_elem is not None else val
+                    row_vals.append(val)
+                rows.append(row_vals)
+            sheets[title] = rows
+
+    return sheets
 
 
 def get_excel_file(data_dir):
@@ -91,7 +138,6 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         return 'COMPAT_FORECAST', 'compat_forecast', section
 
     if is_age:
-        # Normalize age key: lowercase, e.g. age22.5 (replace comma with dot if any)
         age_num_str = pos_upper[3:].replace(',', '.')
         pos_clean = f"age{age_num_str}"
         module = 'forecast'
@@ -99,7 +145,6 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         if sec_lower in ['interpretation', '']:
             section = 'yearly'
         else:
-            # check mapping or use directly
             section = sec_lower.replace(' ', '_').strip('_')
             if not section:
                 section = 'yearly'
@@ -108,18 +153,20 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         return pos_clean, module, section
 
     pos_upper = pos.upper()
-    is_program = '-' in pos or ',' in pos or pos_upper == 'PROGRAM'
+    is_program = '-' in pos or ',' in pos or pos_upper == 'PROGRAM' or 'PROGRAM' in str(pos_meaning).upper()
     if is_program:
         module = 'compat_programs' if is_compat else 'programs'
         section = excel_section.lower().replace(' ', '_').strip('_')
         if not section:
             section = 'program_meaning'
-        return pos.upper(), module, section
+        # Clean position key for programs e.g. "L2 - L1 - L" -> "L2-L1-L"
+        clean_parts = [p.strip().upper() for p in re.split(r'[\s,-]+', pos) if p.strip()]
+        pos_clean = '-'.join(clean_parts) if clean_parts else pos_upper
+        return pos_clean, module, section
 
     sec_lower = excel_section.lower().strip()
 
     if is_compat:
-        # Standard compatibility module mappings
         if 'general' in sec_lower or sec_lower in ['interpretation', '']:
             return pos_upper, 'compat_general', 'meaning'
         elif 'love' in sec_lower or 'relationship' in sec_lower:
@@ -131,13 +178,12 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
         elif 'forecast' in sec_lower or 'yearly' in sec_lower:
             return pos_upper, 'compat_forecast', 'yearly'
         else:
-            # For any custom compatibility sections
             module = 'compat_' + sec_lower.replace(' ', '_').strip('_')
             if not module:
                 module = 'compat_general'
             return pos_upper, module, 'meaning'
 
-    # Single DOB mapping (non-compat)
+    # Single DOB mapping
     if sec_lower in ['interpretation', '']:
         default_map = {
             'B': ('core', 'meaning'),
@@ -172,11 +218,9 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
             module, section = 'core', 'meaning'
         return pos_upper, module, section
 
-    # Custom single DOB section mapping
     clean_sec = re.sub(r'[^a-z0-9\s]', ' ', sec_lower)
     clean_sec = ' '.join(clean_sec.split())
     
-    # Module detection
     if pos_upper in ['R1', 'L', 'M', 'S']:
         module = 'relationships'
     elif pos_upper in ['R2']:
@@ -196,7 +240,6 @@ def map_excel_to_csv_columns(pos, pos_meaning, excel_section, is_compat=False):
     else:
         module = 'relationships' if pos_upper == 'R' else 'core'
         
-    # Section detection
     if any(w in clean_sec for w in ['problem', 'problems', 'wound', 'wounds', 'crisis', 'block', 'blocks', 'challenge', 'shadow']):
         if module == 'relationships':
             section = 'wound'
@@ -241,28 +284,42 @@ def main():
         
     print(f"[INFO] Found Excel database: {excel_file}")
     
-    try:
-        wb = openpyxl.load_workbook(excel_file, read_only=True, data_only=True)
-    except PermissionError:
-        print("\n[ERROR] Permission denied opening the Excel file.")
-        print("This usually happens if the file is currently open in Microsoft Excel.")
-        print("Please CLOSE the Excel file and run this tool again.")
-        input("\nPress Enter to exit...")
-        sys.exit(1)
-    except Exception as e:
-        print(f"\n[ERROR] Failed to load the spreadsheet: {e}")
-        input("\nPress Enter to exit...")
-        sys.exit(1)
-        
+    loaded_sheets = {}
+    if HAS_OPENPYXL:
+        try:
+            wb = openpyxl.load_workbook(excel_file, read_only=True, data_only=True)
+            for sname in wb.sheetnames:
+                ws = wb[sname]
+                loaded_sheets[sname] = list(ws.iter_rows(values_only=True))
+            wb.close()
+        except PermissionError:
+            print("\n[ERROR] Permission denied opening the Excel file.")
+            print("This usually happens if the file is currently open in Microsoft Excel.")
+            print("Please CLOSE the Excel file and run this tool again.")
+            input("\nPress Enter to exit...")
+            sys.exit(1)
+        except Exception as e:
+            print(f"[INFO] openpyxl load failed ({e}), falling back to built-in XLSX reader...")
+            loaded_sheets = read_xlsx_fallback(excel_file)
+    else:
+        print("[INFO] Using built-in Python XLSX reader engine...")
+        try:
+            loaded_sheets = read_xlsx_fallback(excel_file)
+        except Exception as e:
+            print(f"\n[ERROR] Failed to read Excel database: {e}")
+            input("\nPress Enter to exit...")
+            sys.exit(1)
+
+    sheet_names = list(loaded_sheets.keys())
     sheets_to_process = []
-    single_sheet = "Master_Database" if "Master_Database" in wb.sheetnames else wb.sheetnames[0]
+    single_sheet = "Master_Database" if "Master_Database" in sheet_names else sheet_names[0]
     sheets_to_process.append((single_sheet, False))
     
     compat_sheet = None
-    if "Compatibility" in wb.sheetnames:
+    if "Compatibility" in sheet_names:
         compat_sheet = "Compatibility"
     else:
-        for s in wb.sheetnames:
+        for s in sheet_names:
             if s.lower() != single_sheet.lower() and "compat" in s.lower():
                 compat_sheet = s
                 break
@@ -297,20 +354,14 @@ def main():
             writer.writerow(['position', 'module', 'section', 'number', 'text'])
             
             for sheet_name, is_compat in sheets_to_process:
-                ws = wb[sheet_name]
+                rows = loaded_sheets.get(sheet_name, [])
                 print(f"[INFO] Reading sheet: '{sheet_name}'")
                 
-                try:
-                    rows = list(ws.iter_rows(values_only=True))
-                except Exception as e:
-                    print(f"[ERROR] Failed to read cell contents from '{sheet_name}': {e}")
-                    continue
-                    
                 if not rows:
                     print(f"[WARNING] Sheet '{sheet_name}' is empty.")
                     continue
                     
-                headers = [str(h).strip().lower() if h else '' for h in rows[0]]
+                headers = [str(h).strip().lower() if h is not None else '' for h in rows[0]]
                 
                 col_indices = {}
                 for col_key, aliases in required_cols.items():
@@ -328,7 +379,6 @@ def main():
                         print(f"[ERROR] Could not find the '{col_key}' column in Excel sheet '{sheet_name}'!")
                         print(f"Spreadsheet columns must include headers like: Position, Section, Number, Interpretation Text.")
                         print(f"Current columns found: {headers}")
-                        wb.close()
                         input("\nPress Enter to exit...")
                         sys.exit(1)
                     col_indices[col_key] = found_idx
@@ -353,8 +403,9 @@ def main():
                         continue
                         
                     p_val_str = str(p_val).strip() if p_val is not None else ""
+                    p_mean_str = str(p_mean).strip() if p_mean is not None else ""
                     is_age = p_val_str.upper().replace(' ', '').startswith('AGE')
-                    is_program = (not is_age) and ('-' in p_val_str or ',' in p_val_str or p_val_str.upper() == 'PROGRAM')
+                    is_program = (not is_age) and ('-' in p_val_str or ',' in p_val_str or p_val_str.upper() == 'PROGRAM' or 'PROGRAM' in p_mean_str.upper())
                     
                     if is_program or is_age:
                         if is_age:
@@ -363,7 +414,20 @@ def main():
                             except (ValueError, TypeError):
                                 num = str(num_val).strip() if num_val is not None else ""
                         else:
-                            num = str(num_val).strip() if num_val is not None else ""
+                            if isinstance(num_val, (datetime, date)):
+                                num_raw = f"{num_val.day}-{num_val.month}-{num_val.year % 100}"
+                            else:
+                                num_raw = str(num_val).strip() if num_val is not None else ""
+                            
+                            # Normalize program numbers (e.g., "05-08-21" -> "5-8-21")
+                            parts = re.split(r'[\s,-]+', num_raw)
+                            norm_parts = []
+                            for p in parts:
+                                try:
+                                    norm_parts.append(str(int(p)))
+                                except ValueError:
+                                    if p: norm_parts.append(p)
+                            num = '-'.join(norm_parts) if norm_parts else num_raw
                     else:
                         try:
                             num = int(float(num_val))
@@ -387,8 +451,6 @@ def main():
         print(f"\n[ERROR] Failed to write database: {e}")
         input("\nPress Enter to exit...")
         sys.exit(1)
-    finally:
-        wb.close()
         
     print("\n" + "=" * 60)
     print("                      SUCCESSFUL SYNC")
@@ -411,7 +473,7 @@ def main():
     print("=" * 60)
     
     if len(sys.argv) > 1 and sys.argv[1] == '--batch':
-        input("\nPress Enter to exit...")
+        pass
 
 
 if __name__ == "__main__":

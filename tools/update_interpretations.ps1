@@ -158,12 +158,16 @@ function Map-ExcelToCsvColumns($pos, $posMeaning, $excelSection, $isCompat) {
     }
     
     $posUpper = $pos.ToUpper()
-    $isProgram = $pos.Contains("-") -or $pos.Contains(",") -or $posUpper -eq "PROGRAM"
+    $pMeanStr = ([string]$posMeaning).Trim().ToUpper()
+    $isProgram = $pos.Contains("-") -or $pos.Contains(",") -or $posUpper -eq "PROGRAM" -or $pMeanStr.Contains("PROGRAM")
     if ($isProgram) {
         if ($isCompat) { $module = "compat_programs" } else { $module = "programs" }
         $section = $excelSection.ToLower().Replace(" ", "_").Trim("_")
         if (-not $section) { $section = "program_meaning" }
-        return @($pos.ToUpper(), $module, $section)
+        $parts = $pos -split '[\s,-]+' | Where-Object { $_ -ne "" } | ForEach-Object { $_.Trim().ToUpper() }
+        $posClean = $parts -join '-'
+        if (-not $posClean) { $posClean = $posUpper }
+        return @($posClean, $module, $section)
     }
     
     $secLower = $excelSection.ToLower().Trim()
@@ -381,7 +385,22 @@ foreach ($sheetInfo in $sheetsToProcess) {
                     $num = ([string]$numVal).Trim()
                 }
             } else {
-                $num = ([string]$numVal).Trim()
+                $numRaw = ([string]$numVal).Trim()
+                $parts = $numRaw -split '[\s,-]+' | Where-Object { $_ -ne "" }
+                $normParts = @()
+                foreach ($p in $parts) {
+                    $intVal = 0
+                    if ([int]::TryParse($p, [ref]$intVal)) {
+                        $normParts += [string]$intVal
+                    } else {
+                        $normParts += $p
+                    }
+                }
+                if ($normParts.Count -gt 0) {
+                    $num = $normParts -join '-'
+                } else {
+                    $num = $numRaw
+                }
             }
         } else {
             try {

@@ -2623,17 +2623,30 @@ function getActivePrograms() {
   
   for (const posKey in INTERP) {
     if (posKey.includes('-')) {
-      const positions = posKey.split('-');
+      const positions = posKey.split('-').map(p => p.trim());
       if (positions.length === 3) {
         const val1 = currentVals[positions[0]];
         const val2 = currentVals[positions[1]];
         const val3 = currentVals[positions[2]];
         if (val1 !== undefined && val2 !== undefined && val3 !== undefined) {
           const currentCode = `${val1}-${val2}-${val3}`;
+          const normCurrentCode = [val1, val2, val3].map(n => parseInt(n, 10)).join('-');
+          const sortedCurrentCode = [val1, val2, val3].map(n => parseInt(n, 10)).sort((a,b) => a - b).join('-');
+
           const progMod = INTERP[posKey][targetModule];
           if (progMod) {
             for (const secKey in progMod) {
-              const text = progMod[secKey][currentCode];
+              let text = progMod[secKey][currentCode] || progMod[secKey][normCurrentCode];
+              if (!text) {
+                for (const numKey in progMod[secKey]) {
+                  const normKey = String(numKey).split(/[\s,-]+/).map(n => parseInt(n.trim(), 10) || n.trim()).join('-');
+                  const sortedKey = String(numKey).split(/[\s,-]+/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n)).sort((a,b) => a - b).join('-');
+                  if (normKey === normCurrentCode || sortedKey === sortedCurrentCode) {
+                    text = progMod[secKey][numKey];
+                    break;
+                  }
+                }
+              }
               if (text) {
                 active.push({
                   positions: posKey,
