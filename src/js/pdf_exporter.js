@@ -81,11 +81,11 @@ function exportClientPDF() {
   });
 
   const win = window.open('', '_blank');
-  win.document.write(\`
+  win.document.write(`
     <!DOCTYPE html>
     <html>
     <head>
-      <title>Destiny Matrix Report — \${name}</title>
+      <title>Destiny Matrix Report — ${name}</title>
       <style>
         body { font-family: 'Georgia', serif; color: #2D3748; line-height: 1.6; padding: 40px; }
         h1, h2, h3 { font-family: 'Cinzel', serif; color: #4A5568; }
@@ -107,17 +107,17 @@ function exportClientPDF() {
       <div class="header">
         <h1>THE MATRIX OF DESTINY</h1>
         <h2>Your Personal Soul Book & Life Guide</h2>
-        <p>FULL DESTINY MATRIX CHART ANALYSIS: <strong>\${name}</strong> (\${dobStr})</p>
+        <p>FULL DESTINY MATRIX CHART ANALYSIS: <strong>${name}</strong> (${dobStr})</p>
       </div>
 
       <div class="greeting">
-        <strong>Dear \${name}!</strong><br>
-        Welcome to the opening of your personal Destiny Matrix Chart! This document is your soul's digital blueprint and master life guide, calculated strictly from the energetic frequency of your date of birth (\${dobStr}). In this report, every chapter is dedicated to your personal growth, inner peace, emotional healing, and spiritual abundance. Use this book as a manual whenever you need to make important life decisions, regain inner tranquility, or unlock a new level of your potential!
+        <strong>Dear ${name}!</strong><br>
+        Welcome to the opening of your personal Destiny Matrix Chart! This document is your soul's digital blueprint and master life guide, calculated strictly from the energetic frequency of your date of birth (${dobStr}). In this report, every chapter is dedicated to your personal growth, inner peace, emotional healing, and spiritual abundance. Use this book as a manual whenever you need to make important life decisions, regain inner tranquility, or unlock a new level of your potential!
       </div>
 
       <div class="chart-box">
         <h3>CHAPTER 1: MATRIX SUMMARY DIAGRAM</h3>
-        <div style="max-width: 600px; margin: 0 auto;">\${svgContent}</div>
+        <div style="max-width: 600px; margin: 0 auto;">${svgContent}</div>
       </div>
 
       <div class="page-break"></div>
@@ -135,7 +135,7 @@ function exportClientPDF() {
           </tr>
         </thead>
         <tbody>
-          \${tableRows}
+          ${tableRows}
         </tbody>
       </table>
 
@@ -148,20 +148,20 @@ function exportClientPDF() {
           <tr><th>Chakra</th><th>Physical Level</th><th>Energy Level</th><th>Emotional Level</th></tr>
         </thead>
         <tbody>
-          \${currentVals.derived?.chakras?.map(c => \`
+          ${currentVals.derived?.chakras?.map(c => `
             <tr>
-              <td style="padding:8px; border-bottom:1px solid #eee; font-weight:bold;">\${c.name} (\${c.zone})</td>
-              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center;">\${c.physical}</td>
-              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center;">\${c.energy}</td>
-              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center; font-weight:bold; color:#7C3AED;">\${c.emotional}</td>
+              <td style="padding:8px; border-bottom:1px solid #eee; font-weight:bold;">${c.name} (${c.zone})</td>
+              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center;">${c.physical}</td>
+              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center;">${c.energy}</td>
+              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center; font-weight:bold; color:#7C3AED;">${c.emotional}</td>
             </tr>
-          \`).join('') || ''}
+          `).join('') || ''}
         </tbody>
       </table>
 
     </body>
     </html>
-  \`);
+  `);
   win.document.close();
 }
 

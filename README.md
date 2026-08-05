@@ -111,24 +111,38 @@ The layout separates core runtime assets, Excel data configurations, and build/s
 SoulMatrix/
 ├── data/
 │   ├── interpretations.xlsx      ← Excel Master Database (edit this!)
-│   └── interpretations.csv       ← Compiled CSV database mapping (loaded by web page)
+│   ├── interpretations.csv       ← Compiled LIVE CSV database mapping (loaded by web page)
+│   └── interpretations_deep.csv  ← Compiled Deep Dive CSV database mapping
 ├── docs/
 │   └── images/                   ← UI comparison screenshots and visual assets
 ├── src/
 │   ├── soul_matrix.html          ← Interactive matrix chart dashboard (Presenter display)
 │   ├── script_board.html         ← Pop-out private reader/presenter Script Board
+│   ├── css/                      ← Modular CSS Design System
+│   │   ├── main.css              ← Core CSS tokens, typography, and base layout
+│   │   ├── matrix_chart.css      ← SVG Matrix chart styling and glow keyframes
+│   │   └── panels.css            ← Side panel, tabs, and card UI styles
+│   ├── js/                       ← Modular Engine Modules
+│   │   ├── config.js             ← Matrix metadata, position dictionaries, module titles
+│   │   ├── calc_engine.js        ← Arcanum reduction math, single & couple matrix engines
+│   │   ├── db_sync.js            ← CSV parsing, Dual DB loader, BroadcastChannel sync
+│   │   ├── programs_engine.js    ← 3-Node triplet program detector & active dashboard
+│   │   ├── pdf_exporter.js       ← Warm client report generator & PDF printer
+│   │   └── ui_controller.js      ← UI panel switcher, node listeners, outer age timeline SVG
 │   ├── server.py                 ← Python local HTTP server
 │   └── server.ps1                ← PowerShell local HTTP server (automated fallback)
 ├── tools/
 │   ├── update_interpretations.py ← Excel-to-CSV compilation sync engine (Python)
 │   ├── update_interpretations.ps1 ← Excel-to-CSV compilation sync engine (PowerShell fallback)
+│   ├── package_release.py       ← Versioned release zip packager
 │   └── backups/                  ← Automatically generated CSV backup files
 ├── run_locally.bat               ← Launcher script to host application locally
 ├── run_update.bat                ← Shortcut batch script to compile Excel edits
+├── build_release.bat             ← Release packaging batch launcher
 ├── README.md                     ← Main documentation file
 ├── CHANGELOG.md                  ← Release version and feature update history
 ├── HOW-TO-UPDATE.md              ← Detailed Excel mapping guide
-└── .gitignore                    ← Git ignore rules
+└── TODO.md                       ← Comprehensive completed feature & task roadmap
 ```
 
 ---

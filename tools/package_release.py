@@ -43,8 +43,10 @@ def create_release_zip():
     zip_filename = f"SoulMatrix_v{VERSION}_{timestamp}.zip"
     latest_filename = f"SoulMatrix_v{VERSION}_Latest.zip"
     
-    zip_path = os.path.join(PROJECT_ROOT, zip_filename)
-    latest_path = os.path.join(PROJECT_ROOT, latest_filename)
+    releases_dir = os.path.join(PROJECT_ROOT, "releases")
+    os.makedirs(releases_dir, exist_ok=True)
+    zip_path = os.path.join(releases_dir, zip_filename)
+    latest_path = os.path.join(releases_dir, latest_filename)
 
     print("\n" + "=" * 60)
     print(f" [STEP 2/2] Packaging Release Zip: {zip_filename}...")
@@ -53,6 +55,15 @@ def create_release_zip():
     files_to_pack = [
         "src/soul_matrix.html",
         "src/script_board.html",
+        "src/css/main.css",
+        "src/css/matrix_chart.css",
+        "src/css/panels.css",
+        "src/js/config.js",
+        "src/js/calc_engine.js",
+        "src/js/db_sync.js",
+        "src/js/programs_engine.js",
+        "src/js/pdf_exporter.js",
+        "src/js/ui_controller.js",
         "src/server.py",
         "src/server.ps1",
         "data/interpretations.xlsx",
@@ -67,7 +78,8 @@ def create_release_zip():
         "build_release.bat",
         "README.md",
         "HOW-TO-UPDATE.md",
-        "CHANGELOG.md"
+        "CHANGELOG.md",
+        "TODO.md"
     ]
 
     packed_count = 0
