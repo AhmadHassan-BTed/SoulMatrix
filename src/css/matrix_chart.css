@@ -1,0 +1,80 @@
+/* ═══════════════════════════════════════════════════════════
+   SOUL BLUEPRINT MATRIX - CHART SVG & NODE STYLES
+   Module: src/css/matrix_chart.css
+═══════════════════════════════════════════════════════════ */
+
+/* ─── MATRIX SVG WRAPPER ─────────────────────────────────── */
+#matrix-wrap {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 820px;
+  padding: 0 10px;
+}
+#msv {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  filter: drop-shadow(0 0 50px rgba(176,136,240,.18)) drop-shadow(0 0 20px rgba(212,175,110,.1));
+}
+
+/* ─── NODE INTERACTIONS & HOVER ──────────────────────────── */
+.ng { cursor: pointer; transition: filter .2s, transform .2s; transform-origin: center; }
+.ng:hover { filter: brightness(1.4) drop-shadow(0 0 8px rgba(255,255,255,.3)); transform: scale(1.08); }
+.ng .hl { opacity: .65; transition: opacity .2s; }
+.ng:hover .hl { opacity: 1; }
+.ng .rg { stroke-opacity: .85; transition: stroke-opacity .2s, stroke .2s, stroke-width .2s; }
+.ng:hover .rg { stroke-opacity: 1; stroke-width: 2.5px; }
+.ng.active .rg { stroke: var(--goldb) !important; stroke-opacity: 1; stroke-width: 3.5px; }
+.ng.active .hl { opacity: 1; }
+
+/* ─── ACTIVE PROGRAM GLOW & PULSE HIGHLIGHTS ─────────────── */
+@keyframes program-pulse-glow {
+  0% {
+    stroke-width: 3px;
+    stroke-opacity: 0.85;
+    filter: drop-shadow(0 0 6px #FFD700);
+  }
+  50% {
+    stroke-width: 6px;
+    stroke-opacity: 1;
+    filter: drop-shadow(0 0 20px #FF9F43) drop-shadow(0 0 8px #FFD700);
+  }
+  100% {
+    stroke-width: 3px;
+    stroke-opacity: 0.85;
+    filter: drop-shadow(0 0 6px #FFD700);
+  }
+}
+.ng.program-highlight .rg {
+  animation: program-pulse-glow 2s infinite ease-in-out;
+  stroke: #FFD700 !important;
+}
+.ng.program-highlight .hl {
+  opacity: 0.95 !important;
+  fill: rgba(255, 215, 0, 0.22) !important;
+}
+
+/* ─── OUTER AGE TIMELINE NODES ───────────────────────────── */
+.ng.age-node:hover .hl {
+  opacity: 1 !important;
+}
+.ng.age-node:hover .rg {
+  stroke: var(--goldb) !important;
+  stroke-width: 1.8px !important;
+}
+.ng.age-node:hover .age-range-label {
+  fill: var(--goldb) !important;
+  font-weight: 700 !important;
+}
+.ng.age-node.active .hl {
+  opacity: 1 !important;
+}
+.ng.age-node.active .rg {
+  stroke: var(--goldb) !important;
+  stroke-width: 1.8px !important;
+}
+.ng.age-node.active .age-range-label {
+  fill: var(--goldb) !important;
+  font-weight: 700 !important;
+}

@@ -1,0 +1,176 @@
+/* ═══════════════════════════════════════════════════════════
+   SOUL BLUEPRINT MATRIX - CORE DESIGN SYSTEM & MAIN STYLES
+   Module: src/css/main.css
+═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:        #06031C;
+  --gold:      #D4AF6E;
+  --goldb:     #FFD97D;
+  --goldd:     #A07830;
+  --purple:    #B088F0;
+  --lilac:     #B088F0;
+  --lilacb:    #D4AAFF;
+  --lav:       #C9B8F0;
+  --pink:      #E060B0;
+  --teal:      #5CDEC8;
+  --text:      #C9B8F0;
+  --muted:     rgba(201,184,240,.5);
+  --panel-bg:  rgba(10,6,35,0.97);
+  --panel-w:   420px;
+  --radius:    10px;
+}
+
+/* ─── BASE RESET & TYPOGRAPHY ────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  background-image: radial-gradient(ellipse at 50% 40%, rgba(60,30,120,.25) 0%, rgba(6,3,28,.0) 60%), radial-gradient(ellipse at 20% 80%, rgba(20,60,100,.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(100,40,80,.12) 0%, transparent 50%);
+  color: var(--lav);
+  font-family: Raleway, sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── STARFIELD BACKGROUND CANVAS ───────────────────────── */
+#stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── HEADER BAR ────────────────────────────────────────── */
+header {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 18px 20px 10px;
+  border-bottom: 1px solid rgba(212,175,110,.2);
+  background: linear-gradient(180deg, #08042A 0%, transparent 100%);
+}
+header h1 {
+  font-family: Cinzel, serif;
+  font-size: clamp(15px, 2.2vw, 24px);
+  font-weight: 700;
+  letter-spacing: .2em;
+  color: var(--goldb);
+  text-shadow: 0 0 28px rgba(255,217,125,.35);
+}
+#client-display {
+  margin-top: 5px;
+  font-size: clamp(11px, 1.4vw, 14px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: .07em;
+  color: var(--lav);
+  min-height: 20px;
+}
+
+/* ─── DATA STATUS BANNER ─────────────────────────────────── */
+#data-status {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  text-align: center;
+  padding: 6px 20px;
+  font-size: 11px;
+  letter-spacing: .06em;
+  transition: opacity 0.4s, max-height 0.4s, padding 0.4s;
+  overflow: hidden;
+  max-height: 40px;
+  box-sizing: border-box;
+}
+#data-status.hidden {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  pointer-events: none;
+}
+#data-status.ok      { color: var(--teal); }
+#data-status.error   { color: #FF7070; }
+#data-status.loading { color: var(--goldb); }
+
+/* ─── STATUS INFO BUTTON ─────────────────────────────────── */
+#status-info-btn {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--lav);
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s, color 0.2s, transform 0.2s, background-color 0.2s;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+#status-info-btn:hover {
+  opacity: 1;
+  color: var(--goldb);
+  transform: translateY(-50%) scale(1.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+@media (max-width: 480px) {
+  #status-info-btn {
+    right: 10px;
+    font-size: 16px;
+  }
+}
+
+/* ─── HIGH CONTRAST & ACCESSIBILITY FIXES ──────────────── */
+.sub-val, .formula-lbl, .node-formula {
+  color: #D4AAFF !important;
+  font-weight: 600 !important;
+  opacity: 0.95 !important;
+}
+.zone-tag {
+  color: #FFD97D !important;
+  border-color: rgba(212,175,110,.5) !important;
+  font-weight: 600 !important;
+}
+.dv-note {
+  color: #5CDEC8 !important;
+  font-weight: 600 !important;
+}
+.section-label {
+  color: #FFD97D !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+footer {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  text-align: center;
+  padding: 16px;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: rgba(212,175,110,.3);
+  border-top: 1px solid rgba(212,175,110,.15);
+  margin-top: 20px;
+}
+
+/* ─── PRINT ──────────────────────────────────────────────── */
+@media print {
+  #stars, #module-nav, #input-bar, #panel, footer { display: none; }
+  body { background: white; color: black; }
+  #matrix-wrap { max-width: 100%; }
+}
