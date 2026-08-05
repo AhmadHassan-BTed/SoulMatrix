@@ -58,11 +58,12 @@ set TIMESTAMP=!datetime:~0,8!_!datetime:~8,6!
 set ZIP_NAME=SoulMatrix_v!VERSION!_!TIMESTAMP!.zip
 
 powershell -NoProfile -ExecutionPolicy Bypass -Command "^
-    $files = @('src\soul_matrix.html','src\script_board.html','src\server.py','src\server.ps1','data\interpretations.xlsx','data\interpretations.csv','tools\update_interpretations.py','tools\update_interpretations.ps1','run_locally.bat','run_update.bat','build_release.bat','README.md','HOW-TO-UPDATE.md','CHANGELOG.md'); ^
+    $files = @('src\soul_matrix.html','src\script_board.html','src\server.py','src\server.ps1','data\interpretations.xlsx','data\interpretations.csv','data\interpretations_deep.xlsx','data\interpretations_deep.csv','tools\update_interpretations.py','tools\update_interpretations.ps1','run_locally.bat','run_update.bat','build_release.bat','README.md','HOW-TO-UPDATE.md','CHANGELOG.md'); ^
     $validFiles = $files | Where-Object { Test-Path $_ }; ^
     Compress-Archive -Path $validFiles -DestinationPath '!ZIP_NAME!' -Force; ^
     Copy-Item '!ZIP_NAME!' 'SoulMatrix_v!VERSION!_Latest.zip' -Force; ^
     Write-Host '[OK] Package created: !ZIP_NAME!' -ForegroundColor Green"
+
 
 :end
 echo.

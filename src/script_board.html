@@ -254,21 +254,35 @@ header h1 {
 .interp-card {
   background: rgba(255,255,255,.03);
   border: 1px solid rgba(176,136,240,.15);
+  border-left: 3px solid rgba(176,136,240,.5);
   border-radius: var(--radius);
   padding: 16px 20px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+  transition: border-color .2s, background .2s;
 }
+.interp-card:hover { border-left-color: #D4AF6E; background: rgba(255,255,255,.05); }
 
 .interp-card h3 {
-  font-family: Cinzel, serif;
-  font-weight: 600;
-  letter-spacing: .12em;
+  font-family: Raleway, sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: .10em;
   color: var(--gold);
   text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 10px;
-  border-bottom: 1px solid rgba(212,175,110,0.1);
-  padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.interp-card h3::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
 }
 
 .interp-card p {
@@ -325,6 +339,7 @@ header h1 {
     <div class="status-indicator">
       <div id="status-dot" class="status-dot"></div>
       <span id="status-text">Disconnected</span>
+      <span id="db-mode-badge" style="margin-left:8px; font-size:10px; letter-spacing:.06em; color:rgba(92,222,200,.8); font-weight:700;">⚡ LIVE</span>
     </div>
     <span style="color:var(--muted); font-size:11px; margin-left:10px;">Text size:</span>
     <button id="btn-zoom-small" class="btn" onclick="setFontSize('small')">Small</button>
@@ -471,6 +486,10 @@ bc.onmessage = function(e) {
     database = msg.database;
     discoveredModules = msg.discoveredModules;
     readingMode = msg.readingMode || 'single';
+    if (msg.dbMode) {
+      const modeEl = document.getElementById('db-mode-badge');
+      if (modeEl) modeEl.textContent = msg.dbMode === 'deep' ? '🔮 Deep Dive' : '⚡ LIVE';
+    }
     
     updateHeader();
     renderNodesList();
@@ -496,19 +515,20 @@ setInterval(() => {
 const POSITIONS = {
   A:  {name:'Portrait / Avatar',          formula:'Day of Birth',            zone:'Portrait'},
   B:  {name:'Spiritual Essence',          formula:'Month of Birth',          zone:'Mission'},
-  C:  {name:'Material Karma',             formula:'Year Digit Sum',          zone:'Karma'},
-  D:  {name:'Spiritual Karma',            formula:'A + B + C',               zone:'Karma'},
-  E:  {name:'Core Energy / Soul Mission', formula:'A + B + C + D',           zone:'Core'},
+  C:  {name:'Material Karma / Year Task', formula:'Year Digit Sum',          zone:'Karma'},
+  D:  {name:'Karmic Task / Social Purpose',formula:'A + B + C',              zone:'Karma'},
+  E:  {name:'Soul Comfort Zone / Center', formula:'A + B + C + D',           zone:'Core'},
   F:  {name:"Father's Male Line",                formula:'A + B',                   zone:'Lineage'},
   G:  {name:"Father's Female Line",              formula:'B + C',                   zone:'Lineage'},
   H:  {name:"Mother's Male Line",                formula:'C + D',                   zone:'Lineage'},
   I:  {name:"Mother's Female Line",              formula:'D + A',                   zone:'Lineage'},
   J:  {name:'Throat / Physical Chakra',   formula:'A + E',                   zone:'Chakra'},
   K:  {name:'Talents & Potentials',       formula:'B + E',                   zone:'Talents'},
-  L:  {name:'Relationship Crisis',        formula:'C + E',                   zone:'Relationships'},
-  M:  {name:'Ideal Partner',              formula:'D + E',                   zone:'Relationships'},
-  O:  {name:'Child–Parent Balance',       formula:'A + J',                   zone:'Family'},
-  P:  {name:'Comfort Zone / Third Eye',   formula:'B + K',                   zone:'Spiritual'},
+  L:  {name:'Money Gateway Code',         formula:'C + E',                   zone:'Money'},
+  M:  {name:'Balance Point',              formula:'D + E',                   zone:'Relationships'},
+  O:  {name:'Optimal Niche / Profession', formula:'A2 + E',                  zone:'Money / Niche'},
+  P:  {name:'Spiritual Emotional Closeness', formula:'B2 + E',               zone:'Heart & Feelings'},
+  OP: {name:'Emotional Closeness Synthesis', formula:'O + P',                zone:'Heart & Feelings'},
   Q:  {name:'Material Talent',            formula:'L + C',                   zone:'Talents'},
   N:  {name:'Karmic Tail',                formula:'M + D',                   zone:'Karma'},
   S:  {name:'Relationship Block',         formula:'J + E',                   zone:'Relationships'},
@@ -523,9 +543,14 @@ const POSITIONS = {
   G1: {name:"Father's Female Line Upper Gift",        formula:'G + G2',            zone:'Lineage'},
   H1: {name:"Mother's Male Line Child Character", formula:'H + H2',              zone:'Family'},
   I1: {name:"Mother's Female Line Child Character", formula:'I + I2',              zone:'Family'},
-  R:  {name:'Money & Relationships',      formula:'M + L',                   zone:'Relationships / Money'},
-  R1: {name:'Relationship Dynamics',      formula:'R + M',                   zone:'Relationships'},
+  R:  {name:'Relationship Gateway Code',  formula:'M + L',                   zone:'Relationships'},
+  R1: {name:'Ideal Partner',              formula:'R + M',                   zone:'Relationships'},
   R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money'},
+
+  // ── Additional Soul Potentials ───────────────────────────
+  U1: {name:'Higher Soul Potential 1',   formula:'A + B',                   zone:'Soul'},
+  U2: {name:'Higher Soul Potential 2',   formula:'C + D',                   zone:'Soul'},
+  U3: {name:'Combined Soul Synthesis',   formula:'U1 + U2',                 zone:'Soul'},
   
   FORECAST_CURRENT: {name:'Current Energy (Theme)', formula:'Arcana of Current Age', zone:'forecast'},
   FORECAST_KEY: {name:'Key Energy (Unlock)', formula:'Arcana of Second Age', zone:'forecast'},
@@ -968,11 +993,12 @@ function renderActiveNode() {
     return;
   }
   
-  const meta = POSITIONS[activePos] || {name: activePos, formula: 'Custom'};
+  const posInfo = POSITIONS[activePos];
   const val = calculatedValues[activePos] ?? '–';
   
-  document.getElementById('active-node-name').textContent = `${activePos}  ·  ${meta.name}`;
-  document.getElementById('active-node-formula').textContent = `Formula: ${meta.formula}`;
+  const titleText = posInfo ? `Position ${activePos} — ${posInfo.name}` : `Position ${activePos}`;
+  document.getElementById('active-node-name').textContent = titleText;
+  document.getElementById('active-node-formula').textContent = `Formula: ${posInfo?.formula || 'Custom'}`;
   document.getElementById('active-node-num').textContent = val;
   headerEl.style.display = 'flex';
   

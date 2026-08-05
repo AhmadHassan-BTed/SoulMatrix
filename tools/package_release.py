@@ -57,6 +57,9 @@ def create_release_zip():
         "src/server.ps1",
         "data/interpretations.xlsx",
         "data/interpretations.csv",
+        # Deep Dive database (optional – included if present)
+        "data/interpretations_deep.xlsx",
+        "data/interpretations_deep.csv",
         "tools/update_interpretations.py",
         "tools/update_interpretations.ps1",
         "run_locally.bat",

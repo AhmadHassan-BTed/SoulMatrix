@@ -1,5 +1,43 @@
 # Changelog - Soul Blueprint Matrix (New Features Sync)
 
+## [August 2026] - Soul Potentials, Dual DB Switcher, DOB Relocation & Emotional Closeness
+
+This major update implements client-requested workflow features, new numerological calculation positions, a dual-database switching architecture, and Nika Matrix methodology alignment for feelings and emotional closeness.
+
+### 🎯 Nika Matrix 100% Chart Positions & Tooltips Audit
+- **Relationship Channel Correction**:
+  - Moved **`Point M` (Ideal Partner / Meeting Place)** to its true Nika position inside the Relationship Channel (Heart ❤️ Line at `x=480, y=608`).
+  - Positioned **`Point J` (Subconscious Block / Relationship Entry)** on the bottom vertical line (`y=645`), replacing the misplaced `M` tooltip.
+  - Positioned **`Point R` (Relationship Gateway Code)** and **`Point N` (Suitable Profession / Niche)** strictly on their official Nika channel coordinates.
+- **Core Axis Node Re-Alignment**:
+  - **Left Horizontal Line**: Corrected `A2` (Parent-Child Karma at `x=197`) and `A1` (Soul Task for Children at `x=247`).
+  - **Top Vertical Line**: Corrected `B2` (Self-Realization / Profession at `y=222`) and `B1` (Personal Talent from Birth at `y=281`).
+  - **Right Horizontal Line**: Corrected `K` (Entry to Finance Line at `x=617`) and `C1` (Earning Experience Field at `x=668`).
+  - **Bottom Vertical Line**: Corrected `D1` (Subconscious Fears / Karmic Tail Code at `y=697`).
+
+### 🔮 New Calculation Positions: Soul Potentials (U1, U2, U3)
+- **Point U1**: Higher Soul Potential 1 (`A + B` reduced numerology).
+- **Point U2**: Higher Soul Potential 2 (`C + D` reduced numerology).
+- **Point U3**: Combined Soul Synthesis (`U1 + U2` reduced numerology).
+- Added a dedicated **Soul Potentials** derived table panel beneath the chart. Clicking any row opens its detailed reading in the side panel.
+
+### 💖 Nika Methodology: Emotional Closeness (Points O, P, OP - Chapter 3.7)
+- **Point O**: Material Emotional Closeness (`A2 + E` — feelings in daily physical life with family, friends, partners).
+- **Point P**: Spiritual Emotional Closeness (`B2 + E` — higher spiritual feelings of love, joy, empathy, compassion).
+- **Point OP**: Emotional Closeness Synthesis (`O + P` — 3rd derived Arcanum / Anahata Heart Program).
+- Integrated a dedicated **Emotional Closeness** table panel below the chart and synchronized all values with the Script Board.
+
+### ⚡ Dual Database Switcher (LIVE vs. Deep Dive)
+- **Nav Mode Toggle**: Added a top nav button to toggle between **`⚡ LIVE Mode`** (`interpretations.csv`) and **`🔮 Deep Dive`** (`interpretations_deep.csv`) without page reload.
+- **Graceful Fallback**: Automatically falls back to LIVE mode with an informative notification if the deep database is not present.
+- **Script Board Sync**: Broadcasts the active database mode so the pop-out Script Board displays a `⚡ LIVE` or `🔮 Deep Dive` badge.
+
+### 📦 Build & Release Automation
+- **`tools/package_release.py`**: Automated compilation and versioned ZIP archive creation (`SoulMatrix_v1.2.0_TIMESTAMP.zip` and `SoulMatrix_v1.2.0_Latest.zip`).
+- **`build_release.bat`**: One-click batch launcher supporting both Python and zero-dependency PowerShell packaging fallbacks. Automatically packages optional deep database files when present.
+
+---
+
 ## [July 2026] - Yearly & Couple Forecast Integration
 
 This major update introduces the complete **Yearly Forecast** and **Couple's Forecast** engine, parsed directly from Nika Matrix's ebook and integrated into the interactive chart, derived panel, and pop-out Script Board streamer view.

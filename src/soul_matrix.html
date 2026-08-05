@@ -186,21 +186,52 @@ header h1 {
   cursor: pointer;
   transition: all .15s;
 }
-#import-csv-btn:hover { background: rgba(176,136,240,.15); }
-#export-btn {
-  background: rgba(212,175,110,.08);
-  border: 1px solid rgba(212,175,110,.2);
+/* ─── HIGH CONTRAST & ACCESSIBILITY FIXES ──────────────── */
+.sub-val, .formula-lbl, .node-formula {
+  color: #D4AAFF !important;
+  font-weight: 600 !important;
+  opacity: 0.95 !important;
+}
+.zone-tag {
+  color: #FFD97D !important;
+  border-color: rgba(212,175,110,.5) !important;
+  font-weight: 600 !important;
+}
+.dv-note {
+  color: #5CDEC8 !important;
+  font-weight: 600 !important;
+}
+.section-label {
+  color: #FFD97D !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+}
+
+/* ─── DATABASE MODE TOGGLE ───────────────────────────────── */
+#db-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(92,222,200,.08);
+  border: 1px solid rgba(92,222,200,.25);
   border-radius: 8px;
-  color: var(--gold);
+  color: var(--teal);
   font-family: Raleway, sans-serif;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: .08em;
   padding: 7px 14px;
   cursor: pointer;
-  transition: all .15s;
+  transition: all .2s;
+  white-space: nowrap;
 }
-#export-btn:hover { background: rgba(212,175,110,.15); }
+#db-mode-btn:hover { background: rgba(92,222,200,.16); border-color: var(--teal); }
+#db-mode-btn.deep {
+  background: rgba(176,136,240,.12);
+  border-color: rgba(176,136,240,.4);
+  color: var(--lilacb);
+}
+#db-mode-btn.deep:hover { background: rgba(176,136,240,.22); }
 
 /* ─── MATRIX ─────────────────────────────────────────────── */
 #matrix-wrap {
@@ -691,20 +722,35 @@ header h1 {
 .interp-card {
   background: rgba(255,255,255,.03);
   border: 1px solid rgba(176,136,240,.15);
+  border-left: 3px solid rgba(176,136,240,.5);
   border-radius: var(--radius);
   padding: 14px 16px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   position: relative;
+  transition: border-color .2s, background .2s;
 }
+.interp-card:hover { border-left-color: var(--gold); background: rgba(255,255,255,.05); }
 .interp-card:hover .edit-btn { opacity: 1; }
 .interp-card h3 {
-  font-family: Cinzel, serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .12em;
+  font-family: Raleway, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
   color: var(--gold);
   text-transform: uppercase;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.interp-card h3::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
 }
 .interp-card p {
   font-size: 12.5px;
@@ -857,9 +903,44 @@ footer {
   <button class="mnav-btn soon" title="Coming soon"> Karmic Patterns</button>
   <button id="nav-forecast-btn" class="mnav-btn">◎ Yearly Forecast</button>
   <button id="script-board-btn" style="background: rgba(212,175,110,.08); border-color: rgba(212,175,110,.2); color: var(--goldb);"> Script Board</button>
+  <button id="db-mode-btn" title="Toggle between LIVE (short) and Deep Dive (detailed) interpretation databases">⚡ LIVE Mode</button>
   <button id="import-csv-btn"> Load CSV</button>
   <input type="file" id="csv-file-picker" accept=".csv" style="display: none;" />
   <button id="export-btn">⬇ Export PDF</button>
+</div>
+
+<!-- Reading Mode Select (moved above chart) -->
+<div id="mode-select" style="display: flex; justify-content: flex-start; gap: 8px; margin-bottom: 8px; z-index: 10; position: relative; max-width: 820px; width: 100%;">
+  <button id="btn-mode-single" class="mnav-btn active" onclick="setReadingMode('single')"> Single Reading</button>
+  <button id="btn-mode-compat" class="mnav-btn" onclick="setReadingMode('compat')"> Compatibility Reading</button>
+</div>
+
+<!-- Input bar (Single) -->
+<div id="input-bar-single" class="input-bar-container" style="margin-bottom: 12px;">
+  <div class="fi"><label>Client Name</label><input id="i-name" type="text" value="Tracey" placeholder="Full name"/></div>
+  <div class="fi"><label>Day</label><input id="i-day" type="number" min="1" max="31" value="16" placeholder="DD"/></div>
+  <div class="fi"><label>Month</label><input id="i-mon" type="number" min="1" max="12" value="12" placeholder="MM"/></div>
+  <div class="fi"><label>Year</label><input id="i-yr" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
+  <button id="go-btn">CALCULATE </button>
+</div>
+
+<!-- Input bar (Compatibility) -->
+<div id="input-bar-compat" class="input-bar-container" style="display: none; grid-template-columns: 1fr; gap: 12px; height: auto; align-items: stretch; margin-bottom: 12px;">
+  <!-- Partner 1 Row -->
+  <div style="display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 10px; align-items: end; width: 100%;">
+    <div class="fi"><label>Partner 1 Name</label><input id="i-name1" type="text" value="Tracey" placeholder="First Partner's Name"/></div>
+    <div class="fi"><label>Day</label><input id="i-day1" type="number" min="1" max="31" value="16" placeholder="DD"/></div>
+    <div class="fi"><label>Month</label><input id="i-mon1" type="number" min="1" max="12" value="12" placeholder="MM"/></div>
+    <div class="fi"><label>Year</label><input id="i-yr1" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
+  </div>
+  <!-- Partner 2 Row -->
+  <div style="display: grid; grid-template-columns: 2fr repeat(3, 1fr) auto; gap: 10px; align-items: end; width: 100%;">
+    <div class="fi"><label>Partner 2 Name</label><input id="i-name2" type="text" value="John" placeholder="Second Partner's Name"/></div>
+    <div class="fi"><label>Day</label><input id="i-day2" type="number" min="1" max="31" value="1" placeholder="DD"/></div>
+    <div class="fi"><label>Month</label><input id="i-mon2" type="number" min="1" max="12" value="1" placeholder="MM"/></div>
+    <div class="fi"><label>Year</label><input id="i-yr2" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
+    <button id="go-compat-btn" style="background: linear-gradient(135deg, #B07828, #D4AF6E); border: none; border-radius: 8px; color: #06031C; font-family: Cinzel, serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; padding: 9px 20px; cursor: pointer; white-space: nowrap; transition: opacity .2s; height: 38px; align-self: end;">CALCULATE </button>
+  </div>
 </div>
 
 <!-- Matrix SVG -->
@@ -1043,100 +1124,60 @@ footer {
   <circle cx="296" cy="584" r="23" fill="url(#gS)"/><circle cx="296" cy="584" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
   <text x="296" y="584" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="I2">·</text>
 </g>
-<g class="ng" data-pos="O" data-name="Child-Parent Balance"><title>O · Child-Parent Balance</title>
+<g class="ng" data-pos="A2" data-name="Parent-Child Karma"><title>A2 · Parent-Child Karma</title>
   <circle cx="197" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
   <circle cx="197" cy="450" r="25" fill="url(#gB)"/><circle cx="197" cy="450" r="25" fill="none" stroke="#60A5FA" stroke-width="1.8" class="rg"/>
-  <text x="197" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#DCE4FF" class="nv" data-pos="O">·</text>
+  <text x="197" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#DCE4FF" class="nv" data-pos="A2">·</text>
 </g>
-<g class="ng" data-pos="P" data-name="Comfort Zone / Third Eye"><title>P · Comfort Zone / Third Eye</title>
+<g class="ng" data-pos="B2" data-name="Self-Realization / Profession"><title>B2 · Self-Realization / Profession</title>
   <circle cx="430" cy="222" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
   <circle cx="430" cy="222" r="25" fill="url(#gB)"/><circle cx="430" cy="222" r="25" fill="none" stroke="#60A5FA" stroke-width="1.8" class="rg"/>
-  <text x="430" y="222" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#DCE4FF" class="nv" data-pos="P">·</text>
+  <text x="430" y="222" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#DCE4FF" class="nv" data-pos="B2">·</text>
 </g>
-<g class="ng" data-pos="Q" data-name="Material Talent"><title>Q · Material Talent</title>
+<g class="ng" data-pos="C1" data-name="Earning Experience Field"><title>C1 · Earning Experience Field</title>
   <circle cx="668" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
   <circle cx="668" cy="450" r="25" fill="url(#gW)"/><circle cx="668" cy="450" r="25" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
-  <text x="668" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="Q">·</text>
+  <text x="668" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="C1">·</text>
 </g>
-<g class="ng" data-pos="N" data-name="Karmic Tail"><title>N · Karmic Tail</title>
+<g class="ng" data-pos="D1" data-name="Subconscious Fears"><title>D1 · Subconscious Fears</title>
   <circle cx="430" cy="697" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
   <circle cx="430" cy="697" r="25" fill="url(#gO)"/><circle cx="430" cy="697" r="25" fill="none" stroke="#F59E0B" stroke-width="1.8" class="rg"/>
-  <text x="430" y="697" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="N">·</text>
+  <text x="430" y="697" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="D1">·</text>
 </g>
-<g class="ng" data-pos="S" data-name="Relationship Block"><title>S · Relationship Block</title>
-  <circle cx="351" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="351" cy="450" r="25" fill="url(#gGr)"/><circle cx="351" cy="450" r="25" fill="none" stroke="#34D399" stroke-width="1.8" class="rg"/>
-  <text x="351" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="S">·</text>
-</g>
-<g class="ng" data-pos="T" data-name="Heart's Desire"><title>T · Heart's Desire</title>
-  <circle cx="430" cy="366" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="366" r="25" fill="url(#gGr)"/><circle cx="430" cy="366" r="25" fill="none" stroke="#34D399" stroke-width="1.8" class="rg"/>
-  <text x="430" y="366" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="T">·</text>
-</g>
-<g class="ng" data-pos="L1" data-name="Lineage + Core"><title>L1 · Lineage + Core</title>
-  <circle cx="536" cy="450" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="536" cy="450" r="23" fill="url(#gS)"/><circle cx="536" cy="450" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
-  <text x="536" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="L1">·</text>
-</g>
-<g class="ng" data-pos="L2" data-name="Lineage Combined"><title>L2 · Lineage Combined</title>
-  <circle cx="490" cy="450" r="28" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="490" cy="450" r="23" fill="url(#gS)"/><circle cx="490" cy="450" r="23" fill="none" stroke="#A78BFA" stroke-width="1.8" class="rg"/>
-  <text x="490" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#E0D8FF" class="nv" data-pos="L2">·</text>
-</g>
-<g class="ng" data-pos="F" data-name="Father's Male Line"><title>F · Father's Male Line</title>
-  <circle cx="218" cy="238" r="40" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="218" cy="238" r="32" fill="url(#gW)"/><circle cx="218" cy="238" r="32" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
-  <text x="218" y="238" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="F">·</text>
-</g>
-<g class="ng" data-pos="G" data-name="Father's Female Line"><title>G · Father's Female Line</title>
-  <circle cx="642" cy="238" r="40" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="642" cy="238" r="32" fill="url(#gW)"/><circle cx="642" cy="238" r="32" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
-  <text x="642" y="238" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="G">·</text>
-</g>
-<g class="ng" data-pos="H" data-name="Mother's Male Line"><title>H · Mother's Male Line</title>
-  <circle cx="642" cy="662" r="40" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="642" cy="662" r="32" fill="url(#gW)"/><circle cx="642" cy="662" r="32" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
-  <text x="642" y="662" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="H">·</text>
-</g>
-<g class="ng" data-pos="I" data-name="Mother's Female Line"><title>I · Mother's Female Line</title>
-  <circle cx="218" cy="662" r="40" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="218" cy="662" r="32" fill="url(#gW)"/><circle cx="218" cy="662" r="32" fill="none" stroke="#DDD6FE" stroke-width="1.8" class="rg"/>
-  <text x="218" y="662" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="20" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1060" class="nv" data-pos="I">·</text>
-</g>
-<g class="ng" data-pos="K" data-name="Talents &amp; Potentials"><title>K · Talents &amp; Potentials</title>
-  <circle cx="430" cy="281" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="281" r="25" fill="url(#gT)"/><circle cx="430" cy="281" r="25" fill="none" stroke="#2DD4BF" stroke-width="1.8" class="rg"/>
-  <text x="430" y="281" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#063028" class="nv" data-pos="K">·</text>
-</g>
-<g class="ng" data-pos="L" data-name="Relationship Crisis"><title>L · Relationship Crisis</title>
-  <circle cx="617" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="617" cy="450" r="25" fill="url(#gO)"/><circle cx="617" cy="450" r="25" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
-  <text x="617" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="L">·</text>
-</g>
-<g class="ng" data-pos="M" data-name="Ideal Partner"><title>M · Ideal Partner</title>
-  <circle cx="430" cy="645" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
-  <circle cx="430" cy="645" r="25" fill="url(#gO)"/><circle cx="430" cy="645" r="25" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
-  <text x="430" y="645" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="M">·</text>
-</g>
-<g class="ng" data-pos="J" data-name="Throat / Physical Chakra"><title>J · Throat / Physical Chakra</title>
+<g class="ng" data-pos="A1" data-name="Soul Task for Children"><title>A1 · Soul Task for Children</title>
   <circle cx="247" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
   <circle cx="247" cy="450" r="25" fill="url(#gT)"/><circle cx="247" cy="450" r="25" fill="none" stroke="#2DD4BF" stroke-width="1.8" class="rg"/>
-  <text x="247" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#063028" class="nv" data-pos="J">·</text>
+  <text x="247" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#063028" class="nv" data-pos="A1">·</text>
 </g>
-<g class="ng" data-pos="R2" data-name="Profession / Success"><title>R2 · Profession / Success</title>
+<g class="ng" data-pos="B1" data-name="Personal Talent from Birth"><title>B1 · Personal Talent from Birth</title>
+  <circle cx="430" cy="281" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="281" r="25" fill="url(#gT)"/><circle cx="430" cy="281" r="25" fill="none" stroke="#2DD4BF" stroke-width="1.8" class="rg"/>
+  <text x="430" y="281" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#063028" class="nv" data-pos="B1">·</text>
+</g>
+<g class="ng" data-pos="K" data-name="Entry to Finance Line"><title>K · Entry to Finance Line</title>
+  <circle cx="617" cy="450" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="617" cy="450" r="25" fill="url(#gO)"/><circle cx="617" cy="450" r="25" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
+  <text x="617" y="450" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="K">·</text>
+</g>
+<g class="ng" data-pos="J" data-name="Subconscious Block / Entry"><title>J · Subconscious Block / Entry</title>
+  <circle cx="430" cy="645" r="30" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
+  <circle cx="430" cy="645" r="25" fill="url(#gO)"/><circle cx="430" cy="645" r="25" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
+  <text x="430" y="645" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="16" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="J">·</text>
+</g>
+<g class="ng" data-pos="N" data-name="Suitable Niche / Profession"><title>N · Suitable Niche / Profession</title>
   <circle cx="578" cy="502" r="26" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
   <circle cx="578" cy="502" r="21" fill="url(#gGr)"/><circle cx="578" cy="502" r="21" fill="none" stroke="#34D399" stroke-width="1.8" class="rg"/>
-  <text x="578" y="502" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="R2">·</text>
+  <text x="578" y="502" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#06280C" class="nv" data-pos="N">·</text>
 </g>
-<g class="ng" data-pos="R" data-name="Money &amp; Relationships"><title>R · Money &amp; Relationships</title>
+<g class="ng" data-pos="R" data-name="Relationship Gateway Code"><title>R · Relationship Gateway Code</title>
   <circle cx="531" cy="552" r="26" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
   <circle cx="531" cy="552" r="21" fill="url(#gP)"/><circle cx="531" cy="552" r="21" fill="none" stroke="#E8447A" stroke-width="1.8" class="rg"/>
   <text x="531" y="552" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#FFF0F8" class="nv" data-pos="R">·</text>
 </g>
-<g class="ng" data-pos="R1" data-name="Relationship Dynamics"><title>R1 · Relationship Dynamics</title>
+<g class="ng" data-pos="M" data-name="Ideal Partner / Meeting Place"><title>M · Ideal Partner / Meeting Place</title>
   <circle cx="480" cy="608" r="26" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
   <circle cx="480" cy="608" r="21" fill="url(#gO)"/><circle cx="480" cy="608" r="21" fill="none" stroke="#F5C842" stroke-width="1.8" class="rg"/>
-  <text x="480" y="608" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="R1">·</text>
+  <text x="480" y="608" text-anchor="middle" dominant-baseline="central" font-family="Cinzel,serif" font-weight="700" font-size="15" paint-order="stroke" stroke="rgba(10,4,26,.45)" stroke-width="0.7" fill="#2A1400" class="nv" data-pos="M">·</text>
 </g>
 <g class="ng" data-pos="A" data-name="Portrait / Avatar"><title>A · Portrait / Avatar</title>
   <circle cx="130" cy="450" r="50" fill="rgba(176,136,240,.18)" class="hl" filter="url(#fb)"/>
@@ -1169,39 +1210,7 @@ footer {
 </svg>
 </div>
 
-<!-- Reading Mode Select -->
-<div id="mode-select" style="display: flex; justify-content: flex-start; gap: 8px; margin-bottom: 12px; z-index: 10; position: relative; max-width: 820px; width: 100%;">
-  <button id="btn-mode-single" class="mnav-btn active" onclick="setReadingMode('single')"> Single Reading</button>
-  <button id="btn-mode-compat" class="mnav-btn" onclick="setReadingMode('compat')"> Compatibility Reading</button>
-</div>
-
-<!-- Input bar (Single) -->
-<div id="input-bar-single" class="input-bar-container">
-  <div class="fi"><label>Client Name</label><input id="i-name" type="text" value="Tracey" placeholder="Full name"/></div>
-  <div class="fi"><label>Day</label><input id="i-day" type="number" min="1" max="31" value="16" placeholder="DD"/></div>
-  <div class="fi"><label>Month</label><input id="i-mon" type="number" min="1" max="12" value="12" placeholder="MM"/></div>
-  <div class="fi"><label>Year</label><input id="i-yr" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
-  <button id="go-btn">CALCULATE </button>
-</div>
-
-<!-- Input bar (Compatibility) -->
-<div id="input-bar-compat" class="input-bar-container" style="display: none; grid-template-columns: 1fr; gap: 12px; height: auto; align-items: stretch;">
-  <!-- Partner 1 Row -->
-  <div style="display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 10px; align-items: end; width: 100%;">
-    <div class="fi"><label>Partner 1 Name</label><input id="i-name1" type="text" value="Tracey" placeholder="First Partner's Name"/></div>
-    <div class="fi"><label>Day</label><input id="i-day1" type="number" min="1" max="31" value="16" placeholder="DD"/></div>
-    <div class="fi"><label>Month</label><input id="i-mon1" type="number" min="1" max="12" value="12" placeholder="MM"/></div>
-    <div class="fi"><label>Year</label><input id="i-yr1" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
-  </div>
-  <!-- Partner 2 Row -->
-  <div style="display: grid; grid-template-columns: 2fr repeat(3, 1fr) auto; gap: 10px; align-items: end; width: 100%;">
-    <div class="fi"><label>Partner 2 Name</label><input id="i-name2" type="text" value="John" placeholder="Second Partner's Name"/></div>
-    <div class="fi"><label>Day</label><input id="i-day2" type="number" min="1" max="31" value="1" placeholder="DD"/></div>
-    <div class="fi"><label>Month</label><input id="i-mon2" type="number" min="1" max="12" value="1" placeholder="MM"/></div>
-    <div class="fi"><label>Year</label><input id="i-yr2" type="number" min="1900" max="2099" value="1966" placeholder="YYYY"/></div>
-    <button id="go-compat-btn" style="background: linear-gradient(135deg, #B07828, #D4AF6E); border: none; border-radius: 8px; color: #06031C; font-family: Cinzel, serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; padding: 9px 20px; cursor: pointer; white-space: nowrap; transition: opacity .2s; height: 38px; align-self: end;">CALCULATE </button>
-  </div>
-</div>
+<!-- Input bars moved above the SVG chart (see nav section above) -->
 
 <!-- Legend -->
 <div id="legend">
@@ -1250,6 +1259,18 @@ footer {
     <div class="dv-row"><span>Female Lines <em>G+I</em></span><b id="dv-mat">–</b></div>
     <div class="dv-row hl"><span>Social Purpose</span><b id="dv-social">–</b></div>
     <div class="dv-row hl2"><span>Spiritual Purpose</span><b id="dv-spirit">–</b></div>
+  </div>
+  <div class="dv-col" style="min-width:180px; flex:0.6;">
+    <h4>Soul Potentials <span class="dv-note">Click to read</span></h4>
+    <div class="dv-row" style="cursor:pointer" onclick="openPanel('U1')"><span>Soul Potential 1 <em>A+B</em></span><b id="dv-u1">–</b></div>
+    <div class="dv-row" style="cursor:pointer" onclick="openPanel('U2')"><span>Soul Potential 2 <em>C+D</em></span><b id="dv-u2">–</b></div>
+    <div class="dv-row hl" style="cursor:pointer" onclick="openPanel('U3')"><span>Combined Synthesis <em>U1+U2</em></span><b id="dv-u3">–</b></div>
+  </div>
+  <div class="dv-col" style="min-width:210px; flex:0.7;">
+    <h4>Emotional Closeness <span class="dv-note">Chapter 3.7 (Points O & P)</span></h4>
+    <div class="dv-row" style="cursor:pointer" onclick="openPanel('O')"><span>Material Feelings <em>Point O (A2+E)</em></span><b id="dv-o">–</b></div>
+    <div class="dv-row" style="cursor:pointer" onclick="openPanel('P')"><span>Spiritual Feelings <em>Point P (B2+E)</em></span><b id="dv-p">–</b></div>
+    <div class="dv-row hl" style="cursor:pointer" onclick="openPanel('OP')"><span>Emotional Synthesis <em>Point OP (O+P)</em></span><b id="dv-op">–</b></div>
   </div>
   <div class="dv-col" id="dv-forecast-col" style="display: none;">
     <h4 id="fc-title">Personal Forecast <span class="dv-note">Current Age: –</span></h4>
@@ -1478,6 +1499,87 @@ function processCSVText(text) {
 
 let statusHideTimeout = null;
 
+// ═══════════════════════════════════════════════════════════════════
+// DUAL DATABASE MODE  (LIVE = interpretations.csv,  Deep Dive = interpretations_deep.csv)
+// ═══════════════════════════════════════════════════════════════════
+let dbMode = 'live'; // 'live' | 'deep'
+const DB_FILES = {
+  live: '../data/interpretations.csv',
+  deep: '../data/interpretations_deep.csv'
+};
+const DB_CACHE_KEYS = {
+  live: 'soul_matrix_csv_content',
+  deep: 'soul_matrix_csv_deep_content'
+};
+const DB_LABELS = {
+  live: '⚡ LIVE Mode',
+  deep: '🔮 Deep Dive'
+};
+
+async function loadCSV(mode) {
+  mode = mode || dbMode;
+  const file = DB_FILES[mode];
+  const cacheKey = DB_CACHE_KEYS[mode];
+  const label = DB_LABELS[mode];
+
+  updateStatus(`⟳ Loading ${label} interpretation data...`, 'loading', false);
+
+  try {
+    const response = await fetch(file);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const text = await response.text();
+    const count = processCSVText(text);
+    
+    localStorage.setItem(cacheKey, text);
+
+    updateStatus(` ${label}  ·  Loaded ${count} interpretations  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
+
+  } catch (err) {
+    console.warn(`Failed to fetch ${file} automatically:`, err);
+    
+    const cachedText = localStorage.getItem(cacheKey);
+    if (cachedText) {
+      try {
+        const count = processCSVText(cachedText);
+        updateStatus(` ${label} — ${count} interpretations from local cache. Click "Load CSV" to refresh.`, 'ok', true);
+      } catch (cacheErr) {
+        updateStatus(` CORS Blocked & cache corrupt. Please click "Load CSV" to select ${file} manually.`, 'error', false);
+      }
+    } else {
+      // For Deep Dive, quietly fall back to LIVE mode if the deep file doesn't exist yet
+      if (mode === 'deep') {
+        updateStatus(' Deep Dive database not found — staying on LIVE mode. Add interpretations_deep.csv to use this.', 'loading', true);
+        dbMode = 'live';
+        updateDbModeButton();
+        return;
+      }
+      updateStatus(` Browser security blocked loading ${file}. Please click "Load CSV" to select it manually.`, 'error', false);
+    }
+  }
+}
+
+function updateDbModeButton() {
+  const btn = document.getElementById('db-mode-btn');
+  if (!btn) return;
+  btn.textContent = DB_LABELS[dbMode];
+  btn.title = dbMode === 'live'
+    ? 'Currently in LIVE Mode (short, session-ready). Click to switch to Deep Dive (full detail).'
+    : 'Currently in Deep Dive Mode (full detail). Click to switch back to LIVE Mode.';
+  btn.classList.toggle('deep', dbMode === 'deep');
+}
+
+document.getElementById('db-mode-btn').addEventListener('click', async () => {
+  dbMode = (dbMode === 'live') ? 'deep' : 'live';
+  updateDbModeButton();
+  await loadCSV(dbMode);
+  // Re-run current calculation so panel updates
+  if (readingMode === 'single') {
+    document.getElementById('go-btn').click();
+  } else {
+    document.getElementById('go-compat-btn').click();
+  }
+});
+
 function updateStatus(text, type, autoHide = true) {
   const statusEl = document.getElementById('data-status');
   const statusBtn = document.getElementById('status-info-btn');
@@ -1514,73 +1616,67 @@ document.getElementById('status-info-btn').addEventListener('click', () => {
   }
 });
 
-async function loadCSV() {
-  updateStatus('⟳ Loading interpretation data from CSV...', 'loading', false);
 
-  try {
-    const response = await fetch('../data/interpretations.csv');
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const text = await response.text();
-    const count = processCSVText(text);
-    
-    localStorage.setItem('soul_matrix_csv_content', text);
-
-    updateStatus(` Loaded ${count} interpretations from CSV  ·  ${Object.keys(INTERP).length} positions covered`, 'ok', true);
-
-  } catch (err) {
-    console.warn('Failed to fetch ../data/interpretations.csv automatically:', err);
-    
-    const cachedText = localStorage.getItem('soul_matrix_csv_content');
-    if (cachedText) {
-      try {
-        const count = processCSVText(cachedText);
-        updateStatus(` Loaded ${count} interpretations from local browser cache. Click "Load CSV" to update.`, 'ok', true);
-      } catch (cacheErr) {
-        updateStatus(` CORS Blocked automatic load & cache is corrupt. Please click "Load CSV" to select interpretations.csv manually.`, 'error', false);
-      }
-    } else {
-      updateStatus(` Browser security blocked loading interpretations.csv automatically. Please click "Load CSV" to select it manually.`, 'error', false);
-    }
-  }
-}
 
 // ═══════════════════════════════════════════════════════════════════
 // POSITION METADATA
 // ═══════════════════════════════════════════════════════════════════
 const POSITIONS = {
-  A:  {name:'Portrait / Avatar',          formula:'Day of Birth',            zone:'Portrait',      color:'#B088F0'},
-  B:  {name:'Spiritual Essence',          formula:'Month of Birth',          zone:'Mission',       color:'#D4AF6E'},
-  C:  {name:'Material Karma',             formula:'Year Digit Sum',          zone:'Karma',         color:'#E060B0'},
-  D:  {name:'Spiritual Karma',            formula:'A + B + C',               zone:'Karma',         color:'#D4AF6E'},
-  E:  {name:'Core Energy / Soul Mission', formula:'A + B + C + D',           zone:'Core',          color:'#FFD97D'},
-  F:  {name:"Father's Male Line",                formula:'A + B',                   zone:'Lineage',       color:'#D4CCFF'},
-  G:  {name:"Father's Female Line",              formula:'B + C',                   zone:'Lineage',       color:'#D4CCFF'},
-  H:  {name:"Mother's Male Line",                formula:'C + D',                   zone:'Lineage',       color:'#D4CCFF'},
-  I:  {name:"Mother's Female Line",              formula:'D + A',                   zone:'Lineage',       color:'#D4CCFF'},
-  J:  {name:'Throat / Physical Chakra',   formula:'A + E',                   zone:'Chakra',        color:'#5CDEC8'},
-  K:  {name:'Talents & Potentials',       formula:'B + E',                   zone:'Talents',       color:'#C0D4FF'},
-  L:  {name:'Relationship Crisis',        formula:'C + E',                   zone:'Relationships', color:'#C0D4FF'},
-  M:  {name:'Ideal Partner',              formula:'D + E',                   zone:'Relationships', color:'#C0D4FF'},
-  O:  {name:'Child–Parent Balance',       formula:'A + J',                   zone:'Family',        color:'#D4CCFF'},
-  P:  {name:'Comfort Zone / Third Eye',   formula:'B + K',                   zone:'Spiritual',     color:'#D4CCFF'},
-  Q:  {name:'Material Talent',            formula:'L + C',                   zone:'Talents',       color:'#D4CCFF'},
-  N:  {name:'Karmic Tail',                formula:'M + D',                   zone:'Karma',         color:'#FFD080'},
-  S:  {name:'Relationship Block',         formula:'J + E',                   zone:'Relationships', color:'#D4CCFF'},
-  T:  {name:"Heart's Desire",             formula:'K + E',                   zone:'Heart',         color:'#5CDEC8'},
-  L1: {name:'Lineage + Core',             formula:'E + L2',                  zone:'Lineage',       color:'#5CDEC8'},
-  L2: {name:'Lineage Combined',           formula:'F + G + H + I',           zone:'Lineage',       color:'#D4CCFF'},
-  F2: {name:"Father's Male Line Inherited Talent",  formula:'F + L2',            zone:'Lineage',       color:'#D4CCFF'},
-  G2: {name:"Father's Female Line Inherited Talent",  formula:'G + L2',          zone:'Lineage',       color:'#D4CCFF'},
-  H2: {name:"Mother's Male Line Ancestral Karma",     formula:'H + L2',          zone:'Karma',         color:'#D4CCFF'},
-  I2: {name:"Mother's Female Line Ancestral Karma",     formula:'I + L2',          zone:'Karma',         color:'#D4CCFF'},
-  F1: {name:"Father's Male Line Upper Gift",        formula:'F + F2',            zone:'Lineage',       color:'#D4CCFF'},
-  G1: {name:"Father's Female Line Upper Gift",        formula:'G + G2',            zone:'Lineage',       color:'#D4CCFF'},
-  H1: {name:"Mother's Male Line Child Character", formula:'H + H2',              zone:'Family',        color:'#D4CCFF'},
-  I1: {name:"Mother's Female Line Child Character", formula:'I + I2',              zone:'Family',        color:'#D4CCFF'},
-  R:  {name:'Money & Relationships',      formula:'M + L',                   zone:'Relationships / Money', color:'#D4AF6E'},
-  R1: {name:'Relationship Dynamics',      formula:'R + M',                   zone:'Relationships', color:'#D4AF6E'},
-  R2: {name:'Profession / Success',       formula:'R + L',                   zone:'Money',         color:'#5CDEC8'},
-  
+  // Core Personal Square
+  A:  {name:'Portrait / Personal Karma',    formula:'Day of Birth',            zone:'Personal Karma', color:'#B088F0'},
+  A1: {name:'Soul Task for Children',       formula:'A + A2',                  zone:'Family Karma',   color:'#C0D4FF'},
+  A2: {name:'Parent-Child Karma',           formula:'A + E',                   zone:'Family Karma',   color:'#E060B0'},
+
+  B:  {name:'Spiritual Talent / Essence',   formula:'Month of Birth',          zone:'Spiritual Talent',color:'#D4AF6E'},
+  B1: {name:'Personal Talent from Birth',   formula:'B + B2',                  zone:'Spiritual Talent',color:'#C0D4FF'},
+  B2: {name:'Self-Realization / Profession',formula:'B + E',                   zone:'Self Realization',color:'#5CDEC8'},
+
+  C:  {name:'Material Karma / Year Task',   formula:'Year Digit Sum',          zone:'Material Karma',  color:'#E060B0'},
+  C1: {name:'Earning Experience Field',     formula:'C + K',                   zone:'Material Karma',  color:'#D4CCFF'},
+  K:  {name:'Entry to Finance Line',        formula:'C + E',                   zone:'Money Channel',   color:'#5CDEC8'},
+
+  D:  {name:'Spiritual Karma / Social Task',formula:'A + B + C',               zone:'Spiritual Karma', color:'#D4AF6E'},
+  D1: {name:'Subconscious Fears',           formula:'D + J',                   zone:'Karmic Tail',     color:'#FFD080'},
+  J:  {name:'Subconscious Block / Entry',   formula:'D + E',                   zone:'Relationships',   color:'#5CDEC8'},
+
+  E:  {name:'Soul Comfort Zone / Center',   formula:'A + B + C + D',           zone:'Core Center',     color:'#FFD97D'},
+
+  // Lineage Lines (Ancestral Square)
+  F:  {name:"Father's Male Line",           formula:'A + B',                   zone:'Lineage',        color:'#D4CCFF'},
+  F1: {name:"Father's Male Line Upper Gift", formula:'F + F2',                 zone:'Lineage',        color:'#D4CCFF'},
+  F2: {name:"Father's Male Line Talent",    formula:'F + L2',                  zone:'Lineage',        color:'#D4CCFF'},
+
+  G:  {name:"Father's Female Line",         formula:'B + C',                   zone:'Lineage',        color:'#D4CCFF'},
+  G1: {name:"Father's Female Line Upper Gift",formula:'G + G2',                zone:'Lineage',        color:'#D4CCFF'},
+  G2: {name:"Father's Female Line Talent",  formula:'G + L2',                  zone:'Lineage',        color:'#D4CCFF'},
+
+  H:  {name:"Mother's Male Line",           formula:'C + D',                   zone:'Lineage',        color:'#D4CCFF'},
+  H1: {name:"Mother's Male Line Character", formula:'H + H2',                  zone:'Lineage',        color:'#D4CCFF'},
+  H2: {name:"Mother's Male Line Karma",     formula:'H + L2',                  zone:'Lineage',        color:'#D4CCFF'},
+
+  I:  {name:"Mother's Female Line",         formula:'D + A',                   zone:'Lineage',        color:'#D4CCFF'},
+  I1: {name:"Mother's Female Line Character",formula:'I + I2',                 zone:'Lineage',        color:'#D4CCFF'},
+  I2: {name:"Mother's Female Line Karma",   formula:'I + L2',                  zone:'Lineage',        color:'#D4CCFF'},
+  L2: {name:'Lineage Combined',             formula:'F + G + H + I',           zone:'Lineage',        color:'#D4CCFF'},
+
+  // Channels
+  L:  {name:'Central Balance Point',        formula:'K + J',                   zone:'Money & Love',   color:'#FFD97D'},
+  M:  {name:'Ideal Partner / Meeting Place',formula:'J + L',                   zone:'Relationships',  color:'#C0D4FF'},
+  N:  {name:'Suitable Niche / Profession',  formula:'K + L',                   zone:'Money Channel',  color:'#E060B0'},
+  R:  {name:'Relationship Gateway Code',    formula:'M + L',                   zone:'Relationships',  color:'#D4AF6E'},
+  R1: {name:'Relationship Dynamics',        formula:'R + M',                   zone:'Relationships',  color:'#D4AF6E'},
+  R2: {name:'Profession / Financial Success',formula:'R + L',                zone:'Money Channel',  color:'#5CDEC8'},
+
+  // Emotional Feelings (Chapter 3.7)
+  O:  {name:'Material Emotional Closeness', formula:'A2 + E',                  zone:'Heart & Feelings',color:'#E060B0'},
+  P:  {name:'Spiritual Emotional Closeness',formula:'B2 + E',                  zone:'Heart & Feelings',color:'#5CDEC8'},
+  OP: {name:'Emotional Closeness Synthesis',formula:'O + P',                   zone:'Heart & Feelings',color:'#FFD97D'},
+
+  // Soul Potentials
+  U1: {name:'Higher Soul Potential 1',      formula:'A + B',                   zone:'Soul Potential', color:'#B088F0'},
+  U2: {name:'Higher Soul Potential 2',      formula:'C + D',                   zone:'Soul Potential', color:'#B088F0'},
+  U3: {name:'Combined Soul Synthesis',      formula:'U1 + U2',                 zone:'Soul Potential', color:'#D4AAFF'},
+
   FORECAST_CURRENT: {name:'Energy of the Period', formula:'Arcana of Current Age', zone:'forecast', color:'#A78BFA'},
   FORECAST_KEY: {name:'Event Line', formula:'Arcana of Second Age', zone:'forecast', color:'#A78BFA'},
   FORECAST_OUTCOME: {name:'Outcome of the Period', formula:'Current Energy + Key Energy', zone:'forecast', color:'#A78BFA'},
@@ -1648,13 +1744,21 @@ function calc(day, mon, yr) {
   const C = red([...String(yr)].reduce((a, d) => a + parseInt(d), 0));
   const D = red(A+B+C), E = red(A+B+C+D);
   const F = red(A+B), G = red(B+C), H = red(C+D), I = red(D+A);
-  const J = red(A+E), K = red(B+E), L = red(C+E), M = red(D+E);
-  const O = red(A+J), P = red(B+K), Q = red(L+C), N = red(M+D);
-  const S = red(J+E), T = red(K+E);
+
+  const A2 = red(A+E), A1 = red(A+A2);
+  const B2 = red(B+E), B1 = red(B+B2);
+  const K = red(C+E),  C1 = red(C+K);
+  const J = red(D+E),  D1 = red(D+J);
+
+  const L = red(K+J), M = red(J+L), N = red(K+L);
+  const Q = C1;
+  const O = red(A2+E), P = red(B2+E), OP = red(O+P);
+  const S = J, T = K;
   const L2 = red(F+G+H+I), L1 = red(E+L2);
   const F2 = red(F+L2), G2 = red(G+L2), H2 = red(H+L2), I2 = red(I+L2);
   const F1 = red(F+F2), G1 = red(G+G2), H1 = red(H+H2), I1 = red(I+I2);
   const R = red(M+L), R1 = red(R+M), R2 = red(R+L);
+  const U1 = red(A+B), U2 = red(C+D), U3 = red(U1+U2);
 
   const earth = red(A+C), sky = red(B+D);
   const personalPurpose = red(earth+sky);
@@ -1698,7 +1802,7 @@ function calc(day, mon, yr) {
     ageVals[`age${startAge + 8.75}`] = ve4;
   });
 
-  return Object.assign({A,B,C,D,E,F,G,H,I,J,K,L,M,O,P,Q,N,S,T,L2,L1,F2,G2,H2,I2,F1,G1,H1,I1,R,R1,R2}, ageVals, {
+  return Object.assign({A,B,C,D,E,F,G,H,I,J,K,L,M,O,P,OP,Q,N,S,T,L2,L1,F2,G2,H2,I2,F1,G1,H1,I1,R,R1,R2,U1,U2,U3}, ageVals, {
     derived:{earth,sky,personalPurpose,paternalP,maternalP,socialPurpose,spiritualPurpose,chakras,chakraTotals}});
 }
 
@@ -2032,6 +2136,13 @@ function renderDerived(d) {
   set('dv-earth', d.earth); set('dv-sky', d.sky); set('dv-personal', d.personalPurpose);
   set('dv-pat', d.paternalP); set('dv-mat', d.maternalP); set('dv-social', d.socialPurpose);
   set('dv-spirit', d.spiritualPurpose);
+  // Soul Potentials U1/U2/U3 & Emotional Closeness O/P/OP (populated from currentVals)
+  set('dv-u1', currentVals.U1 || '–');
+  set('dv-u2', currentVals.U2 || '–');
+  set('dv-u3', currentVals.U3 || '–');
+  set('dv-o', currentVals.O || '–');
+  set('dv-p', currentVals.P || '–');
+  set('dv-op', currentVals.OP || '–');
   const tb = document.querySelector('#dv-chakra-tbl tbody');
   if (tb) {
     tb.innerHTML = d.chakras.map(c =>
@@ -2129,12 +2240,13 @@ function openPanel(pos, syncToBoard = true) {
   const val  = currentVals[pos] ?? '–';
   const col  = meta.color || '#B088F0';
 
+  const titleText = POSITIONS[pos] ? `Position ${pos} — ${POSITIONS[pos].name}` : `Position ${pos}`;
   document.getElementById('panel-pos-label').textContent = `${pos}  ·  ${meta.zone.toUpperCase()}`;
   document.getElementById('panel-pos-label').style.color = col;
   document.getElementById('p-num').textContent = val;
   document.getElementById('p-num').style.color = col;
   document.getElementById('p-num').style.textShadow = `0 0 24px ${col}66`;
-  document.getElementById('p-name').textContent = meta.name;
+  document.getElementById('p-name').textContent = titleText;
   document.getElementById('p-formula').textContent = `Formula: ${meta.formula}`;
 
   const badge = document.getElementById('p-zone-badge');
@@ -2379,10 +2491,8 @@ function renderModContent(pos, val, modId, modules) {
 
     const text = INTERP[targetPos]?.[targetModId]?.[sec.key]?.[sectionVal] || null;
 
-    // If text exists for other sections in this module, skip empty sections
-    if (!text && hasAnyTextInModule) return;
-    // If no text exists anywhere in the module, render only 1 placeholder card
-    if (!text && !hasAnyTextInModule && renderedCardCount > 0) return;
+    // Skip empty sections completely to keep reading board clean (Item 9)
+    if (!text) return;
 
     const card = document.createElement('div');
     card.className = 'interp-card';
@@ -2398,16 +2508,21 @@ function renderModContent(pos, val, modId, modules) {
     card.appendChild(editBtn);
 
     const p = document.createElement('p');
-    if (text) {
-      p.textContent = text;
-    } else {
-      p.className = 'empty';
-      p.textContent = `No interpretation yet for ${sec.title} · Arcana ${sectionVal}. Click Edit to add, or update interpretations.csv.`;
-    }
+    p.textContent = text;
     card.appendChild(p);
     el.appendChild(card);
     renderedCardCount++;
   });
+
+  if (renderedCardCount === 0) {
+    const card = document.createElement('div');
+    card.className = 'interp-card';
+    const p = document.createElement('p');
+    p.className = 'empty';
+    p.textContent = `No interpretation entered yet for ${POSITIONS[pos]?.name || pos} · Arcana ${val}. Click Edit to add, or update interpretations.csv.`;
+    card.appendChild(p);
+    el.appendChild(card);
+  }
 
   const note = document.createElement('div');
   note.className = 'export-note';
@@ -2812,8 +2927,10 @@ function broadcastSyncData() {
     calculatedValues: currentVals,
     database: INTERP,
     discoveredModules: DISCOVERED_MODULES,
-    readingMode: readingMode
+    readingMode: readingMode,
+    dbMode: dbMode
   });
+
 }
 
 bc.onmessage = function(e) {
@@ -2830,9 +2947,174 @@ bc.onmessage = function(e) {
   }
 };
 
+document.getElementById('export-btn').addEventListener('click', () => {
+  exportClientPDF();
+});
+
 document.getElementById('script-board-btn').addEventListener('click', () => {
   window.open('script_board.html', 'SoulMatrixScriptBoard', 'width=650,height=850,menubar=no,toolbar=no,location=no,status=no');
 });
+
+function exportClientPDF() {
+  let name, dobStr;
+  if (readingMode === 'single') {
+    name = document.getElementById('i-name').value.trim() || 'Client';
+    const day = document.getElementById('i-day').value;
+    const mon = document.getElementById('i-mon').value;
+    const yr = document.getElementById('i-yr').value;
+    dobStr = `${String(day).padStart(2,'0')}.${String(mon).padStart(2,'0')}.${yr}`;
+  } else {
+    name = `${document.getElementById('i-name1').value.trim() || 'Partner 1'} & ${document.getElementById('i-name2').value.trim() || 'Partner 2'}`;
+    dobStr = 'Compatibility Matrix';
+  }
+
+  const svgContent = document.getElementById('msv').outerHTML;
+  
+  const coordKeys = [
+    { key:'A', label:'Point A (Visiting Card / Day)' },
+    { key:'B', label:'Point B (Spiritual Talent / Month)' },
+    { key:'C', label:'Point C (Material Task / Year)' },
+    { key:'D', label:'Point D (Karmic Task / Social Purpose)' },
+    { key:'E', label:'Point E (Soul Comfort Zone / Center)' },
+    { key:'N', label:'Karmic Tail (D - N - R)' },
+    { key:'L', label:'Point L (Money Gateway Code)' },
+    { key:'R', label:'Point R (Relationship Gateway Code)' },
+    { key:'R1', label:'Point R1 (Ideal Partner)' },
+    { key:'M', label:'Point M (Balance Point)' },
+    { key:'O', label:'Point O (Optimal Niche / Profession)' },
+    { key:'derived_p1', label:'1st Soul Purpose (20–40 yrs)' },
+    { key:'derived_p2', label:'2nd Soul Purpose (40–60 yrs)' },
+    { key:'derived_p3', label:'3rd Soul Purpose (60+ yrs)' },
+    { key:'derived_p4', label:'4th Soul Purpose (Planetary Mission)' }
+  ];
+
+  let tableRows = '';
+  coordKeys.forEach(item => {
+    let val = '';
+    let nameText = '';
+    let themeText = '';
+
+    if (item.key === 'derived_p1') {
+      val = currentVals.derived?.personalPurpose || '–';
+      nameText = 'Personal Purpose';
+      themeText = 'Personal ease, self-confidence, inner potential (ages 20-40)';
+    } else if (item.key === 'derived_p2') {
+      val = currentVals.derived?.socialPurpose || '–';
+      nameText = 'Social / Lineage Purpose';
+      themeText = 'Mastering inner power, lineage alignment (ages 40-60)';
+    } else if (item.key === 'derived_p3') {
+      val = currentVals.derived?.spiritualPurpose || '–';
+      nameText = 'Spiritual Purpose';
+      themeText = 'Global wisdom, spiritual maturity, peace (ages 60+)';
+    } else if (item.key === 'derived_p4') {
+      val = red((currentVals.derived?.personalPurpose || 0) + (currentVals.derived?.socialPurpose || 0));
+      nameText = 'Planetary Mission';
+      themeText = 'Becoming a master teacher and spiritual mentor';
+    } else if (item.key === 'N') {
+      val = `${currentVals.D || ''} - ${currentVals.N || ''} - ${currentVals.R || ''}`;
+      nameText = 'Karmic Tail Program';
+      themeText = 'Uncovering ancestral lessons, releasing karmic blocks';
+    } else {
+      val = currentVals[item.key] ?? '–';
+      const pos = POSITIONS[item.key] || {};
+      nameText = pos.name || item.key;
+      themeText = pos.zone || 'Core energy coordinate';
+    }
+
+    tableRows += `
+      <tr>
+        <td style="padding:10px; border-bottom:1px solid #eee; font-weight:bold;">${item.label}</td>
+        <td style="padding:10px; border-bottom:1px solid #eee; text-align:center; font-weight:bold; color:#7C3AED;">${val}</td>
+        <td style="padding:10px; border-bottom:1px solid #eee;">${nameText}</td>
+        <td style="padding:10px; border-bottom:1px solid #eee; font-style:italic;">${themeText}</td>
+      </tr>
+    `;
+  });
+
+  const win = window.open('', '_blank');
+  win.document.write(\`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Destiny Matrix Report — \${name}</title>
+      <style>
+        body { font-family: 'Georgia', serif; color: #2D3748; line-height: 1.6; padding: 40px; }
+        h1, h2, h3 { font-family: 'Cinzel', serif; color: #4A5568; }
+        .header { text-align: center; border-bottom: 2px solid #E2E8F0; padding-bottom: 20px; margin-bottom: 30px; }
+        .greeting { background: #FAF5FF; border-left: 4px solid #9F7AEA; padding: 20px; margin: 20px 0; font-style: italic; }
+        .chart-box { text-align: center; margin: 30px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+        th { background: #EDF2F7; padding: 12px; text-align: left; font-family: sans-serif; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+        .page-break { page-break-before: always; }
+        @media print {
+          body { padding: 0; }
+          .no-print { display: none; }
+        }
+      </style>
+    </head>
+    <body>
+      <button class="no-print" onclick="window.print()" style="padding:10px 20px; background:#7C3AED; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold; margin-bottom:20px;"> Print / Save as PDF</button>
+
+      <div class="header">
+        <h1>THE MATRIX OF DESTINY</h1>
+        <h2>Your Personal Soul Book & Life Guide</h2>
+        <p>FULL DESTINY MATRIX CHART ANALYSIS: <strong>\${name}</strong> (\${dobStr})</p>
+      </div>
+
+      <div class="greeting">
+        <strong>Dear \${name}!</strong><br>
+        Welcome to the opening of your personal Destiny Matrix Chart! This document is your soul's digital blueprint and master life guide, calculated strictly from the energetic frequency of your date of birth (\${dobStr}). In this report, every chapter is dedicated to your personal growth, inner peace, emotional healing, and spiritual abundance. Use this book as a manual whenever you need to make important life decisions, regain inner tranquility, or unlock a new level of your potential!
+      </div>
+
+      <div class="chart-box">
+        <h3>CHAPTER 1: MATRIX SUMMARY DIAGRAM</h3>
+        <div style="max-width: 600px; margin: 0 auto;">\${svgContent}</div>
+      </div>
+
+      <div class="page-break"></div>
+
+      <h3>CHAPTER 2: MATRIX SUMMARY DIAGRAM & CORE CODES</h3>
+      <p>Below is the complete calculation of your primary coordinates and key codes within the Destiny Matrix system:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Matrix Coordinate</th>
+            <th>Code / Energy Arcana</th>
+            <th>English Arcana Name</th>
+            <th>Key Life Theme</th>
+          </tr>
+        </thead>
+        <tbody>
+          \${tableRows}
+        </tbody>
+      </table>
+
+      <div class="page-break"></div>
+      <h3>CHAPTER 3: 7-CHAKRA HEALTH MATRIX ANALYSIS</h3>
+      <p>Your complete health map from Sahasrara to Muladhara, detailing physical, energy, and emotional levels.</p>
+
+      <table>
+        <thead>
+          <tr><th>Chakra</th><th>Physical Level</th><th>Energy Level</th><th>Emotional Level</th></tr>
+        </thead>
+        <tbody>
+          \${currentVals.derived?.chakras?.map(c => \`
+            <tr>
+              <td style="padding:8px; border-bottom:1px solid #eee; font-weight:bold;">\${c.name} (\${c.zone})</td>
+              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center;">\${c.physical}</td>
+              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center;">\${c.energy}</td>
+              <td style="padding:8px; border-bottom:1px solid #eee; text-align:center; font-weight:bold; color:#7C3AED;">\${c.emotional}</td>
+            </tr>
+          \`).join('') || ''}
+        </tbody>
+      </table>
+
+    </body>
+    </html>
+  \`);
+  win.document.close();
+}
 
 function generateOuterAgeNodes() {
   const group = document.getElementById('age-nodes-group');
@@ -2970,10 +3252,12 @@ function generateOuterAgeNodes() {
   });
 }
 
+updateDbModeButton();
 loadCSV().then(() => {
   generateOuterAgeNodes();
   document.getElementById('go-btn').click();
 });
+
 </script>
 </body>
 </html>
