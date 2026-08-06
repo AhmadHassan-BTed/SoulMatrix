@@ -55,6 +55,53 @@
   fill: rgba(255, 215, 0, 0.22) !important;
 }
 
+/* ─── CHANNEL ICONS (HEART & DOLLAR) ALIGNMENT & ANIMATION ─── */
+@keyframes channel-pulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(255,45,117,0.8));
+  }
+  50% {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 18px rgba(255,45,117,1)) drop-shadow(0 0 28px rgba(255,215,0,0.9));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(255,45,117,0.8));
+  }
+}
+@keyframes money-pulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(0,255,157,0.8));
+  }
+  50% {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 18px rgba(0,255,157,1)) drop-shadow(0 0 28px rgba(255,215,0,0.9));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(0,255,157,0.8));
+  }
+}
+
+.channel-icon {
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+  transform-origin: center;
+}
+.channel-icon.love-channel {
+  animation: channel-pulse 2.5s infinite ease-in-out;
+}
+.channel-icon.money-channel {
+  animation: money-pulse 2.5s infinite ease-in-out;
+  animation-delay: 1.25s;
+}
+.channel-icon:hover {
+  transform: scale(1.28) !important;
+  filter: brightness(1.35) drop-shadow(0 0 25px #FFF) !important;
+}
+
 /* ─── OUTER AGE TIMELINE NODES ───────────────────────────── */
 .ng.age-node:hover .hl {
   opacity: 1 !important;
