@@ -46,6 +46,40 @@
   cursor: pointer;
   transition: all .15s;
 }
+#import-csv-btn:hover {
+  background: rgba(176,136,240,.18);
+  border-color: var(--lilac);
+  color: var(--lilacb);
+}
+
+#export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(212,175,110,0.15) 0%, rgba(180,130,40,0.25) 100%);
+  border: 1px solid rgba(255,217,125,0.45);
+  border-radius: 8px;
+  color: var(--goldb, #FFD97D);
+  font-family: Raleway, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: all .2s ease;
+  box-shadow: 0 2px 10px rgba(212,175,110,0.15);
+  white-space: nowrap;
+}
+#export-btn:hover {
+  background: linear-gradient(135deg, rgba(255,217,125,0.28) 0%, rgba(212,175,110,0.42) 100%);
+  border-color: #FFD97D;
+  color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(255,217,125,0.45);
+  transform: translateY(-1px);
+}
+#export-btn:active {
+  transform: translateY(0);
+}
 
 /* ─── DATABASE MODE TOGGLE ───────────────────────────────── */
 #db-mode-btn {

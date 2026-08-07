@@ -102,7 +102,7 @@ function exportClientPDF() {
       </style>
     </head>
     <body>
-      <button class="no-print" onclick="window.print()" style="padding:10px 20px; background:#7C3AED; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold; margin-bottom:20px;"> Print / Save as PDF</button>
+      <button class="no-print" onclick="window.print()" style="padding:10px 22px; background:linear-gradient(135deg, #D4AF6E 0%, #A07830 100%); color:#06031C; border:none; border-radius:8px; cursor:pointer; font-weight:700; font-family:sans-serif; letter-spacing:0.06em; margin-bottom:24px; box-shadow:0 4px 14px rgba(212,175,110,0.35);">🖨️ Print / Save as PDF</button>
 
       <div class="header">
         <h1>THE MATRIX OF DESTINY</h1>
