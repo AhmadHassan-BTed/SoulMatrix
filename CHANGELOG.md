@@ -1,5 +1,19 @@
 # Changelog - Soul Blueprint Matrix (New Features Sync)
 
+## [August 7, 2026] - Vibrant Stream Aesthetics, Channel Icon Alignment & Repo Organization
+
+This update adds eye-catching high-impact chart visuals, exact Channel Icon (Heart ♥ and Dollar $) placement over their respective reading lines, repository structure cleanup, and build automation updates.
+
+### 💖 Channel Icon Alignment & Pulsating Animations
+- **Relationship Channel Heart (♥)**: Positioned directly over the Relationship Line at `x=505, y=580` with a glowing ruby badge and `@keyframes channel-pulse` breathing animation. Clicking the Heart opens the Love/Relationships reading drawer.
+- **Money Channel Dollar ($)**: Positioned directly over the Money Line at `x=554, y=476` with a glowing emerald badge and `@keyframes money-pulse` breathing animation. Clicking the Dollar opens the $ Money reading drawer.
+
+### 🎨 Vibrant High-Impact Visual Refresh ("POP Online")
+- **Radial Gradients & Neon Filters**: Upgraded all node gradients with electric purple (`#C084FC`), solar gold (`#FFB700`), emerald green (`#34D399`), and ruby pink (`#FB7185`) highlights.
+- **Increased Filter Glows**: Enhanced Gaussian blur radii and flood opacity (`stdDeviation="12"`, opacity `0.85`) for maximum visibility during TikTok LIVE / OBS streaming.
+
+---
+
 ## [August 2026] - Complete Modular Architecture Refactoring & High-Cohesion Engine
 
 This release transforms the single monolithic application into a clean, decoupled **Modular JavaScript & CSS System** adhering to strict Separation of Concerns, high functional cohesion, low data coupling, and zero logic loss.
