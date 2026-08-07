@@ -132,14 +132,19 @@ const DB_LABELS = {
 
 async function loadCSV(mode) {
   mode = mode || dbMode;
-  const file = DB_FILES[mode];
+  let file = DB_FILES[mode];
   const cacheKey = DB_CACHE_KEYS[mode];
   const label = DB_LABELS[mode];
 
   updateStatus(`⟳ Loading ${label} interpretation data...`, 'loading', false);
 
   try {
-    const response = await fetch(file);
+    let response = await fetch(file);
+    if (!response.ok && file.startsWith('../')) {
+      const altFile = file.replace('../', '');
+      const altResponse = await fetch(altFile);
+      if (altResponse.ok) response = altResponse;
+    }
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const text = await response.text();
     const count = processCSVText(text);
