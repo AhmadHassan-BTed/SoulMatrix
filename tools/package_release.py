@@ -76,6 +76,8 @@ def create_release_zip():
         "run_locally.bat",
         "run_update.bat",
         "build_release.bat",
+        "index.html",
+        "favicon.svg",
         "README.md",
         "HOW-TO-UPDATE.md",
         "CHANGELOG.md",
