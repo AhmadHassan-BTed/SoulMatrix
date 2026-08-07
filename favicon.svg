@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="ballGrad" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#F5F3FF"/>
+      <stop offset="25%" stop-color="#DDD6FE"/>
+      <stop offset="60%" stop-color="#9333EA"/>
+      <stop offset="90%" stop-color="#4C1D95"/>
+      <stop offset="100%" stop-color="#1E1B4B"/>
+    </radialGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C084FC" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#C084FC" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="standGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF099"/>
+      <stop offset="50%" stop-color="#FACC15"/>
+      <stop offset="100%" stop-color="#854D0E"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Dark outer circle for contrast on light/dark browser tabs -->
+  <circle cx="50" cy="50" r="48" fill="#06031C"/>
+
+  <!-- Outer aura glow -->
+  <circle cx="50" cy="44" r="40" fill="url(#glowGrad)"/>
+
+  <!-- Golden Stand -->
+  <path d="M30 84 C30 74 38 72 50 72 C62 72 70 74 70 84 C70 87 64 89 50 89 C36 89 30 87 30 84 Z" fill="url(#standGrad)"/>
+  <ellipse cx="50" cy="74" rx="16" ry="5" fill="#FEF08A"/>
+
+  <!-- Crystal Sphere -->
+  <circle cx="50" cy="44" r="32" fill="url(#ballGrad)" stroke="#C084FC" stroke-width="1.5" filter="url(#neonGlow)"/>
+
+  <!-- Specular Reflection Highlight (Glass Reflection) -->
+  <path d="M32 30 A 24 24 0 0 1 54 18 A 20 20 0 0 0 36 34 Z" fill="#FFFFFF" opacity="0.75"/>
+  <circle cx="34" cy="28" r="3" fill="#FFFFFF" opacity="0.9"/>
+
+  <!-- Inner Magic Sparkle Star -->
+  <polygon points="50,30 53,39 62,42 53,45 50,54 47,45 38,42 47,39" fill="#FFD700" opacity="0.95" filter="url(#neonGlow)"/>
+  <circle cx="50" cy="42" r="2" fill="#FFFFFF"/>
+</svg>

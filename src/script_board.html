@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Soul Matrix Script Board</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -219,19 +221,38 @@ header h1 {
   cursor: pointer;
   transition: all 0.15s;
 }
-.tab-btn:hover, .tab-btn.active {
+.tab-btn:hover {
   background: rgba(176,136,240,0.18);
   border-color: var(--lilac);
   color: var(--lilacb);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, rgba(176,136,240,0.25) 0%, rgba(138,43,226,0.35) 100%);
+  border-color: var(--lilacb);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(176,136,240,0.35);
+}
+.tab-btn.active::before {
+  content: '🔮 ';
+  font-size: 11px;
+  filter: drop-shadow(0 0 6px rgba(192,132,252,0.9));
 }
 
 .tab-btn.special-tab {
   border-color: var(--gold);
   color: var(--goldb);
 }
-.tab-btn.special-tab:hover, .tab-btn.special-tab.active {
+.tab-btn.special-tab:hover {
   background: rgba(212,175,110,0.15);
   color: #FFF;
+}
+.tab-btn.special-tab.active {
+  background: linear-gradient(135deg, rgba(212,175,110,0.25) 0%, rgba(180,130,40,0.35) 100%);
+  border-color: #FFD97D;
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(255,217,125,0.4);
 }
 
 .reading-content {
